@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "4a1fa01a-b641-4d53-a829-c1a696e350fe",
+		"name": "Home Practice",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42760991"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/employee",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Tamim Ahmed\",\r\n    \"designation\": \"trainee\",\r\n    \"email\":\"tamim@gmail.com\",\r\n    \"contact\":\"+8801639281000\",\r\n    \"salary\":30000.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/employee",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/employee",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Jahid Ahmed\",\r\n    \"designation\": \"CEO\",\r\n    \"email\":\"ajahid97@gmail.com\",\r\n    \"contact\":\"+8801639281000\",\r\n    \"salary\": 100000.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/employee",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/employee/1",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"name\": \"Mahim Ahmed\",\r\n    \"designation\": \"Manager\",\r\n    \"email\": \"mahimahmed@gmail.com\",\r\n    \"contact\": \"+8801881473169\",\r\n    \"salary\": 50000.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/employee/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employee",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/employee/1",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/employee/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employee",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
