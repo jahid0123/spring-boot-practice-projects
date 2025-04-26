@@ -5,17 +5,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Data;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.management.relation.Role;
 import java.util.Collection;
 import java.util.List;
 
-@Data
-@Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity(name = "user")
 public class User implements UserDetails {
 
     @Id
@@ -25,7 +27,6 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
-
     private UserRole userRole;
 
     @Override
@@ -33,10 +34,14 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority(userRole.name()));
     }
 
-
     @Override
     public String getUsername() {
         return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;  // Here is the missing getPassword() method
     }
 
     @Override
