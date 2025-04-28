@@ -1,24 +1,23 @@
 package com.jmjbrothers.task_management_system.service.auth;
 
 
+import com.jmjbrothers.task_management_system.dto.SignupRequest;
+import com.jmjbrothers.task_management_system.dto.UserDTO;
 import com.jmjbrothers.task_management_system.entities.User;
 import com.jmjbrothers.task_management_system.enums.UserRole;
 import com.jmjbrothers.task_management_system.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+
 @Service
-
-
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
 
     private final UserRepository userRepository;
-
-    public AuthServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public void createAnAdminAccount(){
         Optional<User> optionalUser = userRepository.findByUserRole(UserRole.ADMIN);
@@ -33,5 +32,23 @@ public class AuthServiceImpl implements AuthService{
         }else {
             System.out.println("Admin account already exist!");
         }
+    }
+
+    @Override
+    public UserDTO signupUser(SignupRequest signupRequest) {
+
+        User user = new User();
+        user.setName(signupRequest.getName());
+        user.setEmail(signupRequest.getEmail());
+        user.setPassword(new BCryptPasswordEncoder().encode(signupRequest.getPassword()));
+        user.setUserRole(UserRole.EMPLOYEE);
+
+        User createUser = userRepository.save(user);
+        return createUser.getUserDTO();
+    }
+
+    @Override
+    public Boolean hasUserWithEmail(String email) {
+        return userRepository.findFirstByEmail(email).isPresent();
     }
 }

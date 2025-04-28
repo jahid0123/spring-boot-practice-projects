@@ -1,10 +1,8 @@
 package com.jmjbrothers.task_management_system.entities;
 
+import com.jmjbrothers.task_management_system.dto.UserDTO;
 import com.jmjbrothers.task_management_system.enums.UserRole;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +15,8 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "user")
+@Entity
+@Table(name = "t_user_table")
 public class User implements UserDetails {
 
     @Id
@@ -62,5 +61,18 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public UserDTO getUserDTO(){
+
+        UserDTO user = new UserDTO();
+
+        user.setId(id);
+        user.setEmail(email);
+        user.setName(name);
+        user.setUserRole(userRole);
+
+        return user;
+
     }
 }
