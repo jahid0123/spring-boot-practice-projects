@@ -18,6 +18,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 =======
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 public class AuthServiceImpl implements AuthService{
 
@@ -40,6 +43,7 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     public UserDTO signupUser(SignupRequest signupRequest) {
 
         User user = new User();
@@ -56,6 +60,8 @@ public class AuthServiceImpl implements AuthService{
     public Boolean hasUserWithEmail(String email) {
         return userRepository.findFirstByEmail(email).isPresent();
 =======
+=======
+>>>>>>> Stashed changes
     public UserDTO signupRequest(SignupRequest signupReguest) {
 
         User user = new User();
@@ -65,6 +71,9 @@ public class AuthServiceImpl implements AuthService{
         user.setUserRole(signupReguest.getUserRole());
         User creatUser = userRepository.save(user);
         return creatUser.getUserDTO();
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 }

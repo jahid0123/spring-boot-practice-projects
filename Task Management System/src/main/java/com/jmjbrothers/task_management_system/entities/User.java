@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 @Setter
 @Getter
 @AllArgsConstructor
@@ -19,10 +20,15 @@ import java.util.List;
 @Entity
 @Table(name = "t_user_table")
 =======
+=======
+>>>>>>> Stashed changes
 @RequiredArgsConstructor
 @Data
 @Entity
 @Table(name = "user_table")
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 public class User implements UserDetails {
 
@@ -73,6 +79,7 @@ public class User implements UserDetails {
 
     public UserDTO getUserDTO(){
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
         UserDTO user = new UserDTO();
 
@@ -85,6 +92,8 @@ public class User implements UserDetails {
 
     }
 =======
+=======
+>>>>>>> Stashed changes
          UserDTO userDTO = new UserDTO();
 
          userDTO.setId(id);
@@ -95,5 +104,8 @@ public class User implements UserDetails {
          return userDTO;
     }
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
