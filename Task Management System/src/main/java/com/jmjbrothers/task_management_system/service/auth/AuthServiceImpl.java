@@ -1,19 +1,16 @@
 package com.jmjbrothers.task_management_system.service.auth;
 
 
-import com.jmjbrothers.task_management_system.dto.SignupRequest;
-import com.jmjbrothers.task_management_system.dto.UserDTO;
 import com.jmjbrothers.task_management_system.entities.User;
 import com.jmjbrothers.task_management_system.enums.UserRole;
 import com.jmjbrothers.task_management_system.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
 @Service
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 @RequiredArgsConstructor
 =======
@@ -22,9 +19,17 @@ import java.util.Optional;
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+
+
+>>>>>>> parent of f0e0b5b (updated)
 public class AuthServiceImpl implements AuthService{
 
     private final UserRepository userRepository;
+
+    public AuthServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public void createAnAdminAccount(){
         Optional<User> optionalUser = userRepository.findByUserRole(UserRole.ADMIN);
@@ -40,6 +45,7 @@ public class AuthServiceImpl implements AuthService{
             System.out.println("Admin account already exist!");
         }
     }
+<<<<<<< HEAD
 
     @Override
 <<<<<<< Updated upstream
@@ -76,4 +82,6 @@ public class AuthServiceImpl implements AuthService{
 =======
 >>>>>>> Stashed changes
     }
+=======
+>>>>>>> parent of f0e0b5b (updated)
 }

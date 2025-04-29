@@ -3,6 +3,7 @@ package com.jmjbrothers.task_management_system.dto;
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
 =======

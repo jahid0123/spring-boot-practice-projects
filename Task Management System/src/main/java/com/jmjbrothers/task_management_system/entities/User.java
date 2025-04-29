@@ -1,8 +1,10 @@
 package com.jmjbrothers.task_management_system.entities;
 
-import com.jmjbrothers.task_management_system.dto.UserDTO;
 import com.jmjbrothers.task_management_system.enums.UserRole;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +19,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+<<<<<<< HEAD
 @Entity
 @Table(name = "t_user_table")
 =======
@@ -30,6 +33,9 @@ import java.util.List;
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+@Entity(name = "user")
+>>>>>>> parent of f0e0b5b (updated)
 public class User implements UserDetails {
 
     @Id
@@ -76,6 +82,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+<<<<<<< HEAD
 
     public UserDTO getUserDTO(){
 <<<<<<< Updated upstream
@@ -108,4 +115,6 @@ public class User implements UserDetails {
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> parent of f0e0b5b (updated)
 }
