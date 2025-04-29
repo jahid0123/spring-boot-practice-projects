@@ -1,19 +1,15 @@
 package com.jmjbrothers.task_management_system.service.auth;
 
-public interface AuthService {
-<<<<<<< HEAD
+import com.jmjbrothers.task_management_system.dto.SignupRequest;
+import com.jmjbrothers.task_management_system.dto.UserDTO;
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+public interface AuthService {
+
     UserDTO signupUser(SignupRequest signupRequest);
 
     Boolean hasUserWithEmail(String email);
-=======
-    UserDTO signupRequest (SignupRequest signupReguest);
->>>>>>> Stashed changes
-=======
-    UserDTO signupRequest (SignupRequest signupReguest);
->>>>>>> Stashed changes
-=======
->>>>>>> parent of f0e0b5b (updated)
+
+    UserDTO signupRequest (SignupRequest signupRequest);
+
+
 }

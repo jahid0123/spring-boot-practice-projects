@@ -1,35 +1,24 @@
 package com.jmjbrothers.task_management_system.service.auth;
 
 
+import com.jmjbrothers.task_management_system.dto.SignupRequest;
+import com.jmjbrothers.task_management_system.dto.UserDTO;
 import com.jmjbrothers.task_management_system.entities.User;
 import com.jmjbrothers.task_management_system.enums.UserRole;
 import com.jmjbrothers.task_management_system.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-<<<<<<< HEAD
-<<<<<<< Updated upstream
 @RequiredArgsConstructor
-=======
 
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
-
-
->>>>>>> parent of f0e0b5b (updated)
 public class AuthServiceImpl implements AuthService{
 
     private final UserRepository userRepository;
 
-    public AuthServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public void createAnAdminAccount(){
         Optional<User> optionalUser = userRepository.findByUserRole(UserRole.ADMIN);
@@ -45,11 +34,10 @@ public class AuthServiceImpl implements AuthService{
             System.out.println("Admin account already exist!");
         }
     }
-<<<<<<< HEAD
+
 
     @Override
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
     public UserDTO signupUser(SignupRequest signupRequest) {
 
         User user = new User();
@@ -65,23 +53,17 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public Boolean hasUserWithEmail(String email) {
         return userRepository.findFirstByEmail(email).isPresent();
-=======
-=======
->>>>>>> Stashed changes
-    public UserDTO signupRequest(SignupRequest signupReguest) {
+    }
+    public UserDTO signupRequest(SignupRequest signupRequest) {
 
         User user = new User();
-        user.setEmail(signupReguest.getEmail());
-        user.setName(signupReguest.getName());
-        user.setPassword(new BCryptPasswordEncoder().encode(signupReguest.getPassword()));
-        user.setUserRole(signupReguest.getUserRole());
+        user.setEmail(signupRequest.getEmail());
+        user.setName(signupRequest.getName());
+        user.setPassword(new BCryptPasswordEncoder().encode(signupRequest.getPassword()));
+        user.setUserRole(signupRequest.getUserRole());
         User creatUser = userRepository.save(user);
         return creatUser.getUserDTO();
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
     }
-=======
->>>>>>> parent of f0e0b5b (updated)
+
 }
