@@ -11,22 +11,30 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+<<<<<<< Updated upstream
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "t_user_table")
+=======
+@RequiredArgsConstructor
+@Data
+@Entity
+@Table(name = "user_table")
+>>>>>>> Stashed changes
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
     private String email;
+    private String name;
     private String password;
-
     private UserRole userRole;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -64,6 +72,7 @@ public class User implements UserDetails {
     }
 
     public UserDTO getUserDTO(){
+<<<<<<< Updated upstream
 
         UserDTO user = new UserDTO();
 
@@ -75,4 +84,16 @@ public class User implements UserDetails {
         return user;
 
     }
+=======
+         UserDTO userDTO = new UserDTO();
+
+         userDTO.setId(id);
+         userDTO.setName(name);
+         userDTO.setEmail(email);
+         userDTO.setUserRole(userRole);
+
+         return userDTO;
+    }
+
+>>>>>>> Stashed changes
 }
