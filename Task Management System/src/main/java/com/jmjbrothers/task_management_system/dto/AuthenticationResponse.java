@@ -6,12 +6,9 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
+public class AuthenticationResponse {
 
-public class UserDTO {
-
-    private Long id;
-    private String name;
-    private String email;
+    private String jwt;
+    private Long userId;
     private UserRole userRole;
-
 }
