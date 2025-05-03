@@ -18,25 +18,32 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    public String generateToken(UserDetails userDetails){
-        return generateToken(new HashMap<>(), userDetails);
+    private final String SECRET = "daa3e554bfe0564a639398334720018ab198404dff87043704bb52611a0e74a7";
+
+    public String createToken(String email){
+        Map<String, Object> claims = new HashMap<>();
+        return generateToken(claims, email);
     }
 
 
-    private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
+    private String generateToken(Map<String, Object> extraClaims, String email){
 
-        return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()+1000*60*60*24))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*24))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
 
     private Key getSigningKey() {
-
-        byte[] keyBytes = Decoders.BASE64.decode("413F4428472B4B6250655368566D5970337336763979244226452948404D6351");
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails){
+    public boolean validToken(String token, UserDetails userDetails){
         final String userName = extractUserName(token);
         return (userName.equals(userDetails.getUsername())) && isTokenExpired(token);
     }
@@ -59,7 +66,12 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
 }
