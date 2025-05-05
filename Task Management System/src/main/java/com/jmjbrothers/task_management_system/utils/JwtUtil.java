@@ -19,6 +19,7 @@ import java.util.function.Function;
 public class JwtUtil {
 
     public String generateToken(UserDetails userDetails){
+
         return generateToken(new HashMap<>(), userDetails);
     }
 

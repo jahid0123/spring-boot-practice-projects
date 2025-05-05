@@ -10,6 +10,7 @@ import com.jmjbrothers.task_management_system.service.UserService;
 import com.jmjbrothers.task_management_system.service.auth.AuthService;
 import com.jmjbrothers.task_management_system.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@Slf4j
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
