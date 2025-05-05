@@ -1,17 +1,15 @@
 package com.jmjbrothers.task_management_system.dto;
 
 import com.jmjbrothers.task_management_system.enums.UserRole;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class UserDTO {
+public class SignupResponse {
 
     private Long id;
     private String name;
     private String email;
-    private UserRole userRole;
-
+    private UserRole role;
 }

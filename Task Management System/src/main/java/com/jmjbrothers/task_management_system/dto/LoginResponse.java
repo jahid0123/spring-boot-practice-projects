@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-public class AuthenticationResponse {
+public class LoginResponse {
 
     private String jwt;
     private Long userId;
