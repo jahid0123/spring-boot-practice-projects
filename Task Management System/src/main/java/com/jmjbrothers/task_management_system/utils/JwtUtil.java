@@ -18,17 +18,17 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-<<<<<<< HEAD
+
     public String generateToken(UserDetails userDetails){
 
         return generateToken(new HashMap<>(), userDetails);
-=======
+
     private final String SECRET = "daa3e554bfe0564a639398334720018ab198404dff87043704bb52611a0e74a7";
 
     public String createToken(String email){
         Map<String, Object> claims = new HashMap<>();
         return generateToken(claims, email);
->>>>>>> 8186ec6ec9fe7bc9e46d69fd739c0f08d95b8f74
+
     }
 
 
