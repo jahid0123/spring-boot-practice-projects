@@ -18,7 +18,11 @@ import java.util.Optional;
 
 
 @Service
+<<<<<<< HEAD
+public class UserServiceImpl implements UserService{
+=======
 public class UserServiceImpl implements UserDetailsService{
+>>>>>>> 8186ec6ec9fe7bc9e46d69fd739c0f08d95b8f74
 
     private final UserRepository userRepository;
 

@@ -6,9 +6,14 @@ import com.jmjbrothers.task_management_system.entities.UserInfoDetails;
 import com.jmjbrothers.task_management_system.repository.UserRepository;
 import com.jmjbrothers.task_management_system.service.UserServiceImpl;
 import com.jmjbrothers.task_management_system.utils.JwtUtil;
+<<<<<<< HEAD
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+=======
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+>>>>>>> 8186ec6ec9fe7bc9e46d69fd739c0f08d95b8f74
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +23,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+<<<<<<< HEAD
+import java.util.Optional;
+
+@Slf4j
+=======
+>>>>>>> 8186ec6ec9fe7bc9e46d69fd739c0f08d95b8f74
 @CrossOrigin
 @RestController
 @RequestMapping("/api/auth")
