@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="84c7a984-cc2b-44ea-a884-b18560f85836" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Task Management System/src/main/java/com/jmjbrothers/task_management_system/config/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Task Management System/src/main/java/com/jmjbrothers/task_management_system/config/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Task Management System/src/main/java/com/jmjbrothers/task_management_system/utils/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Task Management System/src/main/java/com/jmjbrothers/task_management_system/utils/JwtUtil.java" afterDir="false" />
-    </list>
+    <list default="true" id="84c7a984-cc2b-44ea-a884-b18560f85836" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,9 +33,10 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "dart.analysis.tool.window.visible": "false",
-    "last_opened_file_path": "C:/Git/spring-boot-practice-projects/Practice/spring.security.app",
+    "last_opened_file_path": "C:/Git/spring-boot-practice-projects/spring.security.app",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "show.migrate.to.gradle.popup": "false"
+    "show.migrate.to.gradle.popup": "false",
+    "spring.configuration.checksum": "b33a84fab1e5e8a327f7f3e95ee9d1f9"
   }
 }]]></component>
   <component name="RunManager">
@@ -59,6 +57,7 @@
       <option name="presentableId" value="Default" />
       <updated>1746076297266</updated>
       <workItem from="1746076298506" duration="63000" />
+      <workItem from="1746557055628" duration="321000" />
     </task>
     <servers />
   </component>
