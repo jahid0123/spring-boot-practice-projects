@@ -6,4 +6,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 681f6ebccd4978394829766acdd7b7ec0de65f08
 }

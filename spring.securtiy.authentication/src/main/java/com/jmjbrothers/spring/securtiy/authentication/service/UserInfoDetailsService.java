@@ -1,5 +1,7 @@
 package com.jmjbrothers.spring.securtiy.authentication.service;
 
+import com.jmjbrothers.spring.securtiy.authentication.constants.Role;
+import com.jmjbrothers.spring.securtiy.authentication.dto.RegisterRequest;
 import com.jmjbrothers.spring.securtiy.authentication.model.User;
 import com.jmjbrothers.spring.securtiy.authentication.model.UserInfoDetails;
 import com.jmjbrothers.spring.securtiy.authentication.repository.UserRepository;
@@ -34,14 +36,18 @@ public class UserInfoDetailsService implements UserDetailsService {
     }
 
     @Transactional
-    public User registerNewUser(User request) {
+    public User registerNewUser(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())){
             throw new RuntimeException("User already exist with the email: " + request.getEmail());
         }
+        User user = new User();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.USER);
 
-        request.setPassword(passwordEncoder.encode(request.getPassword()));
-        return userRepository.save(request);
+        return userRepository.save(user);
 
     }
 
@@ -60,5 +66,10 @@ public class UserInfoDetailsService implements UserDetailsService {
         }else {
             return "User not found by the id: " + id;
         }
+    }
+
+    @Transactional
+    public User userFindById(Long id){
+        return userRepository.findById(id).orElse(null);
     }
 }
