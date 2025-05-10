@@ -1,62 +1,80 @@
 package com.jmjbrothers.task_management_system.config;
 
-import com.jmjbrothers.task_management_system.service.UserServiceImpl;
-import com.jmjbrothers.task_management_system.utils.JwtUtil;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.NonNull;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
+import com.jmjbrothers.task_management_system.dto.SignupRequest;
+import com.jmjbrothers.task_management_system.dto.SignupResponse;
+import com.jmjbrothers.task_management_system.entities.User;
+import com.jmjbrothers.task_management_system.entities.UserInfoDetails;
+import com.jmjbrothers.task_management_system.enums.UserRole;
+import com.jmjbrothers.task_management_system.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 
-@Component
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+import java.util.Optional;
 
-    private final JwtUtil jwtUtil;
-    private final UserServiceImpl userService;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil, UserServiceImpl userService) {
-        this.jwtUtil = jwtUtil;
-        this.userService = userService;
+@Service
+public class UserServiceImpl implements UserDetailsService{
+
+    private final UserRepository userRepository;
+
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request,
-                                    @NonNull HttpServletResponse response,
-                                    @NonNull FilterChain filterChain)
-            throws ServletException, IOException {
+    @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findFirstByEmail(username).orElseThrow(()->
+                new UsernameNotFoundException("User not found."));
+        return new UserInfoDetails(user);
+    }
 
-        String authHeader = request.getHeader("Authorization");
-        String token = null;
-        String username = null;
 
-        if (authHeader!=null && authHeader.startsWith("Bearer ")) {
-            token =authHeader.substring(7);
-            username = jwtUtil.extractUserName(token);
+    public void createAnAdminAccount(){
+        Optional<User> optionalUser = userRepository.findByUserRole(UserRole.ADMIN);
+        if (optionalUser.isEmpty()){
+            User user = new User();
+            user.setEmail("admin@test.com");
+            user.setName("admin");
+            user.setPassword(new BCryptPasswordEncoder().encode("admin"));
+            user.setUserRole(UserRole.ADMIN);
+            userRepository.save(user);
+            System.out.println("Admin account create successfully.");
+        }else {
+            System.out.println("Admin account already exist!");
+        }
+    }
+
+
+    @Transactional
+    public SignupResponse signupUser(SignupRequest signupRequest) {
+
+        User user = new User();
+        user.setName(signupRequest.getName());
+        user.setEmail(signupRequest.getEmail());
+        user.setPassword(new BCryptPasswordEncoder().encode(signupRequest.getPassword()));
+        user.setUserRole(UserRole.EMPLOYEE);
+
+        User createUser = userRepository.save(user);
+        if (createUser != null){
+
+            SignupResponse response = new SignupResponse();
+            response.setId(createUser.getId());
+            response.setName(createUser.getName());
+            response.setEmail(createUser.getEmail());
+            response.setRole(createUser.getUserRole());
+
+            return response;
+        }else {
+            return null;
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = userService.loadUserByUsername(username);
 
-            if (jwtUtil.validToken(token, userDetails)){
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
-        }
+    }
 
-        filterChain.doFilter(request, response);
-
+    @Transactional
+    public Boolean hasUserWithEmail(String email) {
+        return userRepository.findFirstByEmail(email).isPresent();
     }
 }

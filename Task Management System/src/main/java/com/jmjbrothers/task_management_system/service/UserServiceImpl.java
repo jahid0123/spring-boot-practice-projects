@@ -7,22 +7,15 @@ import com.jmjbrothers.task_management_system.entities.User;
 import com.jmjbrothers.task_management_system.entities.UserInfoDetails;
 import com.jmjbrothers.task_management_system.enums.UserRole;
 import com.jmjbrothers.task_management_system.repository.UserRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 
 @Service
-<<<<<<< HEAD
-public class UserServiceImpl implements UserService{
-=======
+
 public class UserServiceImpl implements UserDetailsService{
->>>>>>> 8186ec6ec9fe7bc9e46d69fd739c0f08d95b8f74
 
     private final UserRepository userRepository;
 
