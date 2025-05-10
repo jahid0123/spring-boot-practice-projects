@@ -39,15 +39,10 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest request) {
 
-        User user = new User();
-        user.setName(request.getName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(Role.USER);
+        User user = userInfoDetailsService.registerNewUser(request);
+        user.setPassword("null");
 
-        userInfoDetailsService.registerNewUser(user);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Account create successfully.");
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
 
@@ -67,16 +62,19 @@ public class AuthController {
                 User user = userInfoDetails.user();
 
                 Map<String, Object> responseData = new HashMap<>();
-                responseData.put("access_token", jwtToken);
-                responseData.put("token_type", "Bearer");
+                responseData.put("token", jwtToken);
+                responseData.put("id", user.getId());
+                responseData.put("role", user.getRole());
+                //responseData.put("token_type", "Bearer");
 
-                Map<String, Object> userData = new HashMap<>();
-                userData.put("Name", user.getName());
-                userData.put("Email", user.getEmail());
-                userData.put("Phone", user.getPhone());
-                userData.put("Role", user.getRole());
 
-                responseData.put("user", userData);
+//                Map<String, Object> userData = new HashMap<>();
+//                userData.put("Name", user.getName());
+//                userData.put("Email", user.getEmail());
+//                userData.put("Phone", user.getPhone());
+//                userData.put("Role", user.getRole());
+//
+//                responseData.put("user", userData);
 
                 return ResponseEntity.ok(responseData);
             }else {
