@@ -3,8 +3,10 @@ package com.jmjbrothers.spring.securtiy.authentication.service;
 import com.jmjbrothers.spring.securtiy.authentication.model.CreditPackage;
 import com.jmjbrothers.spring.securtiy.authentication.repository.CreditPackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,5 +23,10 @@ public class CreditPackageService {
         }
         return "Sorry!! Package not create!";
 
+    }
+
+    public List<CreditPackage> allCreditPackage() {
+
+        return packageRepository.findAll();
     }
 }

@@ -1,30 +1,15 @@
 package com.jmjbrothers.spring.securtiy.authentication.service;
 
-<<<<<<< HEAD
-import com.jmjbrothers.spring.securtiy.authentication.repository.PropertyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-@Service
-public class PropertyService {
-
-    @Autowired
-    private PropertyRepository propertyRepository;
-
-
-=======
 import com.jmjbrothers.spring.securtiy.authentication.dto.PropertyDto;
 import com.jmjbrothers.spring.securtiy.authentication.model.Property;
 import com.jmjbrothers.spring.securtiy.authentication.model.User;
 import com.jmjbrothers.spring.securtiy.authentication.repository.PropertyRepository;
-import lombok.Data;
 import org.springframework.stereotype.Service;
 
-@Data
 @Service
 public class PropertyService {
 
-    private final PropertyRepository propertyRepository;
+    private PropertyRepository propertyRepository;
     private final UserInfoDetailsService userDetailsService;
 
     public PropertyService(PropertyRepository propertyRepository, UserInfoDetailsService userDetailsService){
@@ -53,5 +38,4 @@ public class PropertyService {
         return propertyRepository.save(property);
 
     }
->>>>>>> 681f6ebccd4978394829766acdd7b7ec0de65f08
 }

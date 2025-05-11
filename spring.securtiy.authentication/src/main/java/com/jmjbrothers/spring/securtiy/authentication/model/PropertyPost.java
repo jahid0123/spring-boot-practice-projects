@@ -1,17 +1,17 @@
 package com.jmjbrothers.spring.securtiy.authentication.model;
 
-import com.jmjbrothers.spring.securtiy.authentication.constants.Category;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @RequiredArgsConstructor
 @Entity
-@Table(name = "r_property")
-public class Property {
+@Table(name = "r_property_post")
+public class PropertyPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,28 +20,24 @@ public class Property {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "property_id", nullable = false)
+    private Property property;
 
-    @Column(nullable = false)
-    @Enumerated(value = EnumType.STRING)
-    private Category category;
+    @Column(name = "contact_number", nullable = false)
+    private String contactNumber;
 
-    @Column(nullable = false)
-    private String title;
+    @Column(name = "rent_area", nullable = false)
+    private String area;
 
-    @Column(columnDefinition = "CLOB")
-    private String description;
+    @Column(name = "available_from", nullable = false)
+    private LocalDate availableFrom;
 
-    @Column(columnDefinition = "CLOB")
-    private String address;
-
-    @Column(name = "is_available")
-    private Boolean isAvailable = true;
-
-    @Column(name = "rent_amount")
-    private Integer rentAmount;
+    @Column(name = "credits_used", nullable = false, columnDefinition = "int default 10")
+    private Integer creditsUsed = 10;
 
     @Column(name = "date_posted", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime datePosted = LocalDateTime.now();
+    private LocalDateTime datePosted;
 
     @PrePersist
     public void prePersist() {
@@ -49,4 +45,6 @@ public class Property {
             datePosted = LocalDateTime.now();
         }
     }
+
+    // Getters and Setters
 }

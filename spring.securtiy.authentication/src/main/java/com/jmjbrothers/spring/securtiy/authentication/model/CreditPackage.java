@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "credit_packages")
+@Table(name = "r_credit_package")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +21,7 @@ public class CreditPackage {
     private String name;
 
     @Column(name = "credit_amount", nullable = false)
-    private Long creditAmount;
+    private Integer creditAmount;
 
     @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal price;

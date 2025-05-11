@@ -5,13 +5,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
+@Data
+@RequiredArgsConstructor
 @Entity
 @Table(name = "r_user")
 public class User {
@@ -41,8 +38,6 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Property> properties = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {
@@ -50,4 +45,5 @@ public class User {
             createdAt = LocalDateTime.now();
         }
     }
+
 }
