@@ -50,8 +50,10 @@ public class PropertyPostService {
         PropertyPost propertyPost = new PropertyPost();
         propertyPost.setUser(user);
         propertyPost.setProperty(property);
+        propertyPost.setContactPerson(propertyPostDto.getContactPerson());
         propertyPost.setContactNumber(propertyPostDto.getContactNumber());
         propertyPost.setArea(propertyPostDto.getArea());
+        propertyPost.setAvailableFrom(propertyPostDto.getAvailableFrom());
 
         return propertyPostRepository.save(propertyPost);
     }

@@ -18,6 +18,7 @@ public class PropertyPostDto {
     private String title;
     private String description;
     private String address;
+    private String contactPerson;
     private String contactNumber;
     private String area;
     private LocalDate availableFrom;

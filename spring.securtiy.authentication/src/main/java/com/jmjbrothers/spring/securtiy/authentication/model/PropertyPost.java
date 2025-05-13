@@ -30,6 +30,9 @@ public class PropertyPost {
     @Column(name = "rent_area", nullable = false)
     private String area;
 
+    @Column(name = "contact_person", nullable = false)
+    private String contactPerson;
+
     @Column(name = "available_from", nullable = false)
     private LocalDate availableFrom;
 

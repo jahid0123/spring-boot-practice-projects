@@ -15,13 +15,15 @@ export class LoginComponent {
 
   constructor(private authService: AuthService){}
 
-  login(){
-    this.authService.login(this.loginForm).subscribe((res) => {
-      if(res.userId != null){
+  // login(){
+  //   this.authService.login(this.loginForm).subscribe((res) => {
+  //     if(res.userId != null){
 
-      }
-    })
+  //     }
+  //   })
 
-  }
+  // }
+
+  
 
 }
