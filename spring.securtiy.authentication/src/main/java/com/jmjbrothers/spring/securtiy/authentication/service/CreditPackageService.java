@@ -16,12 +16,12 @@ public class CreditPackageService {
     private CreditPackageRepository packageRepository;
 
 
-    public String addCreditPackage(CreditPackage cPackage) {
+    public CreditPackage addCreditPackage(CreditPackage cPackage) {
         CreditPackage addPackage = packageRepository.save(cPackage);
-        if (addPackage != null){
-            return "Package save successfully.";
+        if (addPackage == null){
+            throw new RuntimeException("Credit package not added!");
         }
-        return "Sorry!! Package not create!";
+        return addPackage;
 
     }
 
