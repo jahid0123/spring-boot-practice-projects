@@ -27,11 +27,11 @@ public class PropertyPost {
     @Column(name = "contact_number", nullable = false)
     private String contactNumber;
 
-    @Column(name = "rent_area", nullable = false)
-    private String area;
-
     @Column(name = "contact_person", nullable = false)
     private String contactPerson;
+
+    @Column(name = "rent_area", nullable = false)
+    private String area;
 
     @Column(name = "available_from", nullable = false)
     private LocalDate availableFrom;
