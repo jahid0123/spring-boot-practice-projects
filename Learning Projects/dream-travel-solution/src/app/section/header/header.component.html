@@ -1,0 +1,124 @@
+<nav class="navbar navbar-expand-lg shadow-sm"
+     [ngClass]="{
+       'bg-unauthenticated': !role,
+       'bg-customer': role === 'CUSTOMER',
+       'bg-admin': role === 'ADMIN'
+     }">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand fw-bold text-dark" [routerLink]="['/home']">
+      <i class="bi bi-house-door-fill me-2"></i>Dream Travelar Solution
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-start" id="navbarNav">
+      <!-- Unauthenticated Menu -->
+      <ul class="navbar-nav" *ngIf="!role">
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="bi bi-house-fill me-2"></i>Home
+          </a>
+        </li>
+    
+      </ul>
+
+      <!-- Customer Menu -->
+      <ul class="navbar-nav" *ngIf="role === 'CUSTOMER'">
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="bi bi-house-fill me-2"></i>Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="['/post-property']" routerLinkActive="active">
+            <i class="bi bi-plus-square-fill me-2"></i>Post Property
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="['/buy-package']" routerLinkActive="active">
+            <i class="bi bi-box-fill me-2"></i>Buy Package
+          </a>
+        </li>
+      </ul>
+
+      <!-- Admin Menu -->
+      <ul class="navbar-nav" *ngIf="role === 'ADMIN'">
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="['/dashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="bi bi-speedometer2 me-2"></i>Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="['/manage-user']" routerLinkActive="active">
+            <i class="bi bi-people-fill me-2"></i>Manage Users
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="['/manage-packages']" routerLinkActive="active">
+            <i class="bi bi-boxes me-2"></i>Manage Packages
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="['/manage-post']" routerLinkActive="active">
+            <i class="bi bi-file-post me-2"></i>Manage Post
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Right: Unauthenticated Login Button -->
+    <div class="ms-auto" *ngIf="!role">
+      <a class="btn btn-navy rounded-pill px-3" [routerLink]="['/login']">
+        <i class="bi bi-box-arrow-in-right me-1"></i>Login
+      </a>
+    </div>
+
+    <!-- Right: Authenticated User Dropdown -->
+    <ul class="navbar-nav ms-auto" *ngIf="role === 'CUSTOMER' || role === 'ADMIN'">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle d-flex align-items-center text-dark"
+           href="#" id="userDropdown" role="button"
+           data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+          <img [src]="user?.avatarUrl || 'assets/default-avatar.png'" alt="Avatar"
+               width="36" height="36" class="rounded-circle me-2 border border-2 border-dark" />
+          <span class="fw-semibold">{{ user?.name || 'User' }}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-flat animate__animated animate__fadeIn">
+          <li>
+            <a class="dropdown-item" [routerLink]="['/profile']">
+              <i class="bi bi-person-circle me-2"></i>Profile
+            </a>
+          </li>
+
+          <ng-container *ngIf="role === 'CUSTOMER'">
+            <li>
+              <a class="dropdown-item" [routerLink]="['/my-property']">
+                <i class="bi bi-houses me-2"></i>My Properties
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['/unlock-property']">
+                <i class="bi bi-unlock me-2"></i>Unlock Property
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['/purchase-history']">
+                <i class="bi bi-receipt me-2"></i>Purchase History
+              </a>
+            </li>
+          </ng-container>
+
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item text-danger" (click)="logout()">
+              <i class="bi bi-box-arrow-right me-2"></i>Logout
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>

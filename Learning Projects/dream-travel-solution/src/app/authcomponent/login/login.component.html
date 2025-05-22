@@ -1,0 +1,85 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header text-center">
+          <h2 class="mb-0">Login</h2>
+        </div>
+        <div class="card-body p-4">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                formControlName="email"
+                [ngClass]="{
+                  'is-invalid':
+                    loginForm.get('email')?.invalid &&
+                    loginForm.get('email')?.touched
+                }"
+              />
+              <div
+                *ngIf="
+                  loginForm.get('email')?.invalid &&
+                  loginForm.get('email')?.touched
+                "
+                class="invalid-feedback"
+              >
+                Please enter a valid email address.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                formControlName="password"
+                [ngClass]="{
+                  'is-invalid':
+                    loginForm.get('password')?.invalid &&
+                    loginForm.get('password')?.touched
+                }"
+              />
+              <div
+                *ngIf="
+                  loginForm.get('password')?.invalid &&
+                  loginForm.get('password')?.touched
+                "
+                class="invalid-feedback"
+              >
+                Password is required and must be at least 6 characters long.
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="loginForm.invalid"
+            >
+              Login
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div
+        *ngIf="successMessage"
+        class="alert alert-success mt-3"
+        role="alert"
+      >
+        {{ successMessage }}
+      </div>
+      <div
+        *ngIf="errorMessage"
+        class="alert alert-danger mt-3"
+        role="alert"
+      >
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+</div>
