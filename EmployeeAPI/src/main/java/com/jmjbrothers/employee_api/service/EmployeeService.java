@@ -45,8 +45,8 @@ public class EmployeeService {
 				findById.setEmail(employee.getEmail());
 			}
 			
-			if (employee.getContact() != null) {
-				findById.setContact(employee.getContact());
+			if (employee.getAge() != null) {
+				findById.setAge(employee.getAge());
 			}
 			
 			if (employee.getSalary() != null) {

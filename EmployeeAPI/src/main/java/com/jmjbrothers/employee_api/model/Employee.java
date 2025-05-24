@@ -24,7 +24,9 @@ public class Employee {
 	private String name;
 	private String designation; 
 	private String email;
-	private String contact;
+	private Integer age;
+	private String address;
+	private String dob;
 	private Double salary;
 	
 
