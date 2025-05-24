@@ -34,6 +34,6 @@ export class HomeComponent implements OnInit {
 
   handleImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
-    imgElement.src = 'https://via.placeholder.com/200x200?text=No+Image';
+    imgElement.src = 'C:\Git\spring-boot-practice-projects\Learning Projects\dream-travel-solution\public.jpg';
   }
 }
