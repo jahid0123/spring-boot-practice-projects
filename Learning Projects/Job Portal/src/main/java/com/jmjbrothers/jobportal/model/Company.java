@@ -34,8 +34,11 @@ public class Company implements PortalUser {
     @Enumerated(value = EnumType.STRING)
     private Role role = Role.COMPANY;
 
-    @Column(name = "last_education")
+    @Column(name = "business")
     private String business;
+
+    @Column(name = "contact")
+    private String contact;
 
     @Column(name = "address")
     private String address;

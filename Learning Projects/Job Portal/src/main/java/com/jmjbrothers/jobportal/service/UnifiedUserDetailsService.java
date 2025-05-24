@@ -35,15 +35,15 @@ public class UnifiedUserDetailsService implements UserDetailsService {
 
         Optional<Company> company = companyRepository.findByEmail(email);
         if (company.isPresent())
-            return new CompanyInfoDetails(company.get());
+            return new UnifiedUserDetailsService(companyRepository);
 
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent())
-            return new UserInfoDetails(user.get());
+            return new UnifiedUserDetailsService(userRepository);
 
         Optional<Seeker> seeker = seekerRepository.findByEmail(email);
         if (seeker.isPresent())
-            return new SeekerInfoDetails(seeker.get());
+            return new UnifiedUserDetailsService(seekerRepository);
 
         throw new UsernameNotFoundException("User not found with email: " + email);
     }

@@ -2,9 +2,11 @@ package com.jmjbrothers.jobportal.controller;
 
 import com.jmjbrothers.jobportal.config.jwt.JwtService;
 import com.jmjbrothers.jobportal.config.jwt.UserInfoDetails;
+import com.jmjbrothers.jobportal.dto.CompanyRegisterRequestDto;
 import com.jmjbrothers.jobportal.dto.LoginRequest;
 import com.jmjbrothers.jobportal.dto.UserRegisterRequestDto;
 import com.jmjbrothers.jobportal.interfacedto.PortalUser;
+import com.jmjbrothers.jobportal.model.Company;
 import com.jmjbrothers.jobportal.model.Seeker;
 import com.jmjbrothers.jobportal.model.User;
 import com.jmjbrothers.jobportal.service.CompanyService;
@@ -66,11 +68,11 @@ public class AuthController {
 
 
     @PostMapping("/company/register")
-    public ResponseEntity<?> registerCompany(@RequestBody UserRegisterRequestDto request) {
+    public ResponseEntity<?> registerCompany(@RequestBody CompanyRegisterRequestDto request) {
 
-        User user = userService.registerNewUser(request);
+        Company company = companyService.registerNewCompany(request);
 
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        return new ResponseEntity<>(company, HttpStatus.CREATED);
     }
 
 
