@@ -9,16 +9,13 @@ import java.time.LocalDateTime;
 @Data
 @RequiredArgsConstructor
 @Entity
-@Table(name = "faysal_job")
+@Table(name = "faysal_apploy_job")
 public class JobApply {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "job_title")
-    private String jobTitle;
 
     @ManyToOne
     @JoinColumn(name = "job_seeker_id")
@@ -27,8 +24,6 @@ public class JobApply {
     @ManyToOne
     @JoinColumn(name = "job_id")
     private Job job;
-
-
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

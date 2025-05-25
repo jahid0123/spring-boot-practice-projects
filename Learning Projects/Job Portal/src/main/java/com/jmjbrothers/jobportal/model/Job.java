@@ -30,7 +30,7 @@ public class Job {
     private String jobRequirement;
 
     @Column(name = "job_responsibilities")
-    private String requirement;
+    private String jobResponsibilities;
 
     @Column(name = "job_compensation")
     private String compensationBenefit;
@@ -44,11 +44,8 @@ public class Job {
     @Column(name = "job_location")
     private String jobLocation;
 
-
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
 
     @PrePersist
     public void prePersist() {
