@@ -1,0 +1,16 @@
+<div class="container mt-4" *ngIf="book">
+  <div class="card shadow">
+    <div class="card-body">
+      <h3 class="card-title">{{ book.bookName }}</h3>
+      <h6 class="text-muted">Category: {{ book.bookCategory }}</h6>
+      <p class="card-text">
+        <strong>ISBN:</strong> {{ book.bookIsbnNumber }}<br />
+        <strong>Price:</strong> ₹{{ book.bookPrice }}<br />
+        <strong>Rating:</strong> {{ book.bookRating }} / 5<br />
+        <strong>Quantity:</strong> {{ book.bookQuantity }}<br />
+        <strong>Created At:</strong> {{ book.createdAt }}
+      </p>
+      <button class="btn btn-primary" (click)="goBack()">Back</button>
+    </div>
+  </div>
+</div>
