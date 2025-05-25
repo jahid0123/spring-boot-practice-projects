@@ -9,24 +9,24 @@ import java.time.LocalDateTime;
 @Data
 @RequiredArgsConstructor
 @Entity
-@Table(name = "faysal_apply_job")
-public class JobApply {
-
+@Table(name = "faysal_buy_package")
+public class BuyPostPackage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "job_seeker_id")
-    private Seeker jobSeeker;
+    @JoinColumn(name = "package_id", nullable = false)
+    private PostPackage postPackage;
 
     @ManyToOne
-    @JoinColumn(name = "job_id")
-    private Job job;
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
 
     @PrePersist
     public void prePersist() {
