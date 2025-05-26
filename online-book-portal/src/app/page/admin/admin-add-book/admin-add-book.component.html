@@ -1,76 +1,189 @@
-<h1 class="text-center mt-3 mb-2">BOOK INFORMATION</h1>
-<!-- Improved Add/Edit Book Modal -->
-<div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
+<h1 class="text-center mt-3 mb-4 text-primary">BOOK INFORMATION</h1>
+
+<!-- Add/Edit Book Modal -->
+<div
+  class="modal fade"
+  id="bookModal"
+  tabindex="-1"
+  aria-labelledby="bookModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg modal-dialog-centered">
-    <form #bookForm="ngForm" (ngSubmit)="onSubmit()" class="modal-content shadow-lg border-0 rounded-4" enctype="multipart/form-data">
+    <form
+      #bookForm="ngForm"
+      (ngSubmit)="onSubmit()"
+      class="modal-content shadow-lg border-0 rounded-4"
+    >
       <div class="modal-header bg-primary text-white rounded-top-4">
         <h5 class="modal-title" id="bookModalLabel">
-          {{ editingBook ? 'EDIT BOOK' : 'ADD NEW BOOK' }}
+          {{ editingBook ? "EDIT BOOK" : "ADD NEW BOOK" }}
         </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          (click)="closeModal()"
+          aria-label="Close"
+        ></button>
       </div>
 
       <div class="modal-body px-4 py-3">
         <div class="row g-3">
-          <!-- Existing fields -->
+          <!-- Book Name -->
           <div class="col-md-6">
-            <label for="bookName" class="form-label fw-semibold">BOOK TITLE</label>
-            <input type="text" id="bookName" name="bookName" [(ngModel)]="book.bookName" class="form-control" placeholder="Enter book name" required />
+            <label for="bookName" class="form-label fw-semibold"
+              >BOOK TITLE</label
+            >
+            <input
+              type="text"
+              id="bookName"
+              name="bookName"
+              [(ngModel)]="book.bookName"
+              class="form-control"
+              placeholder="Enter book name"
+              required
+            />
           </div>
 
+          <!-- ISBN -->
           <div class="col-md-6">
-            <label for="bookIsbnNumber" class="form-label fw-semibold">BOOK ISBN NUMBER</label>
-            <input type="number" id="bookIsbnNumber" name="bookIsbnNumber" [(ngModel)]="book.bookIsbnNumber" class="form-control" placeholder="Enter ISBN number" required />
+            <label for="bookIsbnNumber" class="form-label fw-semibold"
+              >BOOK ISBN NUMBER</label
+            >
+            <input
+              type="number"
+              id="bookIsbnNumber"
+              name="bookIsbnNumber"
+              [(ngModel)]="book.bookIsbnNumber"
+              class="form-control"
+              placeholder="Enter ISBN number"
+              required
+            />
           </div>
 
+          <!-- Price -->
           <div class="col-md-6">
-            <label for="bookPrice" class="form-label fw-semibold">PRICE (BDT)</label>
-            <input type="number" step="0.01" id="bookPrice" name="bookPrice" [(ngModel)]="book.bookPrice" class="form-control" placeholder="e.g., 29.99" required />
+            <label for="bookPrice" class="form-label fw-semibold"
+              >PRICE (BDT)</label
+            >
+            <input
+              type="number"
+              step="0.01"
+              id="bookPrice"
+              name="bookPrice"
+              [(ngModel)]="book.bookPrice"
+              class="form-control"
+              placeholder="e.g., 29.99"
+              required
+            />
           </div>
 
+          <!-- Rating -->
           <div class="col-md-6">
-            <label for="bookRating" class="form-label fw-semibold">RATING (0–5)</label>
-            <input type="number" step="0.1" max="5" min="0" id="bookRating" name="bookRating" [(ngModel)]="book.bookRating" class="form-control" required />
+            <label for="bookRating" class="form-label fw-semibold"
+              >RATING (0–5)</label
+            >
+            <input
+              type="number"
+              step="0.1"
+              min="0"
+              max="5"
+              id="bookRating"
+              name="bookRating"
+              [(ngModel)]="book.bookRating"
+              class="form-control"
+              required
+            />
           </div>
 
+          <!-- Category -->
           <div class="col-md-6">
-            <label for="bookCategory" class="form-label fw-semibold">CATEGORY</label>
-            <input type="text" id="bookCategory" name="bookCategory" [(ngModel)]="book.bookCategory" class="form-control" placeholder="e.g., Fiction, Science" required />
+            <label for="bookCategory" class="form-label fw-semibold"
+              >CATEGORY</label
+            >
+            <input
+              type="text"
+              id="bookCategory"
+              name="bookCategory"
+              [(ngModel)]="book.bookCategory"
+              class="form-control"
+              placeholder="e.g., Fiction, Science"
+              required
+            />
           </div>
 
+          <!-- Quantity -->
           <div class="col-md-6">
-            <label for="bookQuantity" class="form-label fw-semibold">QUANTITY</label>
-            <input type="number" id="bookQuantity" name="bookQuantity" [(ngModel)]="book.bookQuantity" class="form-control" required />
+            <label for="bookQuantity" class="form-label fw-semibold"
+              >QUANTITY</label
+            >
+            <input
+              type="number"
+              id="bookQuantity"
+              name="bookQuantity"
+              [(ngModel)]="book.bookQuantity"
+              class="form-control"
+              required
+            />
           </div>
 
-          <!-- New image upload field -->
-          <div class="col-6">
+          <!-- Author IDs -->
+          <div class="col-md-6">
+            <label for="bookAuthorIds" class="form-label fw-semibold"
+              >AUTHOR IDs (comma separated)</label
+            >
+            <input
+              type="text"
+              id="bookAuthorIds"
+              name="bookAuthorIds"
+              [(ngModel)]="book.bookAuthorIdsString"
+              class="form-control"
+              placeholder="e.g., 1,2,3"
+              required
+            />
+          </div>
+
+          <!-- Optional Image Upload (Disabled for now) -->
+          <!--
+          <div class="col-md-6">
             <label for="bookImage" class="form-label fw-semibold">BOOK IMAGE</label>
-            <input type="file" id="bookImage" name="bookImage" (change)="onFileSelected($event)" class="form-control" accept="image/*" />
+            <input
+              type="file"
+              id="bookImage"
+              name="bookImage"
+              (change)="onFileSelected($event)"
+              class="form-control"
+              accept="image/*"
+            />
           </div>
-
-          <div class="col-6">
-            <label for="bookAuthorIds" class="form-label fw-semibold">AUTHOR IDs (comma separated)</label>
-            <input type="text" id="bookAuthorIds" name="bookAuthorIds" [(ngModel)]="book.bookAuthorIdsString" class="form-control" placeholder="e.g., 1,2,3" required />
-          </div>
+          -->
         </div>
       </div>
 
       <div class="modal-footer bg-light rounded-bottom-4">
-        <button type="submit" class="btn btn-success px-4">
-          {{ editingBook ? 'Update Book' : 'Add Book' }}
+        <button
+          type="submit"
+          class="btn btn-success px-4"
+          [disabled]="!bookForm.form.valid"
+        >
+          {{ editingBook ? "Update Book" : "Add Book" }}
         </button>
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="closeModal()"
+        >
+          Cancel
+        </button>
       </div>
     </form>
   </div>
 </div>
 
-
-
 <!-- Book Table -->
 <div class="container mt-4">
-  <button class="btn btn-success mb-3" (click)="openAddModal()">Add Book</button>
+  <button class="btn btn-success mb-3" (click)="openAddModal()">
+    Add Book
+  </button>
 
   <table class="table table-bordered table-hover">
     <thead class="table-dark">
@@ -81,22 +194,32 @@
         <th>Rating</th>
         <th>Category</th>
         <th>Quantity</th>
-        <th>Author IDs</th>
+        <th>Date</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let b of books; let i = index">
+      <tr
+        *ngFor="let b of getBooks; book: trackByBookId"
+        class="text-center align-middle"
+      >
         <td>{{ b.bookName }}</td>
         <td>{{ b.bookIsbnNumber }}</td>
         <td>{{ b.bookPrice }}</td>
         <td>{{ b.bookRating }}</td>
         <td>{{ b.bookCategory }}</td>
         <td>{{ b.bookQuantity }}</td>
-        <td>{{ b.bookAuthorIdsString }}</td>
+        <td>{{ b.createdAt }}</td>
         <td>
-          <button class="btn btn-sm btn-primary me-1" (click)="openEditModal(i)">Edit</button>
-          <button class="btn btn-sm btn-danger" (click)="deleteBook(i)">Delete</button>
+          <button
+            class="btn btn-sm btn-primary me-1"
+            (click)="openEditModal(b)"
+          >
+            Edit
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="deleteBook(b.id)">
+            Delete
+          </button>
         </td>
       </tr>
     </tbody>

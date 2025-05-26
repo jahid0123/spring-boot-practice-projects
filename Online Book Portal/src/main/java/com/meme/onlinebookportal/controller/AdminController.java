@@ -2,6 +2,8 @@ package com.meme.onlinebookportal.controller;
 
 import com.meme.onlinebookportal.dto.AddAuthorDto;
 import com.meme.onlinebookportal.dto.AddBookDto;
+import com.meme.onlinebookportal.dto.OrderResponseDto;
+import com.meme.onlinebookportal.dto.UpdateBookDto;
 import com.meme.onlinebookportal.model.Author;
 import com.meme.onlinebookportal.model.Book;
 import com.meme.onlinebookportal.service.AuthorService;
@@ -35,6 +37,20 @@ public class AdminController {
         return new ResponseEntity<>(book, HttpStatus.CREATED);
     }
 
+    @PutMapping("/update/book")
+    public ResponseEntity<?> updateExistingBook(@RequestBody UpdateBookDto updateBookDto){
+        Book book = bookService.updateNewBook(updateBookDto);
+
+        return new ResponseEntity<>(book, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/delete/book/{id}")
+    public ResponseEntity<?> deleteExistingBook(@PathVariable Long id){
+        String book = bookService.deleteExistingBook(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/add/author")
     public ResponseEntity<?> addNewAuthor(@RequestBody AddAuthorDto addAuthorDto){
         Author author = authorService.addNewAuthor(addAuthorDto);
@@ -48,5 +64,11 @@ public class AdminController {
 //
 //        return new ResponseEntity<>(book, HttpStatus.CREATED);
 //    }
+
+
+    @GetMapping("/get/all/order")
+    public ResponseEntity<?> getAllOrders() {
+        return ResponseEntity.ok(orderService.getAllOrders());
+    }
 
 }

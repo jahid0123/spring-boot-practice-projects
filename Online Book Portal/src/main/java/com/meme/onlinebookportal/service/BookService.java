@@ -1,6 +1,7 @@
 package com.meme.onlinebookportal.service;
 
 import com.meme.onlinebookportal.dto.AddBookDto;
+import com.meme.onlinebookportal.dto.UpdateBookDto;
 import com.meme.onlinebookportal.model.Author;
 import com.meme.onlinebookportal.model.Book;
 import com.meme.onlinebookportal.repository.AuthorRepository;
@@ -55,5 +56,38 @@ public class BookService {
         List<Book> allBookList = bookRepository.findAll();
 
         return allBookList;
+    }
+
+    @Transactional
+    public Book updateNewBook(UpdateBookDto updateBookDto) {
+
+        Book existBook = bookRepository.findById(updateBookDto.getId()).orElse(null);
+
+        if (existBook != null){
+            existBook.setBookName(updateBookDto.getBookName());
+            existBook.setBookCategory(updateBookDto.getBookCategory());
+            existBook.setBookQuantity(updateBookDto.getBookQuantity());
+            existBook.setBookIsbnNumber(updateBookDto.getBookIsbnNumber());
+            existBook.setBookPrice(updateBookDto.getBookPrice());
+            existBook.setBookRating(updateBookDto.getBookRating());
+
+            Set<Author> authors = authorRepository.findAllById(updateBookDto.getBookAuthorIds())
+                    .stream()
+                    .collect(Collectors.toSet());
+
+            existBook.setBookAuthors(authors);
+            return bookRepository.save(existBook);
+        }
+
+        return null;
+
+    }
+
+    @Transactional
+    public String deleteExistingBook(Long id) {
+
+         bookRepository.deleteById(id);
+
+         return "Account deleted successfully.";
     }
 }

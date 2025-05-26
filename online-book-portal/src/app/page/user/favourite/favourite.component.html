@@ -1,0 +1,29 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Saved Favorites</h2>
+
+  <div *ngIf="favoriteBooks.length === 0" class="alert alert-info">
+    You don't have any saved favorite books.
+  </div>
+
+  <div class="row" *ngIf="favoriteBooks.length > 0">
+    <div class="col-md-4 mb-4" *ngFor="let book of favoriteBooks">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ book.bookName }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Category: {{ book.bookCategory }}</h6>
+          <p class="card-text">
+            <strong>Price:</strong> ₹{{ book.bookPrice }} <br />
+            <strong>Rating:</strong> {{ book.bookRating }} / 5 <br />
+            <strong>ISBN:</strong> {{ book.bookIsbnNumber }} <br />
+            <strong>Quantity:</strong> {{ book.bookQuantity }}
+          </p>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+          <button class="btn btn-outline-danger btn-sm" (click)="removeFromFavorites(book.id)">
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
