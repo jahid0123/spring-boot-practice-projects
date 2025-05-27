@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @RequiredArgsConstructor
 @Entity
-@Table(name = "r_buy_package")
+@Table(name = "jahid_buy_package")
 public class BuyPackage {
 
     @Id
@@ -25,11 +25,11 @@ public class BuyPackage {
     @JoinColumn(name = "package_id", nullable = false)
     private CreditPackage creditPackage;
 
-    @Column(name = "credits_purchased", nullable = false)
-    private Integer creditsPurchased;
-
-    @Column(name = "amount_paid", precision = 10, scale = 2, nullable = false)
-    private BigDecimal amountPaid;
+//    @Column(name = "credits_purchased", nullable = false)
+//    private Integer creditsPurchased;
+//
+//    @Column(name = "amount_paid", precision = 10, scale = 2, nullable = false)
+//    private BigDecimal amountPaid;
 
     @Column(name = "date_purchased", nullable = false)
     private LocalDateTime datePurchased;

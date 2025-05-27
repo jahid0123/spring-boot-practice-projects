@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class PropertyPostController {
     private final PropertyPostService propertyPostService;
 
 
-    @PostMapping("/post/property")
+    /*@PostMapping("/post/property")
     public ResponseEntity<?> postProperty(@Valid @RequestBody PropertyPostDto propertyPostDto){
         try {
             PropertyPost result = propertyPostService.postProperty(propertyPostDto);
@@ -33,7 +34,23 @@ public class PropertyPostController {
             System.out.println(e);
             return ResponseEntity.badRequest().body("Something wrong");
         }
+    }*/
+
+    @PostMapping("/post/property")
+    public ResponseEntity<?> postProperty(
+            @RequestPart("data") @Valid PropertyPostDto propertyPostDto,
+            @RequestPart("images") MultipartFile[] images) {
+        try {
+            // Save property with images
+            PropertyPost result = propertyPostService.postProperty(propertyPostDto, images);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            System.out.println(propertyPostDto);
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Something went wrong");
+        }
     }
+
     @GetMapping("/all/posted/property")
     public ResponseEntity<?> getAllPostedProperty(){
 

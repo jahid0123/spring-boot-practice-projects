@@ -10,10 +10,19 @@ import com.jmjbrothers.spring.securtiy.authentication.repository.PropertyReposit
 import com.jmjbrothers.spring.securtiy.authentication.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,9 +33,11 @@ public class PropertyPostService {
     private final PropertyRepository propertyRepository;
     private final PropertyPostRepository propertyPostRepository;
 
+    @Value("${file.upload-dir:upload/images}")
+    private String uploadDir;
 
     @Transactional
-    public PropertyPost postProperty(PropertyPostDto propertyPostDto) {
+    public PropertyPost postProperty(PropertyPostDto propertyPostDto, MultipartFile[] images) throws IOException {
         User user = userRepository.findById(propertyPostDto.getUserID()).orElseThrow(
                 ()-> new RuntimeException("User not found"));
         System.out.println(user.toString());
@@ -35,6 +46,25 @@ public class PropertyPostService {
             System.out.println("No enough credit");
             throw new RuntimeException("Insufficient credits");
         }
+
+
+        List<String> imagePaths = new ArrayList<>();
+
+        // Save each image
+        if (images != null && images.length > 0) {
+            for (MultipartFile file : images) {
+                String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+
+                Path filePath = Paths.get(uploadDir + File.separator + filename);
+
+                // Ensure upload directory exists
+                Files.createDirectories(filePath.getParent());
+                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                imagePaths.add(filename);
+            }
+        }
+
 
         //Create new property
         Property property = new Property();
@@ -51,11 +81,15 @@ public class PropertyPostService {
         property.setRoadNumber(propertyPostDto.getRoadNumber());
         property.setHouseNumber(propertyPostDto.getHouseNumber());
 
-        propertyRepository.save(property);
+        // Save image filenames to entity
+        property.setImagePaths(imagePaths); // assumes a List<String> field in your entity
 
         //deduct credit
         user.setBalanceCredits(user.getBalanceCredits()-10);
         userRepository.save(user);
+
+        //Save property
+        propertyRepository.save(property);
 
         //Create new property post
         PropertyPost propertyPost = new PropertyPost();
@@ -63,7 +97,6 @@ public class PropertyPostService {
         propertyPost.setProperty(property);
         propertyPost.setContactPerson(propertyPostDto.getContactPerson());
         propertyPost.setContactNumber(propertyPostDto.getContactNumber());
-        propertyPost.setArea(propertyPostDto.getArea());
         propertyPost.setAvailableFrom(propertyPostDto.getAvailableFrom());
 
         return propertyPostRepository.save(propertyPost);

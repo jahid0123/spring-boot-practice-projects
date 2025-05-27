@@ -38,8 +38,8 @@ public class BuyPackageService {
 
         BuyPackage creditTransaction = new BuyPackage();
         creditTransaction.setCreditPackage(creditPackage);
-        creditTransaction.setAmountPaid(creditPackage.getPrice());
-        creditTransaction.setCreditsPurchased(creditPackage.getCreditAmount());
+//        creditTransaction.setAmountPaid(creditPackage.getPrice());
+//        creditTransaction.setCreditsPurchased(creditPackage.getCreditAmount());
 
             //get the user credit balance from user
             Integer balanceCredits =user.getBalanceCredits();

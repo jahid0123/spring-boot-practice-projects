@@ -1,8 +1,11 @@
 package com.jmjbrothers.spring.securtiy.authentication.controller;
 
+import com.jmjbrothers.spring.securtiy.authentication.dto.PropertyDto;
 import com.jmjbrothers.spring.securtiy.authentication.model.CreditPackage;
+import com.jmjbrothers.spring.securtiy.authentication.model.Property;
 import com.jmjbrothers.spring.securtiy.authentication.model.User;
 import com.jmjbrothers.spring.securtiy.authentication.service.CreditPackageService;
+import com.jmjbrothers.spring.securtiy.authentication.service.PropertyService;
 import com.jmjbrothers.spring.securtiy.authentication.service.UserInfoDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,16 @@ public class AdminController {
     private final UserInfoDetailsService userInfoDetailsService;
     private final CreditPackageService packageService;
 
+    private final PropertyService propertyService;
+
+
+    @PostMapping("/create/property/admin")
+    public ResponseEntity<?> createProperty(@RequestBody PropertyDto propertyDto ){
+        Property addProperty = propertyService.createProperty(propertyDto);
+
+        return new ResponseEntity<>(addProperty, HttpStatus.CREATED);
+    }
+
 
     //Get all user access control by Admin
     @GetMapping("/alluser")
@@ -29,13 +42,13 @@ public class AdminController {
     }
 
     //Delete user by id access control by admin
-    @DeleteMapping("/delete/{id}")
-    public String deleteUserById(@PathVariable Long id) {
+    @DeleteMapping("/delete")
+    public String deleteUserById(@RequestParam Long id) {
         return userInfoDetailsService.deleteUserById(id);
     }
 
     //Credit Package Creation by the Admin
-    @PostMapping("/add/creditpackage")
+    @PostMapping("/add/credit/package")
     public ResponseEntity<?> addCreditPackage(@RequestBody CreditPackage cPackage) {
         CreditPackage creditPackage = packageService.addCreditPackage(cPackage);
         return new ResponseEntity<>(creditPackage, HttpStatus.CREATED);
