@@ -4,14 +4,15 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "r_credit_package")
+
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Entity
+@Table(name = "jahid_credit_package")
 public class CreditPackage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

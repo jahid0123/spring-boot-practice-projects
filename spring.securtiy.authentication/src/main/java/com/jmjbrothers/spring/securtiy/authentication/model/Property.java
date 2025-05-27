@@ -6,11 +6,12 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @RequiredArgsConstructor
 @Entity
-@Table(name = "r_property")
+@Table(name = "jahid_property")
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +20,6 @@ public class Property {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -36,9 +36,6 @@ public class Property {
 
     @Column(name = "rent_amount")
     private Integer rentAmount;
-
-    @Column(name = "date_posted", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime datePosted = LocalDateTime.now();
 
     @Column(name = "division", nullable = false)
     private String division;
@@ -61,6 +58,12 @@ public class Property {
     @Column(columnDefinition = "CLOB")
     private String address;
 
+    @ElementCollection
+    @Column(name = "image_urls")
+    private List<String> imagePaths;
+
+    @Column(name = "date_posted", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime datePosted = LocalDateTime.now();
 
     @PrePersist
     public void prePersist() {

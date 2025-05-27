@@ -21,7 +21,6 @@ public class PropertyPostDto {
     private String address;
     private String contactPerson;
     private String contactNumber;
-    private String area;
     @JsonFormat(pattern = "yyyy-MM-dd") // ADD THIS
     private LocalDate availableFrom;
     private Integer rentAmount;
