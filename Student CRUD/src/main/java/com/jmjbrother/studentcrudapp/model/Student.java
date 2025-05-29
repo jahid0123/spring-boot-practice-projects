@@ -7,20 +7,15 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @Entity
-@Table(name = "android_student")
+@Table(name = "android_student_crud")
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "student_name")
+    private long id;
     private String name;
-
-    @Column(name = "school_name")
-    private String schoolName;
-
-    @Column(name = "class_name")
-    private String className;
+    private String subject;
+    private String clazz;
+    private String school;
 
 }

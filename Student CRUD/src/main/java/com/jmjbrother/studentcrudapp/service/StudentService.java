@@ -37,11 +37,14 @@ public class StudentService {
             if (requestStudent.getName() != null) {
                 findById.setName(requestStudent.getName());
             }
-            if (requestStudent.getClassName() != null) {
-                findById.setClassName(requestStudent.getClassName());
+            if (requestStudent.getClazz() != null) {
+                findById.setClazz(requestStudent.getClazz());
             }
-            if (requestStudent.getSchoolName() != null) {
-                findById.setSchoolName(requestStudent.getSchoolName());
+            if (requestStudent.getSubject() != null) {
+                findById.setSubject(requestStudent.getSubject());
+            }
+            if (requestStudent.getSchool() != null) {
+                findById.setSchool(requestStudent.getSchool());
             }
             return studentRepository.save(findById);
 
