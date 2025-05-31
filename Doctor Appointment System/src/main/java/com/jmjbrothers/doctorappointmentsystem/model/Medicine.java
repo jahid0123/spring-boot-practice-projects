@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @Entity
+@Table(name = "bithy_medicine")
 public class Medicine {
 
     @Id

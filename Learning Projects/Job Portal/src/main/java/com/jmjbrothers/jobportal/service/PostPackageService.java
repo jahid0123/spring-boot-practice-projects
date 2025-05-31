@@ -20,9 +20,6 @@ public class PostPackageService {
 
         PostPackage createPackage = postPackageRepository.save(postPackage);
 
-
-
-
         return createPackage;
     }
 }

@@ -11,6 +11,7 @@ import java.time.LocalTime;
 @Data
 @RequiredArgsConstructor
 @Entity
+@Table(name = "bithy_appointment")
 public class Appointment {
 
     @Id
