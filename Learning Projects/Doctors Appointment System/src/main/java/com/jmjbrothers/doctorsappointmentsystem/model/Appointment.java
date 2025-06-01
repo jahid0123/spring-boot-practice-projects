@@ -1,6 +1,7 @@
-package com.jmjbrothers.doctorappointmentsystem.model;
+package com.jmjbrothers.doctorsappointmentsystem.model;
 
-import com.jmjbrothers.doctorappointmentsystem.constants.AppointmentStatus;
+
+import com.jmjbrothers.doctorsappointmentsystem.constants.Status;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class Appointment {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 255)
-    private AppointmentStatus status;
+    private Status status;
 
     private String symptoms;
 

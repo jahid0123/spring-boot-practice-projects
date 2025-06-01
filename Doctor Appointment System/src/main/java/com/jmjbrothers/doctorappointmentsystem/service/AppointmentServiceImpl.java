@@ -31,7 +31,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         User patient = getCurrentUser(); // assuming from SecurityContext
 
         Appointment appointment = new Appointment();
-        appointment.setDate(request.getAppointmentDate());
+        appointment.setAppointmentDate(request.getAppointmentDate());
         appointment.setSymptoms(request.getReason());
         appointment.setDoctor(doctor);
         appointment.setPatient(patient);

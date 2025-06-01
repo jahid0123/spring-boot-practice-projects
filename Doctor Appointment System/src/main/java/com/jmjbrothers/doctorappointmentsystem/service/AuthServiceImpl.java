@@ -32,12 +32,12 @@ public class AuthServiceImpl implements AuthService {
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(UserRole.valueOf(request.getRole().toUpperCase()));
+        user.setRole(UserRole.PATIENT);
 
         userRepo.save(user);
 
         String token = jwtService.generateToken(user.getEmail());
-        return new AuthResponse(token, user.getRole().name());
+        return new AuthResponse(user.getId(), token, user.getRole().name());
     }
 
     public AuthResponse login(AuthRequest request) {
@@ -46,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
             throw new BadCredentialsException("Invalid credentials");
 
         String token = jwtService.generateToken(user.getEmail());
-        return new AuthResponse(token, user.getRole().name());
+        return new AuthResponse(user.getId(), token, user.getRole().name());
     }
 }
 
