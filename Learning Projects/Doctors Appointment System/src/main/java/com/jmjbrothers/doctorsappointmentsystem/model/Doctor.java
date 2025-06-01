@@ -29,9 +29,13 @@ public class Doctor implements PortalUser {
 
 
     private String specialization;
+
     private String qualification;
+
     private int experience;
+
     private String hospitalName;
+
     private String phone;
 
     @Column(name = "role")

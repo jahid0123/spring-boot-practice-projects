@@ -32,10 +32,10 @@ public class Patient implements PortalUser {
     @Column(name = "patient_phone")
     private String phone;
 
-    @Column(name = "patient_gender")
+    @Column(name = "patient_gender", nullable = false)
     private String gender;
 
-    @Column(name = "patient_date_of_birth")
+    @Column(name = "patient_date_of_birth", nullable = false)
     private LocalDate dob;
 
     @Column(name = "patient_address")
