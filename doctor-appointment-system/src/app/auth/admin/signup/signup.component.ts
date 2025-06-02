@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../service/auth.service';
+import { AuthService } from '../../service/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-signup',
   imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterModule],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  templateUrl: './signup.component.html',
+  styleUrl: './signup.component.css'
 })
-export class RegisterComponent {
-  registerForm: FormGroup;
+export class SignupComponent {
+  
+ registerForm: FormGroup;
   submitted = false;
   showPassword = false;
 
@@ -25,8 +26,6 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      gender: ['', Validators.required],
-      dob: [new Date, Validators.required]
     }, { validators: this.passwordMatchValidator });
   }
 
@@ -49,9 +48,9 @@ export class RegisterComponent {
 
     if (this.registerForm.invalid) return;
 
-    const { name, email, password, gender, dob } = this.registerForm.value;
+    const { name, email, password } = this.registerForm.value;
 
-    this.auth.register({ name, email, password, gender, dob}).subscribe({
+    this.auth.adminRegister({ name, email, password }).subscribe({
       next: () => {
         console.log('Registration successful!');
         this.router.navigate(['/login']);

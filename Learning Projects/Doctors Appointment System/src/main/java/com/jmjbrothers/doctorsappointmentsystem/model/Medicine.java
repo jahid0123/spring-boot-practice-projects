@@ -22,13 +22,13 @@ public class Medicine {
     private String dosage;      // e.g., "500mg"
 
     @Column(name = "medicine_frequency")
-    private String frequency;
+    private String frequency; // e.g., "2 times a day"
 
-    // e.g., "2 times a day"
     @Column(name = "medicine_duration", nullable = false)
     private String duration;    // e.g., "5 days"
 
     @ManyToOne
+    @JoinColumn(name = "prescription_id", referencedColumnName = "id", nullable = false)
     private Prescription prescription;
 
     // Getters and Setters

@@ -1,1 +1,29 @@
-<p>patient-dashboard works!</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-info shadow-sm px-4 py-3">
+  <div class="container-fluid">
+
+    <!-- Left: Logo / Dashboard Title -->
+    <a class="navbar-brand fs-3 fw-bold text-dark" [routerLink]="['/patient']">
+      <i class="bi bi-hospital"></i> Doctor's Appointment
+    </a>
+
+    <!-- Right: Profile Icon with Dropdown -->
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle d-flex align-items-center" role="button"
+           data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-user fs-4"></i>
+          
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" [routerLink]="['/patient']">View Profile</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/patient']">Settings</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger btn" (click)="logout()">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

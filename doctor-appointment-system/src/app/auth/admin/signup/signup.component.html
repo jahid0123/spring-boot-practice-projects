@@ -1,0 +1,94 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card p-4 shadow rounded-4" style="width: 100%; max-width: 550px;">
+    <h3 class="text-center mb-4">Create Admin Account</h3>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+
+      <!-- Name -->
+      <div class="mb-3">
+        <label for="name" class="form-label">Full Name</label>
+        <input
+          type="text"
+          formControlName="name"
+          id="name"
+          class="form-control"
+          [class.is-invalid]="submitted && f['name'].errors"
+          placeholder="Enter your name"
+        />
+        <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+          Name is required
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input
+          type="email"
+          formControlName="email"
+          id="email"
+          class="form-control"
+          [class.is-invalid]="submitted && f['email'].errors"
+          placeholder="Enter your email"
+        />
+        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+          <div *ngIf="f['email'].errors?.['required']">Email is required</div>
+          <div *ngIf="f['email'].errors?.['email']">Enter a valid email</div>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3 position-relative">
+        <label for="password" class="form-label">Password</label>
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          formControlName="password"
+          id="password"
+          class="form-control"
+          [class.is-invalid]="submitted && f['password'].errors"
+          placeholder="Enter password"
+        />
+        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+          Password is required
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          formControlName="confirmPassword"
+          id="confirmPassword"
+          class="form-control"
+          [class.is-invalid]="submitted && (f['confirmPassword'].errors || registerForm.errors?.['mismatch'])"
+          placeholder="Re-enter password"
+        />
+        <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
+          Confirm Password is required
+        </div>
+        <div *ngIf="submitted && registerForm.errors?.['mismatch']" class="invalid-feedback">
+          Passwords do not match
+        </div>
+      </div>
+
+      <!-- Toggle show password -->
+      <div class="mb-3">
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="togglePassword()">
+          {{ showPassword ? 'Hide' : 'Show' }} Passwords
+        </button>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn btn-success w-100 rounded-3">
+        Register
+      </button>
+
+      <!-- Footer -->
+      <div class="text-center mt-3">
+        <a [routerLink]="['/login']">Already have an account? Login</a>
+      </div>
+    </form>
+  </div>
+</div>
+

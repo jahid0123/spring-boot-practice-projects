@@ -1,1 +1,86 @@
-<p>admin-dashboard works!</p>
+<!-- Main Layout Wrapper -->
+<div class="d-flex" id="adminDashboard">
+  <!-- Page Content -->
+  <div class="flex-grow-1">
+    <!-- Sidebar -->
+    <nav
+      id="sidebar"
+      class="bg-secondary fw-bold fs-6 vh-100 p-3 position-fixed"
+      style="width: 250px"
+    >
+      <ul class="nav flex-column mt-2">
+        <h4 class="fs-3 fw-bold">
+          <i class="bi bi-speedometer me-2"></i>Admin Panel
+        </h4>
+
+        <li class="nav-item mb-2 mt-3">
+          <a class="nav-link text-white" [routerLink]="['/admin/admin-home']">
+            <i class="bi bi-house-door me-2"></i> Dashboard
+          </a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link text-white" [routerLink]="['/admin/admin-home']">
+            <i class="bi bi-people me-2"></i> Manage Users
+          </a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link text-white" [routerLink]="['/admin/admin-home']">
+            <i class="bi bi-calendar-check me-2"></i> Appointments
+          </a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link text-white" [routerLink]="['/admin/add-doctor']">
+            <i class="bi bi-person-plus-fill me-2"></i> Add Doctoer
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" (click)="logout()">
+            <i class="bi bi-box-arrow-right me-2"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-body-tertiary shadow-sm px-4"
+      style="margin-left: 250px"
+    >
+      <div class="container-fluid">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle d-flex align-items-center"
+              href="#"
+              id="adminDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+            >
+              <i class="fa-solid fa-user fs-4"></i>
+
+            </a>
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="adminDropdown"
+            >
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><i class="bi bi-person-circle me-2"></i>Profile</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><i class="bi bi-gear me-2"></i>Settings</a
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="p-3" style="margin-left: 250px">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

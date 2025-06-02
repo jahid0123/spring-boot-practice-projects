@@ -9,8 +9,9 @@ import { Observable, tap } from 'rxjs';
 })
 export class AuthService {
 
-   private loginApiURL = 'http://localhost:8080/api/auth/login';
-  private registerApiURL = 'http://localhost:8080/api/auth/register'; // Corrected register URL
+   private loginApiURL = 'http://localhost:8081/api/auth/login';
+   private registerApiURL = 'http://localhost:8081/api/auth/patient/register'; // Corrected register URL
+   private adminRegisterApiURL = 'http://localhost:8081/api/auth/user/register'; // Corrected register URL
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -24,23 +25,27 @@ export class AuthService {
     );
   }
 
-  register(data: { name: string; email: string; password: string }): Observable<any> {
+  register(data: { name: string; email: string; password: string; gender: string; dob: Date}): Observable<any> {
+    return this.http.post<any>(this.registerApiURL, data);
+  }
+
+  adminRegister(data: { name: string; email: string; password: string}): Observable<any> {
     return this.http.post<any>(this.registerApiURL, data);
   }
 
   redirectByRole(role: string) {
     switch (role) {
       case 'PATIENT':
-        this.router.navigate(['/patient-dashboard']);
+        this.router.navigate(['/patient']);
         break;
       case 'DOCTOR':
-        this.router.navigate(['/doctor-dashboard']);
+        this.router.navigateByUrl('/doctor');
         break;
       case 'ADMIN':
-        this.router.navigate(['/admin-dashboard']);
+        this.router.navigateByUrl('/admin');
         break;
       default:
-        this.router.navigate(['/login']);
+        this.router.navigateByUrl('/login');
     }
   }
 

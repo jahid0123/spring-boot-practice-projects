@@ -1,1 +1,38 @@
-<p>patient-home works!</p>
+<div class="container mt-4">
+  <h2 class="mb-4">Doctor List</h2>
+  <div class="row">
+    <div class="col-md-6 mb-4" *ngFor="let doctor of doctors">
+      <div class="card shadow rounded-4 overflow-hidden">
+        <div class="row g-0">
+          <!-- Doctor Image -->
+          <div class="col-4 bg-light d-flex align-items-center justify-content-center">
+            <img [src]="doctor.image" class="img-fluid rounded-circle border"
+              style="width: 100px; height: 100px; object-fit: cover" alt="Doctor Image">
+          </div>
+
+          <!-- Doctor Info -->
+          <div class="col-8">
+            <div class="card-body">
+              <h5 class="card-title mb-1">{{ doctor.name }}</h5>
+              <p class="text-muted">{{ doctor.specialization }}</p>
+              <p class="mb-1"><strong>Qualification:</strong> {{ doctor.qualification }}</p>
+              <p class="mb-1"><strong>Experience:</strong> {{ doctor.experience }} years</p>
+              <p class="mb-1"><strong>Hospital:</strong> {{ doctor.hospitalName }}</p>
+              <p class="mb-3"><strong>Phone:</strong> {{ doctor.phone }}</p>
+
+              <!-- Buttons -->
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-primary btn-sm" (click)="bookAppointment(doctor)">
+                  <i class="bi bi-calendar-check me-1"></i> Book Appointment
+                </button>
+                <button class="btn btn-outline-warning btn-sm" (click)="saveFavorite(doctor)">
+                  <i class="bi bi-star me-1"></i> Save Favorite
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

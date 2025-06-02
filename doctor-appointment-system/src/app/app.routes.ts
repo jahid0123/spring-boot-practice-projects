@@ -8,6 +8,8 @@ import { PatientDashboardComponent } from './dashboard/patient/patient-dashboard
 import { AdminHomeComponent } from './dashboard/admin/admin-home/admin-home.component';
 import { DoctorHomeComponent } from './dashboard/doctor/doctor-home/doctor-home.component';
 import { PatientHomeComponent } from './dashboard/patient/patient-home/patient-home.component';
+import { SignupComponent } from './auth/admin/signup/signup.component';
+import { AddDoctorComponent } from './dashboard/admin/add-doctor/add-doctor.component';
 
 export const routes: Routes = [
   // { path: 'login', component: LoginComponent },
@@ -16,6 +18,7 @@ export const routes: Routes = [
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  {path: 'signup', component: SignupComponent},
   {
     path: 'patient',
     component: PatientDashboardComponent,
@@ -41,6 +44,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'admin-home', pathMatch: 'full' }, // ✅ add this
       { path: 'admin-home', component: AdminHomeComponent },
+      {path: 'add-doctor', component: AddDoctorComponent},
     ],
   },
 

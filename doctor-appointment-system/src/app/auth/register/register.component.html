@@ -1,94 +1,106 @@
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
-  <div class="card p-4 shadow rounded-4" style="width: 100%; max-width: 450px;">
-    <h3 class="text-center mb-4">Create Patient Account</h3>
+<div class="container d-flex justify-content-center align-items-center min-vh-100 bg-light">
+  <div class="card shadow-lg border-0 rounded-4 p-0 overflow-hidden" style="max-width: 950px; width: 100%;">
+    <div class="row g-0">
 
-    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-
-      <!-- Name -->
-      <div class="mb-3">
-        <label for="name" class="form-label">Full Name</label>
-        <input
-          type="text"
-          formControlName="name"
-          id="name"
-          class="form-control"
-          [class.is-invalid]="submitted && f['name'].errors"
-          placeholder="Enter your name"
-        />
-        <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-          Name is required
-        </div>
+      <!-- LEFT PANEL -->
+      <div class="col-md-5 bg-primary text-white d-flex flex-column justify-content-center align-items-center p-4">
+        <h3 class="mb-3">Welcome to Bithy Clinic</h3>
+        <p class="text-center px-2">
+          Register and access medical appointments, prescriptions, and health records.
+        </p>
+        <img src="doctor-explain-coronavirus.png" alt="Healthcare" class="img-fluid mt-3" style="max-height: 200px;">
       </div>
 
-      <!-- Email -->
-      <div class="mb-3">
-        <label for="email" class="form-label">Email address</label>
-        <input
-          type="email"
-          formControlName="email"
-          id="email"
-          class="form-control"
-          [class.is-invalid]="submitted && f['email'].errors"
-          placeholder="Enter your email"
-        />
-        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-          <div *ngIf="f['email'].errors?.['required']">Email is required</div>
-          <div *ngIf="f['email'].errors?.['email']">Enter a valid email</div>
-        </div>
+      <!-- RIGHT PANEL: FORM -->
+      <div class="col-md-7  bg-white p-4">
+        <h4 class="text-center text-primary mb-4 fw-bolder">Create Patient Account</h4>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+          <div class="row g-3">
+
+            <!-- Full Name -->
+            <div class="col-md-12">
+              <label class="form-label">Full Name</label>
+              <input type="text" formControlName="name" class="form-control rounded-pill"
+                     [class.is-invalid]="submitted && f['name'].errors" placeholder="Full Name">
+              <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">Name is required</div>
+            </div>
+
+            <!-- Gender -->
+            <div class="col-md-5">
+              <label class="form-label d-block">Gender</label>
+              <div class="d-flex gap-3">
+                <div class="form-check">
+                  <input type="radio" formControlName="gender" class="form-check-input" value="Male" id="gender">
+                  <label for="male" class="form-check-label">Male</label>
+                </div>
+                <div class="form-check">
+                  <input type="radio" formControlName="gender" class="form-check-input" value="Female" id="gender">
+                  <label for="female" class="form-check-label">Female</label>
+                </div>
+              </div>
+              <div *ngIf="submitted && f['gender'].errors" class="text-danger mt-1">Gender is required</div>
+            </div>
+
+            <!-- DOB -->
+            <div class="col-md-7">
+              <label class="form-label">Date of Birth</label>
+              <input type="date" formControlName="dob" class="form-control rounded-pill"
+                     [class.is-invalid]="submitted && f['dob'].errors">
+              <div *ngIf="submitted && f['dob'].errors" class="invalid-feedback">Date of birth is required</div>
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-12">
+              <label class="form-label">Email</label>
+              <input type="email" formControlName="email" class="form-control rounded-pill"
+                     [class.is-invalid]="submitted && f['email'].errors" placeholder="example@domain.com">
+              <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                <div *ngIf="f['email'].errors?.['required']">Email is required</div>
+                <div *ngIf="f['email'].errors?.['email']">Invalid email</div>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="col-md-6">
+              <label class="form-label">Password</label>
+              <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                     class="form-control rounded-pill" placeholder="Password"
+                     [class.is-invalid]="submitted && f['password'].errors">
+              <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">Password is required</div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="col-md-6">
+              <label class="form-label">Confirm Password</label>
+              <input [type]="showPassword ? 'text' : 'password'" formControlName="confirmPassword"
+                     class="form-control rounded-pill" placeholder="Re-enter Password"
+                     [class.is-invalid]="submitted && (f['confirmPassword'].errors || registerForm.errors?.['mismatch'])">
+              <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">Confirm password is required</div>
+              <div *ngIf="submitted && registerForm.errors?.['mismatch']" class="text-danger mt-1">Passwords do not match</div>
+            </div>
+
+            <!-- Toggle Password -->
+            <div class="col-12 text-end">
+              <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill"
+                      (click)="togglePassword()">
+                {{ showPassword ? 'Hide' : 'Show' }} Passwords
+              </button>
+            </div>
+
+            <!-- Submit -->
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">Register</button>
+            </div>
+
+            <!-- Footer -->
+            <div class="col-12 text-center">
+              <a [routerLink]="['/login']" class="text-decoration-none">Already have an account? Login</a>
+            </div>
+          </div>
+        </form>
       </div>
 
-      <!-- Password -->
-      <div class="mb-3 position-relative">
-        <label for="password" class="form-label">Password</label>
-        <input
-          [type]="showPassword ? 'text' : 'password'"
-          formControlName="password"
-          id="password"
-          class="form-control"
-          [class.is-invalid]="submitted && f['password'].errors"
-          placeholder="Enter password"
-        />
-        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-          Password is required
-        </div>
-      </div>
-
-      <!-- Confirm Password -->
-      <div class="mb-3">
-        <label for="confirmPassword" class="form-label">Confirm Password</label>
-        <input
-          [type]="showPassword ? 'text' : 'password'"
-          formControlName="confirmPassword"
-          id="confirmPassword"
-          class="form-control"
-          [class.is-invalid]="submitted && (f['confirmPassword'].errors || registerForm.errors?.['mismatch'])"
-          placeholder="Re-enter password"
-        />
-        <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
-          Confirm Password is required
-        </div>
-        <div *ngIf="submitted && registerForm.errors?.['mismatch']" class="invalid-feedback">
-          Passwords do not match
-        </div>
-      </div>
-
-      <!-- Toggle show password -->
-      <div class="mb-3">
-        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="togglePassword()">
-          {{ showPassword ? 'Hide' : 'Show' }} Passwords
-        </button>
-      </div>
-
-      <!-- Submit -->
-      <button type="submit" class="btn btn-success w-100 rounded-3">
-        Register
-      </button>
-
-      <!-- Footer -->
-      <div class="text-center mt-3">
-        <a [routerLink]="['/login']">Already have an account? Login</a>
-      </div>
-    </form>
+    </div>
   </div>
 </div>
-

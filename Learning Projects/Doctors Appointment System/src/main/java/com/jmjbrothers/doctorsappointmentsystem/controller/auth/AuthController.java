@@ -71,13 +71,13 @@ public class AuthController {
     }
 
 
-    @PostMapping("/doctor/register")
+   /* @PostMapping("/doctor/register")
     public ResponseEntity<?> registerCompany(@RequestBody DoctorRegisterRequestDto request) {
 
         Doctor doctor = doctorService.registerNewDoctor(request);
 
         return new ResponseEntity<>(doctor, HttpStatus.CREATED);
-    }
+    }*/
 
 
     @PostMapping("/login")
