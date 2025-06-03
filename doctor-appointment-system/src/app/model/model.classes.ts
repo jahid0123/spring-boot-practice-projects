@@ -1,9 +1,8 @@
-export interface Appointment {
-  id: number;
-  date: string;
-  status: 'PENDING' | 'APPROVED' | 'REJECTED';
-  patientName: string;
+export interface AppointmentRequest {
+  patientId: number;
   doctorId: number;
+    date: string;
+  time: string;
 }
 
 export interface DoctorRegisterRequestDto {
@@ -18,6 +17,7 @@ export interface DoctorRegisterRequestDto {
 }
 
 export interface DoctorResponseDto {
+  id: number;
   name: string;
   specialization: string;
   qualification: string;
@@ -26,4 +26,16 @@ export interface DoctorResponseDto {
   phone: string;
   image: string; // image URL or base64
 }
+
+export interface DoctorListDto {
+  id: number;
+  name: string;
+  specialization: string;
+  qualification: string;
+  experience: number;
+  hospitalName: string;
+  phone: string;
+  image: string
+}
+
 

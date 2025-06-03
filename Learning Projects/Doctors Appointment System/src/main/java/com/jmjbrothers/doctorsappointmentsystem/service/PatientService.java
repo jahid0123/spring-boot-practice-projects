@@ -4,8 +4,11 @@ import com.jmjbrothers.doctorsappointmentsystem.dto.PatientRegisterRequestDto;
 import com.jmjbrothers.doctorsappointmentsystem.model.Patient;
 import com.jmjbrothers.doctorsappointmentsystem.model.User;
 import com.jmjbrothers.doctorsappointmentsystem.repository.PatientRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PatientService {
@@ -40,5 +43,11 @@ public class PatientService {
         }else {
             return null;
         }
+    }
+
+    //Get all patients by admin
+    @Transactional
+    public List<Patient> getAllPatients() {
+        return patientRepository.findAll();
     }
 }

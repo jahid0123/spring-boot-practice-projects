@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
@@ -19,18 +20,6 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "appointment_date")
-    private LocalDate appointmentDate;
-
-    @Column(name = "appointment_time")
-    private LocalTime appointmentTime;
-
-    @Enumerated(EnumType.STRING)
-    @Column(length = 255)
-    private Status status;
-
-    private String symptoms;
-
     @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
@@ -38,6 +27,17 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
+
+    @Column(name = "appointment_date")
+    private LocalDate appointmentDate;
+
+    @Column(name = "appointment_time")
+    private LocalTime appointmentTime;
+
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.PENDING;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
 
 
     // getters & setters

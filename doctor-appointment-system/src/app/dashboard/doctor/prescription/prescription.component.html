@@ -1,0 +1,78 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg rounded-4">
+        <div class="card-header bg-dark text-white text-center rounded-top-4">
+          <h4 class="mb-0">Create Prescription</h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="prescriptionForm" (ngSubmit)="onSubmit()">
+
+            <div class="mb-3">
+              <label class="form-label">Symptoms</label>
+              <input type="text" class="form-control" formControlName="symptoms" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Diagnosis</label>
+              <input type="text" class="form-control" formControlName="diagnosis" />
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Appointment ID</label>
+                <input type="number" class="form-control" formControlName="appointmentId" />
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Doctor ID</label>
+                <input type="number" class="form-control" formControlName="doctorId" />
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Patient ID</label>
+                <input type="number" class="form-control" formControlName="patientId" />
+              </div>
+            </div>
+
+            <hr />
+            <h5 class="text-primary">Medicine List</h5>
+
+            <div formArrayName="medicines">
+              <div *ngFor="let med of medicines.controls; let i = index" [formGroupName]="i" class="border rounded-3 p-3 mb-3 shadow-sm bg-light">
+                <h6>Medicine {{ i + 1 }}</h6>
+                <div class="row">
+                  <div class="col-md-4 mb-2">
+                    <input placeholder="Name" class="form-control" formControlName="name" />
+                  </div>
+                  <div class="col-md-4 mb-2">
+                    <input placeholder="Dosage" class="form-control" formControlName="dosage" />
+                  </div>
+                  <div class="col-md-3 mb-2">
+                    <input placeholder="Duration" class="form-control" formControlName="duration" />
+                  </div>
+                  <div class="col-md-1 d-flex align-items-center justify-content-center">
+                    <button type="button" class="btn btn-sm btn-danger" (click)="removeMedicine(i)">
+                      &times;
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <button type="button" class="btn btn-outline-primary rounded-pill" (click)="addMedicine()">
+                + Add Medicine
+              </button>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-success rounded-pill">Submit Prescription</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

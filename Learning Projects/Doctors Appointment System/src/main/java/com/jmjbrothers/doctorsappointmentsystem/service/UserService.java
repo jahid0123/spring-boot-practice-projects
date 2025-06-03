@@ -4,8 +4,11 @@ import com.jmjbrothers.doctorsappointmentsystem.dto.UserRegisterRequestDto;
 import com.jmjbrothers.doctorsappointmentsystem.model.Doctor;
 import com.jmjbrothers.doctorsappointmentsystem.model.User;
 import com.jmjbrothers.doctorsappointmentsystem.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -38,5 +41,11 @@ public class UserService {
         }else {
             return null;
         }
+    }
+
+    //Get all users by admin
+    @Transactional
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }

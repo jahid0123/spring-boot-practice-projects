@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @RequiredArgsConstructor
 @Entity
@@ -38,8 +40,13 @@ public class Doctor implements PortalUser {
 
     private String phone;
 
+    private String image;
+
     @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     private Role role = Role.DOCTOR;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
+
     //private String status; // "PENDING", "APPROVED", "REJECTED"
 }

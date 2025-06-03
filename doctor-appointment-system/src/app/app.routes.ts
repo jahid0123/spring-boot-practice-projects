@@ -10,6 +10,12 @@ import { DoctorHomeComponent } from './dashboard/doctor/doctor-home/doctor-home.
 import { PatientHomeComponent } from './dashboard/patient/patient-home/patient-home.component';
 import { SignupComponent } from './auth/admin/signup/signup.component';
 import { AddDoctorComponent } from './dashboard/admin/add-doctor/add-doctor.component';
+import { PatientAppointmentComponent } from './dashboard/patient/patient-appointment/patient-appointment.component';
+import { PatientFavoriteComponent } from './dashboard/patient/patient-favorite/patient-favorite.component';
+import { PrescriptionComponent } from './dashboard/doctor/prescription/prescription.component';
+import { DoctorSettingsComponent } from './dashboard/doctor/doctor-settings/doctor-settings.component';
+import { DoctorProfileComponent } from './dashboard/doctor/doctor-profile/doctor-profile.component';
+import { DoctorAppointmentComponent } from './dashboard/doctor/doctor-appointment/doctor-appointment.component';
 
 export const routes: Routes = [
   // { path: 'login', component: LoginComponent },
@@ -25,6 +31,8 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'patient-home', pathMatch: 'full' }, // ✅ add this
+      {path: 'favorite', component: PatientFavoriteComponent},
+      {path: 'appointment', component: PatientAppointmentComponent},
       { path: 'patient-home', component: PatientHomeComponent },
     ],
   },
@@ -35,6 +43,10 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'doctor-home', pathMatch: 'full' }, // ✅ add this
       { path: 'doctor-home', component: DoctorHomeComponent },
+      {path: 'prescription', component: PrescriptionComponent},
+      {path: 'doctor-appointment', component: DoctorAppointmentComponent},
+      {path: 'doctor-settings', component: DoctorSettingsComponent},
+      {path: 'doctor-profile', component: DoctorProfileComponent}
     ],
   },
   {

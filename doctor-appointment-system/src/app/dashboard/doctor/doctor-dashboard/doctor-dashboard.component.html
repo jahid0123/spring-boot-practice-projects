@@ -13,12 +13,12 @@
         </a>
       </li>
       <li class="nav-item mb-2">
-        <a class="nav-link text-white" [routerLink]="['/doctor/appointments']">
+        <a class="nav-link text-white" [routerLink]="['/doctor/doctor-appointment']">
           <i class="bi bi-calendar-check me-2"></i> Appointments
         </a>
       </li>
       <li class="nav-item mb-2">
-        <a class="nav-link text-white" [routerLink]="['/doctor/prescriptions']">
+        <a class="nav-link text-white" [routerLink]="['/doctor/prescription']">
           <i class="bi bi-file-medical me-2"></i> Prescriptions
         </a>
       </li>
@@ -51,20 +51,18 @@
               data-bs-toggle="dropdown"
             >
               <i class="fa-solid fa-user fs-4"></i>
-
-              <span class="fw-semibold d-none d-md-inline ms-2">Dr. John</span>
             </a>
             <ul
               class="dropdown-menu dropdown-menu-end"
               aria-labelledby="doctorDropdown"
             >
               <li>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" [routerLink]="['/doctor/doctor-profile']">
                   <i class="bi bi-person-circle me-2"></i>Profile
                 </a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" [routerLink]="['/doctor/doctor-settings']">
                   <i class="bi bi-gear me-2"></i>Settings
                 </a>
               </li>
