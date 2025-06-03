@@ -16,6 +16,9 @@ import { PrescriptionComponent } from './dashboard/doctor/prescription/prescript
 import { DoctorSettingsComponent } from './dashboard/doctor/doctor-settings/doctor-settings.component';
 import { DoctorProfileComponent } from './dashboard/doctor/doctor-profile/doctor-profile.component';
 import { DoctorAppointmentComponent } from './dashboard/doctor/doctor-appointment/doctor-appointment.component';
+import { MyAppointmentComponent } from './dashboard/patient/my-appointment/my-appointment.component';
+import { PatientProfileComponent } from './dashboard/patient/patient-profile/patient-profile.component';
+import { PatientSettingsComponent } from './dashboard/patient/patient-settings/patient-settings.component';
 
 export const routes: Routes = [
   // { path: 'login', component: LoginComponent },
@@ -33,6 +36,9 @@ export const routes: Routes = [
       { path: '', redirectTo: 'patient-home', pathMatch: 'full' }, // ✅ add this
       {path: 'favorite', component: PatientFavoriteComponent},
       {path: 'appointment', component: PatientAppointmentComponent},
+      {path: 'my-appointment', component: MyAppointmentComponent},
+      {path: 'patient-profile', component: PatientProfileComponent},
+      {path: 'patient-settings', component: PatientSettingsComponent},
       { path: 'patient-home', component: PatientHomeComponent },
     ],
   },

@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentService {
@@ -48,8 +49,26 @@ public class AppointmentService {
     }
 
     @Transactional
-    public List<Appointment> getAllAppointmentByPatientId(Long patientId) {
+    public List<AppointmentResponseDto> getAllAppointmentByPatientId(Long patientId) {
 
-        return appointmentRepository.findAllByPatient_Id(patientId);
+        List<Appointment> appointmentList  = appointmentRepository.findAllByPatient_Id(patientId);
+        return appointmentList.stream().map(this:: mapAppointmentResponseDto).collect(Collectors.toList());
+    }
+
+    private AppointmentResponseDto mapAppointmentResponseDto(Appointment appointment) {
+
+        AppointmentResponseDto appointmentResponseDto = new AppointmentResponseDto();
+
+        appointmentResponseDto.setDoctorId(appointment.getDoctor().getId());
+        appointmentResponseDto.setDoctorName(appointment.getDoctor().getName());
+        appointmentResponseDto.setQualification(appointment.getDoctor().getQualification());
+        appointmentResponseDto.setPatientName(appointment.getPatient().getName());
+        appointmentResponseDto.setPatientGender(appointment.getPatient().getGender());
+        appointmentResponseDto.setPatientDob(appointment.getPatient().getDob());
+        appointmentResponseDto.setAppointmentDate(appointment.getAppointmentDate());
+        appointmentResponseDto.setAppointmentTime(appointment.getAppointmentTime());
+        appointmentResponseDto.setAppointmentStatus(appointment.getStatus());
+
+        return appointmentResponseDto;
     }
 }

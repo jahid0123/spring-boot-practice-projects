@@ -1,1 +1,30 @@
-<p>my-appointment works!</p>
+<div class="container mt-4">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col" *ngFor="let appt of appointments">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title text-primary">{{ appt.doctorName }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ appt.qualification }}</h6>
+          
+          <hr>
+
+          <p><strong>Patient:</strong> {{ appt.patientName }}</p>
+          <p><strong>DOB:</strong> {{ appt.patientDob }}</p>
+          <p><strong>Gender:</strong> {{ appt.patientGender }}</p>
+          <p><strong>Appointment Date:</strong> {{ appt.appointmentDate }}</p>
+          <p><strong>Time:</strong> {{ appt.appointmentTime }}</p>
+          <p>
+            <strong>Status:</strong>
+            <span [ngClass]="{
+              'badge bg-success': appt.appointmentStatus === 'CONFIRMED',
+              'badge bg-warning text-dark': appt.appointmentStatus === 'PENDING',
+              'badge bg-danger': appt.appointmentStatus === 'CANCELLED'
+            }">
+              {{ appt.appointmentStatus }}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

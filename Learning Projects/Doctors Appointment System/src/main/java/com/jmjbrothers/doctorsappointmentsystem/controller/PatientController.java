@@ -36,23 +36,23 @@ public class PatientController {
     }
 
     //Get All Prescription By the Patient.
-    @GetMapping("/get/all/prescriptions/by/patient")
+    @GetMapping("/get/all/prescriptions/by")
     public ResponseEntity<?> getPrescriptionByDoctorId(@RequestParam Long id) {
         List<Prescription> prescriptions = prescriptionService.getPrescriptionByPatientId(id);
         return new ResponseEntity<>(prescriptions, HttpStatus.OK);
     }
 
     //Book Appointment By the Patient.
-    @PostMapping("/book/appointment/by/patient")
+    @PostMapping("/book/appointment/by")
     public ResponseEntity<?> bookAppointmentByPatient(@RequestBody AppointmentDto appointmentDto) {
         Appointment appointment = appointmentService.bookAppointmentByPatient(appointmentDto);
         return new ResponseEntity<>(appointment, HttpStatus.CREATED);
     }
 
     //Get All appointment By the Patient.
-    @GetMapping("/get/all/appointment")
-    public ResponseEntity<?> getAllAppointmentByPatientId(@RequestParam Long patientId) {
-        List<Appointment> prescriptions = appointmentService.getAllAppointmentByPatientId(patientId);
+    @GetMapping("/all/appointmentlist")
+    public ResponseEntity<?> getAllAppointmentByPatientId(@RequestParam("id") Long id) {
+        List<AppointmentResponseDto> prescriptions = appointmentService.getAllAppointmentByPatientId(id);
         return new ResponseEntity<>(prescriptions, HttpStatus.OK);
     }
 }

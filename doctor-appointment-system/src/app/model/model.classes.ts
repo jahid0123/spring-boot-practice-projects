@@ -38,4 +38,17 @@ export interface DoctorListDto {
   image: string
 }
 
+export interface GetAppointmentsPatient {
+  doctorId: number;
+  doctorName: string;
+  qualification: string;
+  patientName: string;
+  patientDob: string; // ISO string or convert to string from LocalDate
+  patientGender: string;
+  appointmentDate: string;
+  appointmentTime: string;
+  appointmentStatus: string; // Or use an enum if available
+}
+
+
 
