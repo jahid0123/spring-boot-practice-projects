@@ -3,15 +3,16 @@ package com.jmjbrothers.doctorsappointmentsystem.model;
 
 import com.jmjbrothers.doctorsappointmentsystem.constants.Status;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-@Data
-@RequiredArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "bithy_appointment")
 public class Appointment {

@@ -4,14 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jmjbrothers.doctorsappointmentsystem.common.PortalUser;
 import com.jmjbrothers.doctorsappointmentsystem.constants.Role;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Data
-@RequiredArgsConstructor
 @Table(name = "bithy_patient")
 public class Patient implements PortalUser {
 

@@ -5,7 +5,7 @@
         <div class="card-body">
           <h5 class="card-title text-primary">{{ appt.doctorName }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">{{ appt.qualification }}</h6>
-          
+
           <hr>
 
           <p><strong>Patient:</strong> {{ appt.patientName }}</p>
@@ -16,13 +16,20 @@
           <p>
             <strong>Status:</strong>
             <span [ngClass]="{
-              'badge bg-success': appt.appointmentStatus === 'CONFIRMED',
+              'badge bg-success': appt.appointmentStatus === 'APPROVED',
               'badge bg-warning text-dark': appt.appointmentStatus === 'PENDING',
-              'badge bg-danger': appt.appointmentStatus === 'CANCELLED'
+              'badge bg-danger': appt.appointmentStatus === 'REJECTED'
             }">
               {{ appt.appointmentStatus }}
             </span>
           </p>
+
+          <!-- ✅ Show download button if status is APPROVED -->
+          <div *ngIf="appt.appointmentStatus === 'APPROVED'" class="mt-3">
+            <button class="btn btn-outline-primary w-100" (click)="downloadPrescription(appt.appointmentId)">
+              <i class="bi bi-download"></i> Download Prescription
+            </button>
+          </div>
         </div>
       </div>
     </div>

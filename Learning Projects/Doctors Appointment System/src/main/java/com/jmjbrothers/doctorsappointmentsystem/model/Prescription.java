@@ -2,15 +2,16 @@ package com.jmjbrothers.doctorsappointmentsystem.model;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@RequiredArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "bithy_prescription")
 public class Prescription {
@@ -20,10 +21,10 @@ public class Prescription {
     private Long id;
 
     private String symptoms;
-
     private String diagnosis;
 
-    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL)
+    @ElementCollection
+    @CollectionTable(name = "prescription_medicines", joinColumns = @JoinColumn(name = "prescription_id"))
     private List<Medicine> medicines = new ArrayList<>();
 
     @OneToOne

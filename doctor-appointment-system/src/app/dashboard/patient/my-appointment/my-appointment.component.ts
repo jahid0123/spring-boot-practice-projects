@@ -25,4 +25,11 @@ export class MyAppointmentComponent {
       this.appointments = data;
     });
   }
+
+  downloadPrescription(appointmentId: number): void {
+  // Replace with real implementation
+  // e.g., navigate to download URL or call API and save file
+  console.log('Downloading prescription for appointment:', appointmentId);
+}
+
 }

@@ -40,6 +40,8 @@ export interface DoctorListDto {
 
 export interface GetAppointmentsPatient {
   doctorId: number;
+  patientId: number;
+  appointmentId: number;
   doctorName: string;
   qualification: string;
   patientName: string;
@@ -50,5 +52,28 @@ export interface GetAppointmentsPatient {
   appointmentStatus: string; // Or use an enum if available
 }
 
+export interface Medicine {
+  name: string;
+  dosage: string;
+  frequency: string;
+  duration: string;
+}
 
+export interface PrescriptionRequest {
+  symptoms: string;
+  diagnosis: string;
+  medicines: Medicine[];
+  appointmentId: number;
+  doctorId: number;
+  patientId: number;
+}
+
+export interface PrescriptionDto {
+  symptoms: string;
+  diagnosis: string;
+  medicines: Medicine[];
+  appointmentId: number;
+  doctorId: number;
+  patientId: number;
+}
 

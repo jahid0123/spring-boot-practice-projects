@@ -1,7 +1,9 @@
 package com.jmjbrothers.doctorsappointmentsystem.service;
 
+import com.jmjbrothers.doctorsappointmentsystem.constants.Status;
 import com.jmjbrothers.doctorsappointmentsystem.dto.AppointmentDto;
 import com.jmjbrothers.doctorsappointmentsystem.dto.AppointmentResponseDto;
+import com.jmjbrothers.doctorsappointmentsystem.dto.UpdateAppointmentStatusRequest;
 import com.jmjbrothers.doctorsappointmentsystem.model.Appointment;
 import com.jmjbrothers.doctorsappointmentsystem.model.Doctor;
 import com.jmjbrothers.doctorsappointmentsystem.model.Patient;
@@ -47,6 +49,12 @@ public class AppointmentService {
         return appointmentRepository.save(appointment);
 
     }
+    @Transactional
+    public List<AppointmentResponseDto> getAllAppointmentByDoctorId(Long doctorId) {
+
+        List<Appointment> appointmentList  = appointmentRepository.findAllByDoctor_Id(doctorId);
+        return appointmentList.stream().map(this:: mapAppointmentResponseDto).collect(Collectors.toList());
+    }
 
     @Transactional
     public List<AppointmentResponseDto> getAllAppointmentByPatientId(Long patientId) {
@@ -68,7 +76,23 @@ public class AppointmentService {
         appointmentResponseDto.setAppointmentDate(appointment.getAppointmentDate());
         appointmentResponseDto.setAppointmentTime(appointment.getAppointmentTime());
         appointmentResponseDto.setAppointmentStatus(appointment.getStatus());
+        appointmentResponseDto.setAppointmentId(appointment.getId());
+        appointmentResponseDto.setPatientId(appointment.getPatient().getId());
 
         return appointmentResponseDto;
+    }
+
+    @Transactional
+    public Appointment updateAppointmentStatus(UpdateAppointmentStatusRequest request) {
+        Appointment appointment = appointmentRepository.findById(request.getAppointmentId())
+                .orElseThrow(() -> new RuntimeException("Appointment not found with ID: " + request.getAppointmentId()));
+
+        try {
+            appointment.setStatus(Status.valueOf(request.getStatus()));
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Invalid status: " + request.getStatus());
+        }
+
+        return appointmentRepository.save(appointment);
     }
 }

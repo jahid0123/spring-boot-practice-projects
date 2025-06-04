@@ -1,5 +1,6 @@
 package com.jmjbrothers.doctorsappointmentsystem.service;
 
+import com.jmjbrothers.doctorsappointmentsystem.constants.Status;
 import com.jmjbrothers.doctorsappointmentsystem.dto.PrescriptionDto;
 import com.jmjbrothers.doctorsappointmentsystem.dto.PrescriptionResponseDto;
 import com.jmjbrothers.doctorsappointmentsystem.model.Appointment;
@@ -52,6 +53,10 @@ public class PrescriptionService {
         prescription.setSymptoms(prescriptionDto.getSymptoms());
         prescription.setDiagnosis(prescriptionDto.getDiagnosis());
 
+        appointment.setStatus(Status.APPROVED);
+
+        appointmentRepository.save(appointment);
+
         return prescriptionRepository.save(prescription);
     }
 
@@ -59,12 +64,12 @@ public class PrescriptionService {
     //Get all prescription by doctor id.
     @Transactional
     public List<Prescription> getPrescriptionByDoctorId(Long id) {
-        return prescriptionRepository.findAllByDoctorId(id);
+        return prescriptionRepository.findAllByDoctor_Id(id);
     }
 
     //Get all prescription by patient id.
     @Transactional
     public List<Prescription> getPrescriptionByPatientId(Long id) {
-        return prescriptionRepository.findAllByPatientId(id);
+        return prescriptionRepository.findAllByPatient_Id(id);
     }
 }
