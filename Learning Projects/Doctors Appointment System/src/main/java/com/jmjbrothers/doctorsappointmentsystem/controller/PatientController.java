@@ -3,6 +3,7 @@ package com.jmjbrothers.doctorsappointmentsystem.controller;
 import com.jmjbrothers.doctorsappointmentsystem.dto.AppointmentDto;
 import com.jmjbrothers.doctorsappointmentsystem.dto.AppointmentResponseDto;
 import com.jmjbrothers.doctorsappointmentsystem.dto.DoctorListDto;
+import com.jmjbrothers.doctorsappointmentsystem.dto.PrescriptionResponseDto;
 import com.jmjbrothers.doctorsappointmentsystem.model.Appointment;
 import com.jmjbrothers.doctorsappointmentsystem.model.Prescription;
 import com.jmjbrothers.doctorsappointmentsystem.service.AppointmentService;
@@ -37,9 +38,15 @@ public class PatientController {
 
     //Get All Prescription By the Patient.
     @GetMapping("/get/all/prescriptions/by")
-    public ResponseEntity<?> getPrescriptionByDoctorId(@RequestParam Long id) {
+    public ResponseEntity<?> getPrescriptionByDoctorId(@RequestParam("id") Long id) {
         List<Prescription> prescriptions = prescriptionService.getPrescriptionByPatientId(id);
         return new ResponseEntity<>(prescriptions, HttpStatus.OK);
+    }
+
+    @GetMapping("/get/prescription/by/app")
+    public ResponseEntity<?> getPrescriptionByAppId(@RequestParam Long id) {
+        PrescriptionResponseDto prescriptionByAppId = prescriptionService.getPrescriptionByAppId(id);
+        return new ResponseEntity<>(prescriptionByAppId, HttpStatus.OK);
     }
 
     //Book Appointment By the Patient.

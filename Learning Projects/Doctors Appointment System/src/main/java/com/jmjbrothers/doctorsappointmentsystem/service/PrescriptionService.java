@@ -72,4 +72,11 @@ public class PrescriptionService {
     public List<Prescription> getPrescriptionByPatientId(Long id) {
         return prescriptionRepository.findAllByPatient_Id(id);
     }
+
+    @Transactional
+    public PrescriptionResponseDto getPrescriptionByAppId(Long id) {
+        Prescription getPrescription = prescriptionRepository.findByAppointmentId(id);
+
+        return new PrescriptionResponseDto(getPrescription);
+    }
 }

@@ -40,6 +40,12 @@ public class DoctorController {
         return new ResponseEntity<>(prescriptions, HttpStatus.OK);
     }
 
+    @GetMapping("/get/prescription/by/app")
+    public ResponseEntity<?> getPrescriptionByAppId(@RequestParam Long id) {
+        PrescriptionResponseDto prescriptionByAppId = prescriptionService.getPrescriptionByAppId(id);
+        return new ResponseEntity<>(prescriptionByAppId, HttpStatus.OK);
+    }
+
     @GetMapping("/get/all/app/list/by/me")
     public ResponseEntity<?> getAllAppointmentByDoctorId(@RequestParam("id") Long id) {
         List<AppointmentResponseDto> appointmentList = appointmentService.getAllAppointmentByDoctorId(id);

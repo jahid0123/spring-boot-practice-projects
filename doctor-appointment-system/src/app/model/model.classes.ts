@@ -52,12 +52,7 @@ export interface GetAppointmentsPatient {
   appointmentStatus: string; // Or use an enum if available
 }
 
-export interface Medicine {
-  name: string;
-  dosage: string;
-  frequency: string;
-  duration: string;
-}
+
 
 export interface PrescriptionRequest {
   symptoms: string;
@@ -75,5 +70,27 @@ export interface PrescriptionDto {
   appointmentId: number;
   doctorId: number;
   patientId: number;
+}
+
+export interface Medicine {
+  name: string;
+  dosage: string;
+  frequency: string;
+  duration: string;
+}
+
+
+export interface PrescriptionResponseDto {
+  id: number;
+  symptom: string;
+  diagnosis: string;
+  medicines: Medicine[];
+  dateIssued: string; // ISO format date string (e.g. "2025-06-05")
+  patientName: string;
+  patientDob: string; // ISO format date string
+  doctorName: string;
+  doctorQualification: string;
+  doctorSpecialization: string;
+  doctorHospitalName: string;
 }
 
