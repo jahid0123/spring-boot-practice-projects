@@ -35,12 +35,23 @@ public class AuthController {
 
 
 
-    @PostMapping("/register")
+    @PostMapping("/seller/register")
+    public ResponseEntity<?> registerSeller(@RequestBody RegisterRequest request) {
+        User user = userInfoDetailsService.registerNewSeller(request);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
+
+    @PostMapping("/buyer/register")
+    public ResponseEntity<?> registerBuyer(@RequestBody RegisterRequest request) {
+        User user = userInfoDetailsService.registerNewBuyer(request);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
+
+    @PostMapping("/role/admin/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest request) {
-
         User user = userInfoDetailsService.registerNewUser(request);
-        user.setPassword("null");
-
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 

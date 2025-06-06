@@ -1,0 +1,72 @@
+<nav class="navbar navbar-expand-lg realestate-navbar">
+  <div class="container-fluid">
+    <a class="navbar-brand realestate-brand" [routerLink]="['/seller-dashboard/seller-home']">
+      <i class="bi bi-house-door-fill realestate-brand-icon"></i>
+      <span class="realestate-brand-text">RealEstate Portal</span>
+    </a>
+
+    <button
+      class="navbar-toggler realestate-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#realEstateNavbarContent"
+      aria-controls="realEstateNavbarContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="bi bi-list"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="realEstateNavbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 realestate-nav-links">
+        <li class="nav-item" *ngFor="let item of [
+            { route: '/seller-dashboard/seller-home', icon: 'bi-house-fill', label: 'Home' },
+            { route: '/seller-dashboard/add-property', icon: 'bi-plus-square-fill', label: 'Add Property' },
+          ]">
+          <a class="nav-link realestate-nav-link" [routerLink]="[item.route]">
+            <i class="bi {{ item.icon }} me-2"></i>
+            {{ item.label }}
+          </a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav realestate-user-menu">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle realestate-user-dropdown-toggle"
+            href="#"
+            id="userDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              [src]="'https://i.pravatar.cc/40'"
+              alt="Avatar"
+              width="36"
+              height="36"
+              class="rounded-circle realestate-avatar"
+            />
+            <span class="d-none d-md-inline realestate-username">User</span>
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end realestate-dropdown-menu shadow">
+            <li>
+              <a class="dropdown-item realestate-dropdown-item" [routerLink]="['/user-dashboard/profile']">
+                <i class="bi bi-person-circle me-2"></i>Profile
+              </a>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item realestate-dropdown-item realestate-logout-link" (click)="logout()">
+                <i class="bi bi-box-arrow-right me-2"></i>Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

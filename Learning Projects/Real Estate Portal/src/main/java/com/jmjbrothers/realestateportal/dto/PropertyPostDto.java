@@ -16,7 +16,7 @@ public class PropertyPostDto {
     private String title;
     private String description;
     private String address;
-    private Integer propertyPrice;
+    private Integer price;
 
 
 

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @RequiredArgsConstructor
@@ -41,6 +42,9 @@ public class Property {
 
     @Column(columnDefinition = "CLOB")
     private String address;
+
+    @ElementCollection
+    private List<String> imageListPaths;
 
     @Column(name = "date_posted", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDate datePosted = LocalDate.now();

@@ -11,8 +11,16 @@ import com.jmjbrothers.realestateportal.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,12 +33,12 @@ public class PropertyPostService {
 
 
     @Transactional
-    public PropertyPost postProperty(PropertyPostDto propertyPostDto) {
+    public PropertyPost postProperty(PropertyPostDto propertyPostDto, MultipartFile[] images) throws IOException {
         User user = userRepository.findById(propertyPostDto.getUserID()).orElseThrow(
-                ()-> new RuntimeException("User not found"));
+                () -> new RuntimeException("User not found"));
         System.out.println(user.toString());
 
-        if (user.getPostBalance()<1){
+        if (user.getPostBalance() < 1) {
             System.out.println("No enough remaining post");
             throw new RuntimeException("Insufficient remaining post");
         }
@@ -42,12 +50,31 @@ public class PropertyPostService {
         property.setTitle(propertyPostDto.getTitle());
         property.setDescription(propertyPostDto.getDescription());
         property.setAddress(propertyPostDto.getAddress());
-        property.setPropertyPrice(propertyPostDto.getPropertyPrice());
+        property.setPropertyPrice(propertyPostDto.getPrice());
+
+        List<String> imagePaths = new ArrayList<>();
+
+        if (images != null && images.length > 0) {
+            Path uploadDir = Paths.get("uploads");
+
+            // Ensure upload directory exists only once
+            Files.createDirectories(uploadDir);
+
+            for (MultipartFile file : images) {
+                String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+                Path filePath = uploadDir.resolve(filename);
+
+                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+                imagePaths.add(filename);
+            }
+        }
+
+        property.setImageListPaths(imagePaths);
 
         propertyRepository.save(property);
 
         //deduct credit
-        user.setPostBalance(user.getPostBalance()-1);
+        user.setPostBalance(user.getPostBalance() - 1);
         userRepository.save(user);
 
         //Create new property post
@@ -65,10 +92,7 @@ public class PropertyPostService {
         List<PropertyPost> allPostedProperty = propertyPostRepository.findAll();
 
         //this is the simple way but Difficult to understand
-        List<GetPostedProperty> getPostedPropertyList
-                = allPostedProperty.stream().map(this::getPostedPropertyMapped).collect(Collectors.toList());
-
-        return getPostedPropertyList;
+        return allPostedProperty.stream().map(this::getPostedPropertyMapped).collect(Collectors.toList());
 
 
 /*        //the easy way to mapped list PropertyPost List to GetPostedProperty List
@@ -83,7 +107,7 @@ public class PropertyPostService {
 
 
     //Mapped method PropertyPost class to GetPostedProperty
-    private GetPostedProperty getPostedPropertyMapped(PropertyPost propertyPost){
+    private GetPostedProperty getPostedPropertyMapped(PropertyPost propertyPost) {
         GetPostedProperty getPostedProperty = new GetPostedProperty();
 
         getPostedProperty.setId(propertyPost.getId());
@@ -94,19 +118,16 @@ public class PropertyPostService {
         getPostedProperty.setPropertyPrice(propertyPost.getProperty().getPropertyPrice());
         getPostedProperty.setDatePosted(propertyPost.getDatePosted());
         getPostedProperty.setAddress(propertyPost.getProperty().getAddress());
+        getPostedProperty.setImageUrls(propertyPost.getProperty().getImageListPaths());
 
         return getPostedProperty;
     }
 
     @Transactional
     public List<PropertyPost> allPropertyPostedByMe(Long id) {
-        List<PropertyPost> allPropertyUnlock = propertyPostRepository.findAllByUserId(id);
 
-        return allPropertyUnlock;
+        return propertyPostRepository.findAllByUserId(id);
     }
-
-
-
 
 
     @Transactional
@@ -126,7 +147,7 @@ public class PropertyPostService {
 
     public PropertyPost updateMyPostedProperties(UpdateMyPostedPropertyDto propertyDto) {
         PropertyPost propertyPost = propertyPostRepository.findById(propertyDto.getPostId()).orElseThrow(
-                ()->new RuntimeException("Property not found with id "+propertyDto.getPostId()));
+                () -> new RuntimeException("Property not found with id " + propertyDto.getPostId()));
 
         Property findProperty = propertyRepository.findById(propertyPost.getProperty().getId()).orElse(null);
         findProperty.setType(propertyDto.getType());
@@ -144,11 +165,10 @@ public class PropertyPostService {
     @Transactional
     public List<PostedPropertyResponseDto> allPostedProperty() {
         List<PropertyPost> propertyPosts = propertyPostRepository.findAll();
-        List<PostedPropertyResponseDto> myAllProperty = propertyPosts.stream().map(this::postedPropertyResponseDto).collect(Collectors.toList());
-        return myAllProperty;
+        return propertyPosts.stream().map(this::postedPropertyResponseDto).collect(Collectors.toList());
     }
 
-    private PostedPropertyResponseDto  postedPropertyResponseDto (PropertyPost propertyPost){
+    private PostedPropertyResponseDto postedPropertyResponseDto(PropertyPost propertyPost) {
         PostedPropertyResponseDto myPost = new PostedPropertyResponseDto();
         myPost.setPostId(propertyPost.getId());
         myPost.setUserId(propertyPost.getUser().getId());

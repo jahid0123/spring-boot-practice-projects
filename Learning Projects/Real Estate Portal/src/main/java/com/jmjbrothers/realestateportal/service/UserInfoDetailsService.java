@@ -42,13 +42,14 @@ public class UserInfoDetailsService implements UserDetailsService {
     public User registerNewUser(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())){
-            throw new RuntimeException("User already exist with the email: " + request.getEmail());
+            throw new RuntimeException("Admin already exist with the email: " + request.getEmail());
         }
         User user = new User();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(Role.BUYER);
+        user.setPhone(request.getPhone());
+        user.setRole(Role.ADMIN);
 
         return userRepository.save(user);
 
@@ -118,6 +119,38 @@ public class UserInfoDetailsService implements UserDetailsService {
 
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
+    }
+
+    @Transactional
+    public User registerNewSeller(RegisterRequest request) {
+
+        if (userRepository.existsByEmail(request.getEmail())){
+            throw new RuntimeException("Seller already exist with the email: " + request.getEmail());
+        }
+        User user = new User();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPhone(request.getPhone());
+        user.setRole(Role.SELLER);
+
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public User registerNewBuyer(RegisterRequest request) {
+
+        if (userRepository.existsByEmail(request.getEmail())){
+            throw new RuntimeException("Buyer already exist with the email: " + request.getEmail());
+        }
+        User user = new User();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPhone(request.getPhone());
+        user.setRole(Role.BUYER);
+
+        return userRepository.save(user);
     }
 
 /*    public void changePassword(PasswordChangeRequestDto request) {
