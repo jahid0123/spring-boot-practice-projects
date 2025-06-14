@@ -1,0 +1,124 @@
+<div class="container my-5" *ngIf="property">
+  <!-- Title & Address -->
+  <h2 class="fw-bold mb-1">{{ property.title }}</h2>
+  <p class="text-muted">
+    <i class="bi bi-geo-alt-fill text-danger me-1"></i>{{ property.address }}
+  </p>
+
+  <!-- Image Carousel -->
+  <div
+    id="propertyCarousel"
+    class="carousel slide mb-5 rounded shadow"
+    data-bs-ride="carousel"
+  >
+    <div class="carousel-inner rounded overflow-hidden">
+      <div
+        *ngFor="let img of property.imageUrls; let i = index"
+        class="carousel-item"
+        [ngClass]="{ active: i === 0 }"
+      >
+        <img
+          [src]="'http://localhost:8081/api/auth/images/' + img"
+          class="d-block w-100"
+          alt="Property Image"
+          style="height: 450px; object-fit: cover"
+        />
+      </div>
+    </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#propertyCarousel"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#propertyCarousel"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
+  <!-- Content Layout -->
+  <div class="row g-4">
+    <!-- Left: Description & Info -->
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+          <!-- Price -->
+          <h3 class="text-success fw-bold mb-3">
+            BDT {{ property.propertyPrice }}
+          </h3>
+
+          <!-- Description -->
+          <h5 class="fw-semibold mb-2">Property Description</h5>
+          <p class="text-muted">{{ property.description }}</p>
+
+          <!-- Property Info List -->
+          <div class="row mt-4 text-muted">
+            <div class="col-md-6 mb-3">
+              <strong>Type:</strong> {{ property.type }}
+            </div>
+            <div class="col-md-6 mb-3">
+              <strong>Year Built:</strong> {{ property.propertyYearBuilt }}
+            </div>
+            <div class="col-md-6 mb-3">
+              <strong>Status:</strong>
+              <span
+                class="badge"
+                [ngClass]="property.isAvailable ? 'bg-success' : 'bg-danger'"
+              >
+                {{ property.isAvailable ? "Available" : "Not Available" }}
+              </span>
+            </div>
+            <div class="col-md-6 mb-3">
+              <strong>Date Posted:</strong> {{ property.datePosted }}
+            </div>
+          </div>
+          <button class="btn btn-outline-secondary mb-2" (click)="goBack()">
+            <i class="bi bi-arrow-left"></i> Back
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Stats Card -->
+    <div class="col-lg-4">
+      <div class="card border-0 bg-white shadow-sm rounded-4 p-4">
+        <h5 class="fw-bold mb-3">Quick Features</h5>
+        <ul class="list-unstyled text-muted">
+          <li class="mb-2">
+            <i class="bi bi-door-open-fill me-2 text-primary"></i>
+            <strong>{{ property.propertyBedroom }}</strong> Bedroom
+          </li>
+          <li class="mb-2">
+            <i class="bi bi-badge-cc-fill me-2 text-primary"></i>
+            <strong>{{ property.propertyBathroom }}</strong> Bathroom
+          </li>
+          <li class="mb-2">
+            <i class="bi bi-car-front-fill me-2 text-primary"></i>
+            <strong>{{ property.propertyGarage }}</strong> Garage
+          </li>
+          <li class="mb-2">
+            <i class="bi bi-arrows-fullscreen me-2 text-primary"></i>
+            <strong>{{ property.propertySize }}</strong> sqft
+          </li>
+        </ul>
+
+        <!-- Actions (Optional) -->
+        <div class="d-grid mt-3">
+          <button class="btn btn-outline-primary mb-2" (click)="saveFavorites(property)">
+            <i class="bi bi-heart-fill me-1"></i> Save to Favorites
+          </button>
+          <button class="btn btn-outline-info" (click)="requestInformation(property)">
+            <i class="bi bi-envelope-fill me-1"></i> Request Info
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

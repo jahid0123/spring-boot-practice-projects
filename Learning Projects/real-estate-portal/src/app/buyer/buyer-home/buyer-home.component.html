@@ -1,0 +1,113 @@
+<div id="carouselExample" class="carousel slide">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img
+        src="real-estate-1.jpg"
+        class="d-block w-100"
+        style="height: 400px; object-fit: cover"
+        alt="..."
+      />
+    </div>
+    <div class="carousel-item">
+      <img
+        src="vecteezy3.jpg"
+        class="d-block w-100"
+        style="height: 400px; object-fit: cover"
+        alt="..."
+      />
+    </div>
+    <div class="carousel-item">
+      <img
+        src="vecteezy2.jpeg"
+        class="d-block w-100"
+        style="height: 400px; object-fit: cover"
+        alt="..."
+      />
+    </div>
+  </div>
+
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#carouselExample"
+    data-bs-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#carouselExample"
+    data-bs-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<div class="container my-5">
+    <h1 class="mb-4">Choose your favorites</h1>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    <div class="col" *ngFor="let property of allPost">
+      <div class="card shadow-sm rounded-4 border-0 overflow-hidden position-relative h-100">
+
+        <!-- 🔵 New Badge -->
+        <div class="position-absolute top-0 start-0 m-2">
+          <span class="badge bg-primary rounded-pill px-3 py-1">{{property.datePosted}}</span>
+        </div>
+
+        <!-- ❤️ Favorite Button -->
+        <div class="position-absolute top-0 end-0 m-2">
+          <button class="btn btn-light rounded-circle shadow-sm" (click)="saveFavorites(property)">
+            <i class="bi bi-heart fs-5 text-danger"></i>
+          </button>
+        </div>
+
+        <!-- 🖼️ Property Image -->
+        <img
+          [src]="'http://localhost:8081/api/auth/images/' + property.imageUrls[0]"
+          class="card-img-top"
+          alt="Property Image"
+          style="height: 200px; object-fit: cover;"
+        />
+
+        <!-- 📝 Card Body -->
+        <div class="card-body">
+          <!-- Type -->
+          <p class="text-muted mb-1">
+            <i class="bi bi-circle-fill text-success me-1" style="font-size: 0.6rem;"></i>{{ property.type }}
+          </p>
+
+          <!-- Price -->
+          <h5 class="fw-bold text-dark mb-1">BDT {{ property.propertyPrice }}</h5>
+
+          <!-- Features Inline -->
+          <p class="mb-2 text-dark">
+            <strong>{{ property.propertyBedroom }}</strong> bed
+            &nbsp; <strong>{{ property.propertyBathroom }}</strong> bath
+            &nbsp; <strong>{{ property.propertySize }}</strong> sqft
+          </p>
+
+          <!-- Address -->
+          <p class="text-muted small mb-2">{{ property.address }}</p>
+
+          <!-- 📨 Request Info Button -->
+           <div class="row">
+            <div class="text-start col-md-6">
+            <button class="btn btn-outline-primary btn-sm" (click)="viewDetails(property)">
+              <i class="bi bi-eye-fill ms-1"></i> View Details
+            </button>
+          </div>
+          <div class="text-end col-md-6">
+            <button class="btn btn-outline-primary btn-sm" (click)="requestInformation(property)">
+              <i class="bi bi-envelope-fill me-1"></i> Request Info
+            </button>
+          </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

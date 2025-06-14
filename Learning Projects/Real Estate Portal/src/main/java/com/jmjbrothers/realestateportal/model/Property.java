@@ -30,6 +30,16 @@ public class Property {
     @Column(nullable = false)
     private String title;
 
+    private Integer propertyBedroom;
+
+    private Integer propertyBathroom;
+
+    private Integer propertySize;
+
+    private Integer propertyGarage;
+
+    private Integer propertyYearBuilt;
+
     @Column(columnDefinition = "CLOB")
     private String description;
 
@@ -39,12 +49,11 @@ public class Property {
     @Column(name = "property_price")
     private Integer propertyPrice;
 
-
     @Column(columnDefinition = "CLOB")
     private String address;
 
     @ElementCollection
-    private List<String> imageListPaths;
+    private List<String> imagePaths;
 
     @Column(name = "date_posted", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDate datePosted = LocalDate.now();

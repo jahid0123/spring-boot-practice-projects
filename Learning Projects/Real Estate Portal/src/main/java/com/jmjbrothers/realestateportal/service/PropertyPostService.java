@@ -51,6 +51,11 @@ public class PropertyPostService {
         property.setDescription(propertyPostDto.getDescription());
         property.setAddress(propertyPostDto.getAddress());
         property.setPropertyPrice(propertyPostDto.getPrice());
+        property.setPropertyBathroom(propertyPostDto.getBathroom());
+        property.setPropertyBedroom(propertyPostDto.getBedroom());
+        property.setPropertyGarage(propertyPostDto.getGarage());
+        property.setPropertyYearBuilt(propertyPostDto.getYearBuilt());
+        property.setPropertySize(propertyPostDto.getSize());
 
         List<String> imagePaths = new ArrayList<>();
 
@@ -69,7 +74,7 @@ public class PropertyPostService {
             }
         }
 
-        property.setImageListPaths(imagePaths);
+        property.setImagePaths(imagePaths);
 
         propertyRepository.save(property);
 
@@ -118,15 +123,22 @@ public class PropertyPostService {
         getPostedProperty.setPropertyPrice(propertyPost.getProperty().getPropertyPrice());
         getPostedProperty.setDatePosted(propertyPost.getDatePosted());
         getPostedProperty.setAddress(propertyPost.getProperty().getAddress());
-        getPostedProperty.setImageUrls(propertyPost.getProperty().getImageListPaths());
+        getPostedProperty.setPropertyBedroom(propertyPost.getProperty().getPropertyBedroom());
+        getPostedProperty.setPropertyBathroom(propertyPost.getProperty().getPropertyBathroom());
+        getPostedProperty.setPropertyGarage(propertyPost.getProperty().getPropertyGarage());
+        getPostedProperty.setPropertyYearBuilt(propertyPost.getProperty().getPropertyYearBuilt());
+        getPostedProperty.setPropertySize(propertyPost.getProperty().getPropertySize());
+        getPostedProperty.setImageUrls(propertyPost.getProperty().getImagePaths());
 
         return getPostedProperty;
     }
 
     @Transactional
-    public List<PropertyPost> allPropertyPostedByMe(Long id) {
+    public List<GetPostedProperty> allPropertyPostedByMe(Long id) {
 
-        return propertyPostRepository.findAllByUserId(id);
+        List<PropertyPost> allPosts = propertyPostRepository.findAllByUserId(id);
+
+        return allPosts.stream().map(this::getPostedPropertyMapped).collect(Collectors.toList());
     }
 
 
@@ -145,21 +157,63 @@ public class PropertyPostService {
     }
 
 
-    public PropertyPost updateMyPostedProperties(UpdateMyPostedPropertyDto propertyDto) {
-        PropertyPost propertyPost = propertyPostRepository.findById(propertyDto.getPostId()).orElseThrow(
-                () -> new RuntimeException("Property not found with id " + propertyDto.getPostId()));
+    @Transactional
+    public PropertyPost updateMyPostedProperties(PropertyUpdateDto propertyPostDto, MultipartFile[] images) throws IOException {
+        // 1. Find the PropertyPost
+        PropertyPost existingPost = propertyPostRepository.findById(propertyPostDto.getPostId())
+                .orElseThrow(() -> new RuntimeException("Property post not found with ID " + propertyPostDto.getPostId()));
 
-        Property findProperty = propertyRepository.findById(propertyPost.getProperty().getId()).orElse(null);
-        findProperty.setType(propertyDto.getType());
-        findProperty.setTitle(propertyDto.getTitle());
-        findProperty.setDescription(propertyDto.getDescription());
-        findProperty.setPropertyPrice(propertyDto.getPropertyPrice());
-        findProperty.setAddress(propertyDto.getAddress());
+        // 2. Find the linked Property and User
+        Property property = existingPost.getProperty();
+        User user = userRepository.findById(propertyPostDto.getUserID())
+                .orElseThrow(() -> new RuntimeException("User not found with ID " + propertyPostDto.getUserID()));
 
-        propertyRepository.save(findProperty);
+        // 3. Delete existing images from disk
+        if (property.getImagePaths() != null) {
+            for (String oldImg : property.getImagePaths()) {
+                Path oldPath = Paths.get("uploads").resolve(oldImg);
+                try {
+                    Files.deleteIfExists(oldPath);
+                } catch (IOException e) {
+                    System.err.println("Could not delete old image: " + oldImg);
+                }
+            }
+        }
 
-        return propertyPostRepository.save(propertyPost);
+        // 4. Upload new images
+        List<String> newImagePaths = new ArrayList<>();
+        if (images != null && images.length > 0) {
+            Path uploadDir = Paths.get("uploads");
+            Files.createDirectories(uploadDir);
+
+            for (MultipartFile file : images) {
+                String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+                Path filePath = uploadDir.resolve(filename);
+                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+                newImagePaths.add(filename);
+            }
+        }
+
+        // 5. Update property details
+        property.setUser(user);
+        property.setType(propertyPostDto.getType());
+        property.setTitle(propertyPostDto.getTitle());
+        property.setDescription(propertyPostDto.getDescription());
+        property.setAddress(propertyPostDto.getAddress());
+        property.setPropertyPrice(propertyPostDto.getPrice());
+        property.setPropertyBathroom(propertyPostDto.getBathroom());
+        property.setPropertyBedroom(propertyPostDto.getBedroom());
+        property.setPropertyGarage(propertyPostDto.getGarage());
+        property.setPropertyYearBuilt(propertyPostDto.getYearBuilt());
+        property.setPropertySize(propertyPostDto.getSize());
+        property.setImagePaths(newImagePaths); // ← Important: replace with new images
+
+        propertyRepository.save(property);
+
+        return propertyPostRepository.save(existingPost);
     }
+
+
 
 
     @Transactional

@@ -2,6 +2,7 @@ package com.jmjbrothers.realestateportal.controller;
 
 import com.jmjbrothers.realestateportal.dto.GetPostedProperty;
 import com.jmjbrothers.realestateportal.dto.PropertyInfoRequestDto;
+import com.jmjbrothers.realestateportal.dto.PropertyInfoResponseDto;
 import com.jmjbrothers.realestateportal.model.PropertyInfoRequest;
 import com.jmjbrothers.realestateportal.service.PropertyInfoRequestService;
 import com.jmjbrothers.realestateportal.service.PropertyPostService;
@@ -26,7 +27,7 @@ public class BuyerController {
     private final PropertyInfoRequestService propertyUnlockService;
     private final PropertyPostService propertyPostService;
 
-    @PostMapping("/property/request")
+    @PostMapping("/property/info/request")
     public ResponseEntity<?> propertyUnlock(@RequestBody PropertyInfoRequestDto propertyUnlockDto){
         PropertyInfoRequest propertyUnlock = propertyUnlockService.propertyInfoRequest(propertyUnlockDto);
         if (propertyUnlock == null)
@@ -34,9 +35,9 @@ public class BuyerController {
         return new ResponseEntity<>(propertyUnlock, HttpStatus.OK);
     }
 
-    @GetMapping("/property/request/me")
+    @GetMapping("/property/info/request/by/me")
     public ResponseEntity<?> getAllPropertyUnlockById(@RequestParam Long id){
-        List<PropertyInfoRequest> propertyInfoRequests = propertyUnlockService.allPropertyInfoRequestById(id);
+        List<PropertyInfoResponseDto> propertyInfoRequests = propertyUnlockService.allPropertyInfoRequestById(id);
         if (propertyInfoRequests == null){
             return ResponseEntity.badRequest().body("No unlock property yet");
         }

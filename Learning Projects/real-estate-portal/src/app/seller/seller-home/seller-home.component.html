@@ -1,1 +1,89 @@
-<p>seller-home works!</p>
+<div class="container my-5">
+  <div class="row gy-5">
+    <div class="col-12" *ngFor="let property of allPost">
+      <div
+        class="card shadow-sm rounded-4 d-flex flex-row overflow-hidden position-relative"
+      >
+        <!-- 📸 Left: First Image -->
+        <img
+          [src]="
+            'http://localhost:8081/api/auth/images/' + property.imageUrls[0]
+          "
+          class="img-fluid"
+          alt="Property Image"
+          style="width: 220px; height: 200px; object-fit: cover"
+        />
+
+        <!-- 📝 Right: Info Section -->
+        <div class="flex-grow-1 p-3 d-flex flex-column justify-content-between">
+          <!-- 🏷 Title, Type, Price -->
+          <div>
+            <h5 class="fw-bold mb-1">{{ property.title }}</h5>
+            <p class="text-muted mb-1">
+              {{ property.type }} • Built in {{ property.propertyYearBuilt }}
+            </p>
+            <p class="text-success fw-semibold mb-2">
+              ৳ {{ property.propertyPrice }}
+            </p>
+            <p class="mb-1">
+              <i class="bi bi-geo-alt-fill me-1 text-danger"></i>
+              {{ property.address }}
+            </p>
+          </div>
+
+          <!-- 📊 Property Features -->
+          <div class="d-flex flex-wrap gap-3 text-muted small">
+            <div>
+              <i class="bi bi-door-open-fill me-1"></i
+              >{{ property.propertyBedroom }} Bed
+            </div>
+            <div>
+              <i class="bi bi-badge-cc-fill me-1"></i
+              >{{ property.propertyBathroom }} Bath
+            </div>
+            <div>
+              <i class="bi bi-arrows-fullscreen me-1"></i
+              >{{ property.propertySize }} sqft
+            </div>
+            <div>
+              <i class="bi bi-car-front-fill me-1"></i
+              >{{ property.propertyGarage }} Garage
+            </div>
+            <div>
+              <i
+                class="bi bi-check-circle-fill me-1 text-success"
+                *ngIf="property.isAvailable"
+              ></i>
+              <i
+                class="bi bi-x-circle-fill me-1 text-danger"
+                *ngIf="!property.isAvailable"
+              ></i>
+              {{ property.isAvailable ? "Available" : "Not Available" }}
+            </div>
+          </div>
+
+          <!-- 📅 Date Posted -->
+          <div class="text-end text-muted small mt-2">
+            Posted on: {{ property.datePosted }}
+          </div>
+        </div>
+
+        <!-- 🛠️ Edit/Delete -->
+        <div class="position-absolute top-0 end-0 p-2">
+          <button
+            class="btn btn-sm btn-outline-secondary me-2"
+            (click)="editProperty(property)"
+          >
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+          <button
+            class="btn btn-sm btn-outline-danger"
+            (click)="deleteProperty(property.id)"
+          >
+            <i class="bi bi-trash-fill"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

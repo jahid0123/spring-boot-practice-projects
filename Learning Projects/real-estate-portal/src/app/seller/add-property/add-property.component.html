@@ -1,113 +1,168 @@
-<form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" class="container mt-5">
-  <div class="card shadow rounded-4 border-0 bg-light">
-    <div class="card-body p-4">
-      <h3 class="card-title mb-4 fw-bold text-primary">
-        <i class="bi bi-building-add-fill me-3"></i>Post Your Property
-      </h3>
+<form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" class="container my-5">
+  <div class="card border-0 rounded-4 shadow-lg overflow-hidden">
 
-      <div class="row g-3">
+    <!-- Header -->
+    <div class="card-header bg-secondary text-white py-4">
+      <h3 class="mb-0 fw-bold">
+        <i class="bi bi-house-add-fill me-2"></i>
+        {{ editData ? 'Update Property' : 'Add Property' }}
+      </h3>
+    </div>
+
+    <!-- Body -->
+    <div class="card-body bg-white p-4">
+      <div class="row g-4">
+
         <!-- Title -->
-        <div class="col-md-6">
-          <label class="form-label fw-semibold">
-            <i class="bi bi-pencil-square me-1"></i>Title
-          </label>
-          <input
-            type="text"
-            formControlName="title"
-            class="form-control rounded-pill"
-            placeholder="Enter property title"
-          />
+        <div class="col-md-12">
+          <label class="form-label fw-semibold">Title</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-pencil-square"></i></span>
+            <input type="text" formControlName="title" class="form-control" placeholder="Enter property title" />
+          </div>
         </div>
 
-        <!-- Category -->
+        <!-- Type -->
         <div class="col-md-6">
-          <label class="form-label fw-semibold">
-            <i class="bi bi-list-ul me-1"></i>Type
-          </label>
-          <select formControlName="type" class="form-select rounded-pill">
-            <option value="" disabled>Select Type</option>
-            <option *ngFor="let cat of types" [value]="cat">
-              {{ cat }}
-            </option>
-          </select>
+          <label class="form-label fw-semibold">Type</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-list-ul"></i></span>
+            <select formControlName="type" class="form-select">
+              <option value="" disabled>Select Type</option>
+              <option *ngFor="let cat of types" [value]="cat">{{ cat }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Bedroom -->
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Bedroom</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-door-open-fill"></i></span>
+            <select formControlName="bedroom" class="form-select">
+              <option value="" disabled>Select</option>
+              <option *ngFor="let bed of bedroomOptions" [value]="bed">{{ bed === 0 ? 'None' : bed }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Bathroom -->
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Bathroom</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-droplet-fill"></i></span>
+            <select formControlName="bathroom" class="form-select">
+              <option value="" disabled>Select</option>
+              <option *ngFor="let bath of bathroomOptions" [value]="bath">{{ bath === 0 ? 'None' : bath }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Garage -->
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Garage</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-car-front-fill"></i></span>
+            <select formControlName="garage" class="form-select">
+              <option value="" disabled>Select</option>
+              <option *ngFor="let g of garageOptions" [value]="g">{{ g === 0 ? 'None' : g }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Size -->
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Size (sqft)</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-arrows-fullscreen"></i></span>
+            <input type="number" formControlName="size" class="form-control" placeholder="Enter size in sqft" />
+          </div>
+        </div>
+
+        <!-- Year Built -->
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Year Built</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-calendar-event-fill"></i></span>
+            <input type="number" formControlName="yearBuilt" class="form-control" placeholder="e.g. 2015" />
+          </div>
         </div>
 
         <!-- Description -->
         <div class="col-12">
-          <label class="form-label fw-semibold">
-            <i class="bi bi-chat-text-fill me-1"></i>Description
-          </label>
+          <label class="form-label fw-semibold">Description</label>
           <textarea
             formControlName="description"
             rows="3"
-            class="form-control rounded"
+            class="form-control"
             placeholder="Write detailed description here..."
           ></textarea>
         </div>
 
-        <!-- Rent Amount -->
+        <!-- Address -->
         <div class="col-md-12">
-          <label class="form-label fw-semibold">
-            <i class="bi bi-cash-stack me-1"></i>(৳) Price (Property Price not fixed)
-          </label>
-          <input
-            type="number"
-            formControlName="price"
-            class="form-control rounded-pill"
-            placeholder="Enter amount"
-          />
+          <label class="form-label fw-semibold">Address</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-geo-alt-fill"></i></span>
+            <input
+              type="text"
+              formControlName="address"
+              class="form-control"
+              placeholder="e.g. Sector 11, Uttara, Dhaka"
+            />
+          </div>
         </div>
 
-        <!-- Address -->
-        <div class="col-12">
-          <label class="form-label fw-semibold">
-            <i class="bi bi-geo-alt-fill me-1"></i>Full Address
-          </label>
-          <input
-            type="text"
-            formControlName="address"
-            class="form-control rounded-pill"
-            placeholder="Full address"
-          />
+        <!-- Price -->
+        <div class="col-md-5">
+          <label class="form-label fw-semibold">Price (৳)</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-cash-stack"></i></span>
+            <input type="number" formControlName="price" class="form-control" placeholder="Enter price" />
+          </div>
         </div>
 
         <!-- Upload Images -->
-        <div class="col-12">
-          <label class="form-label fw-semibold">
-            <i class="bi bi-images me-1"></i>Upload Property Pictures
-          </label>
+        <div class="col-md-7">
+          <label class="form-label fw-semibold">Upload Images</label>
           <input
             type="file"
-            class="form-control rounded-pill"
+            class="form-control"
             (change)="onFileSelected($event)"
             multiple
             accept="image/png, image/jpeg"
           />
-          <small class="form-text text-muted">
-            Supported formats: JPG, PNG. You can upload multiple files.
-          </small>
+          <div class="form-text text-muted">Upload multiple JPG or PNG images.</div>
 
-          <!-- Image Preview -->
-          <div class="mt-3 d-flex flex-wrap gap-2">
-            <img
-              *ngFor="let img of previewUrls"
-              [src]="img"
-              alt="Preview"
-              class="rounded shadow-sm"
-              style="width: 80px; height: 80px; object-fit: cover"
-            />
+          <!-- New Image Previews -->
+          <div class="row mt-2 g-2" *ngIf="previewUrls.length > 0">
+            <div class="col-auto position-relative" *ngFor="let img of previewUrls; let i = index">
+              <img [src]="img" alt="Preview" class="img-thumbnail shadow-sm"
+                   style="width: 90px; height: 90px; object-fit: cover;" />
+              <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 bg-danger"
+                      (click)="removeSelectedImage(i)" style="transform: scale(0.7);"></button>
+            </div>
+          </div>
+
+          <!-- Existing Image Previews -->
+          <div class="row mt-2 g-2" *ngIf="existingImageUrls.length > 0">
+            <div class="col-auto position-relative" *ngFor="let img of existingImageUrls; let j = index">
+              <img [src]="img" alt="Existing" class="img-thumbnail shadow-sm border border-success"
+                   style="width: 90px; height: 90px; object-fit: cover;" />
+              <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 bg-danger"
+                      (click)="removeExistingImage(j)" style="transform: scale(0.7);"></button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Submit Button -->
-      <div class="text-end mt-4">
-        <button
-          type="submit"
-          class="btn btn-primary btn-lg rounded-pill px-5 fw-bold"
-        >
-          <i class="bi bi-upload me-2"></i>Post Property
-        </button>
+        <!-- Submit -->
+        <div class="col-12 text-end mt-4">
+          <button type="submit" class="btn btn-info btn-lg rounded-pill px-5 fw-bold">
+            <i class="bi" [ngClass]="editData ? 'bi-arrow-repeat' : 'bi-upload'"></i>
+            {{ editData ? 'Update Property' : 'Post Property' }}
+          </button>
+        </div>
+
       </div>
     </div>
   </div>

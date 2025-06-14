@@ -1,0 +1,66 @@
+<div class="container my-5">
+  <h3 class="fw-bold mb-4">Favorite Properties</h3>
+
+  <div *ngIf="favoriteProperties.length > 0; else noFavorites">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-3 g-4">
+      <div class="col" *ngFor="let property of favoriteProperties">
+        <div class="card h-100 shadow-sm rounded-4 overflow-hidden">
+
+          <!-- 📸 Image -->
+          <img
+            [src]="'http://localhost:8081/api/auth/images/' + property.imageUrls[0]"
+            class="card-img-top"
+            alt="Property Image"
+            style="height: 200px; object-fit: cover;"
+          />
+
+          <!-- 📝 Card Body -->
+          <div class="card-body d-flex flex-column justify-content-between">
+            <h5 class="fw-bold">{{ property.title }}</h5>
+            <p class="text-muted mb-1">
+              {{ property.type }} • Built in {{ property.propertyYearBuilt }}
+            </p>
+            <p class="text-success fw-semibold mb-2">৳ {{ property.propertyPrice }}</p>
+            <p class="mb-2">
+              <i class="bi bi-geo-alt-fill text-danger me-1"></i>{{ property.address }}
+            </p>
+
+            <div class="d-flex flex-wrap gap-2 text-muted small mb-3">
+              <span><i class="bi bi-door-open-fill me-1"></i>{{ property.propertyBedroom }} Bed</span>
+              <span><i class="bi bi-badge-cc-fill me-1"></i>{{ property.propertyBathroom }} Bath</span>
+              <span><i class="bi bi-arrows-fullscreen me-1"></i>{{ property.propertySize }} sqft</span>
+              <span><i class="bi bi-car-front-fill me-1"></i>{{ property.propertyGarage }} Garage</span>
+              <span>
+                <i class="bi me-1"
+                  [ngClass]="property.isAvailable ? 'bi-check-circle-fill text-success' : 'bi-x-circle-fill text-danger'">
+                </i>
+                {{ property.isAvailable ? 'Available' : 'Not Available' }}
+              </span>
+            </div>
+
+            <div class="d-flex justify-content-between mt-auto col-md-12">
+              <button class="btn btn-outline-info btn-sm col-md-6" (click)="viewDetails(property)">
+                <i class="bi bi-eye-fill me-1"></i> View
+              </button>
+              <button class="btn btn-outline-danger btn-sm col-md-6" (click)="removeFromFavorites(property)">
+                <i class="bi bi-trash-fill me-1"></i> Remove
+              </button>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="card-footer text-muted small text-end">
+            Posted on: {{ property.datePosted }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ❌ Empty -->
+  <ng-template #noFavorites>
+    <div class="alert alert-info text-center">
+      <i class="bi bi-info-circle-fill me-2"></i>No properties saved as favorites.
+    </div>
+  </ng-template>
+</div>

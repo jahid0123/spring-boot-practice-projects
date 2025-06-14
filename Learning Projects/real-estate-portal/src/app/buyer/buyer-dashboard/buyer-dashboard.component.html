@@ -1,1 +1,77 @@
-<p>buyer-dashboard works!</p>
+<nav class="navbar navbar-expand-lg bg-white shadow-sm px-4 py-3">
+  <div class="container-fluid">
+    <!-- Brand -->
+    <a class="navbar-brand d-flex align-items-center gap-2 text-dark fw-bold fs-4" [routerLink]="['/buyer-dashboard/buyer-home']">
+      <i class="bi bi-house-heart-fill text-primary fs-3"></i>
+      RealEstate Buyer
+    </a>
+
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarBuyer">
+      <i class="bi bi-list fs-3 text-dark"></i>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="navbarBuyer">
+      <!-- Left Navigation -->
+      <ul class="navbar-nav ms-auto align-items-center gap-3">
+        <li class="nav-item">
+          <a class="nav-link text-dark d-flex align-items-center gap-1" [routerLink]="['/buyer-dashboard/buyer-home']">
+            <i class="bi bi-house-door-fill text-primary"></i> Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark d-flex align-items-center gap-1" [routerLink]="['/buyer-dashboard/buyer-favorites']">
+            <i class="bi bi-heart-fill text-danger"></i> Favorites
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark d-flex align-items-center gap-1" [routerLink]="['/buyer-dashboard/buyer-request']">
+            <i class="bi bi-calendar-check-fill text-success"></i> Property Request
+          </a>
+        </li>
+      </ul>
+
+      <!-- Right Section -->
+      <ul class="navbar-nav ms-auto align-items-center gap-3">
+        <!-- Notifications -->
+        <li class="nav-item position-relative">
+          <a class="nav-link text-dark" [routerLink]="['/buyer-dashboard/buyer-home']">
+            <i class="bi bi-bell-fill fs-5"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              
+            </span>
+          </a>
+        </li>
+
+        <!-- User Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-dark d-flex align-items-center" href="#" id="userDropdown" data-bs-toggle="dropdown">
+            <img src="https://i.pravatar.cc/40" class="rounded-circle border border-2 border-primary" width="36" height="36" alt="User" />
+            <span class="ms-2 d-none d-md-inline fw-medium">Buyer</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm mt-2" aria-labelledby="userDropdown">
+            <li>
+              <a class="dropdown-item" [routerLink]="['/buyer-dashboard/buyer-profile']">
+                <i class="bi bi-person-fill text-primary me-2"></i> Profile
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['/buyer-dashboard/buyer-settings']">
+                <i class="bi bi-gear-fill text-warning me-2"></i> Settings
+              </a>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item text-danger" (click)="logout()">
+                <i class="bi bi-box-arrow-right me-2"></i> Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

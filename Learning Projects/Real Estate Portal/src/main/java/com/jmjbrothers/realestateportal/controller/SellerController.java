@@ -3,12 +3,15 @@ package com.jmjbrothers.realestateportal.controller;
 
 import com.jmjbrothers.realestateportal.dto.GetPostedProperty;
 import com.jmjbrothers.realestateportal.dto.PropertyPostDto;
+import com.jmjbrothers.realestateportal.dto.PropertyUpdateDto;
 import com.jmjbrothers.realestateportal.dto.UpdateMyPostedPropertyDto;
 import com.jmjbrothers.realestateportal.model.PropertyPost;
 import com.jmjbrothers.realestateportal.service.PropertyPostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Slf4j
@@ -60,14 +66,14 @@ public class SellerController {
     }
 
     @GetMapping("/property/posted/me")
-    public ResponseEntity<List<PropertyPost>> getMyPostedProperties(@RequestParam Long id) {
-        List<PropertyPost> postedPropertyByMe = propertyPostService.allPropertyPostedByMe(id);
+    public ResponseEntity<?> getMyPostedProperties(@RequestParam Long id) {
+        List<GetPostedProperty> postedPropertyByMe = propertyPostService.allPropertyPostedByMe(id);
 
         return new ResponseEntity<>(postedPropertyByMe, HttpStatus.OK);
 
     }
 
-    @DeleteMapping("/property/posted/delete")
+    @DeleteMapping("/posted/property/delete")
     public ResponseEntity<?> deleteMyPostedProperties(@RequestParam Long id) {
         String deleteMyPostedProperties = propertyPostService.deleteMyPostedProperties(id);
 
@@ -75,12 +81,35 @@ public class SellerController {
 
     }
 
-    @PutMapping("/property/posted/update")
-    public ResponseEntity<?> updateMyPostedProperties(@RequestBody UpdateMyPostedPropertyDto propertyDto) {
-        PropertyPost updateMyPostedProperties = propertyPostService.updateMyPostedProperties(propertyDto);
-        return new ResponseEntity<>(updateMyPostedProperties, HttpStatus.OK);
-
+    @PutMapping(value = "/posted/property/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateMyPostedProperties(
+            @RequestPart("property") PropertyUpdateDto propertyDto,
+            @RequestPart(value = "images", required = false) MultipartFile[] images
+    ) throws IOException {
+        PropertyPost updated = propertyPostService.updateMyPostedProperties(propertyDto, images);
+        return ResponseEntity.ok(updated);
     }
+
+
+//    @GetMapping("/images/{filename:.+}")
+//    public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
+//        Path imagePath = Paths.get("uploads").resolve(filename).normalize();
+//
+//        try {
+//            Resource resource = new UrlResource(imagePath.toUri());
+//            if (resource.exists()) {
+//                return ResponseEntity.ok()
+//                        .contentType(MediaType.IMAGE_JPEG) // or detect dynamically
+//                        .body(resource);
+//            } else {
+//                return ResponseEntity.notFound().build();
+//            }
+//        } catch (MalformedURLException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
+
+
 
 
 }

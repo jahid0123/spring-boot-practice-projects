@@ -14,11 +14,13 @@ public class PropertyPostDto {
     @Enumerated(value = EnumType.STRING)
     private Type type;
     private String title;
+    private Integer bedroom;
+    private Integer bathroom;
+    private Integer size;
+    private Integer garage;
+    private Integer yearBuilt;
     private String description;
     private String address;
     private Integer price;
-
-
-
 
 }

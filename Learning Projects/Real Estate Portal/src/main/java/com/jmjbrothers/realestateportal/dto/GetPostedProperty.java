@@ -14,6 +14,11 @@ public class GetPostedProperty {
     private Long id;
     private Type type;
     private String title;
+    private Integer propertyBedroom;
+    private Integer propertyBathroom;
+    private Integer propertySize;
+    private Integer propertyGarage;
+    private Integer propertyYearBuilt;
     private String description;
     private Boolean isAvailable;
     private Integer propertyPrice;
