@@ -9,7 +9,8 @@ import { GetAppointmentsPatient } from '../../../../model/model.classes';
 export class DoctorAppointmentService {
 
    private getMyAppointmentApiUrl = 'http://localhost:8081/api/doctor/get/all/app/list/by/me';
-    private updateAppointmentStatusApiUrl = 'http://localhost:8081/api/doctor/update/appointment/status';
+   private getAllAppointmentApiUrl = 'http://localhost:8081/api/admin/get/all/app/list';
+  private updateAppointmentStatusApiUrl = 'http://localhost:8081/api/doctor/update/appointment/status';
    private generatePrescriptionApiUrl = 'http://localhost:8081/api/doctor/prescription/generate';
 
   constructor(private http: HttpClient) {}
@@ -20,6 +21,10 @@ export class DoctorAppointmentService {
     const doctorId = Number(localStorage.getItem('id'));
     const params = new HttpParams().set('id', doctorId.toString());
     return this.http.get<GetAppointmentsPatient[]>(this.getMyAppointmentApiUrl,{ params });
+  }
+
+  getAllAppointments(): Observable<GetAppointmentsPatient[]> {
+    return this.http.get<GetAppointmentsPatient[]>(this.getAllAppointmentApiUrl);
   }
 
   // 3. Update appointment status (Approve or Reject)

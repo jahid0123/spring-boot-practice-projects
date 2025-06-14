@@ -20,6 +20,8 @@ import { MyAppointmentComponent } from './dashboard/patient/my-appointment/my-ap
 import { PatientProfileComponent } from './dashboard/patient/patient-profile/patient-profile.component';
 import { PatientSettingsComponent } from './dashboard/patient/patient-settings/patient-settings.component';
 import { ViewPrescriptionComponent } from './dashboard/patient/view-prescription/view-prescription.component';
+import { ManageUsersComponent } from './dashboard/admin/manage-users/manage-users.component';
+import { ManageAppointmentsComponent } from './dashboard/admin/manage-appointments/manage-appointments.component';
 
 export const routes: Routes = [
   // { path: 'login', component: LoginComponent },
@@ -28,19 +30,19 @@ export const routes: Routes = [
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  {path: 'signup', component: SignupComponent},
+  { path: 'signup', component: SignupComponent },
   {
     path: 'patient',
     component: PatientDashboardComponent,
     canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'patient-home', pathMatch: 'full' }, // ✅ add this
-      {path: 'favorite', component: PatientFavoriteComponent},
-      {path: 'appointment', component: PatientAppointmentComponent},
-      {path: 'view-prescription', component: ViewPrescriptionComponent},
-      {path: 'my-appointment', component: MyAppointmentComponent},
-      {path: 'patient-profile', component: PatientProfileComponent},
-      {path: 'patient-settings', component: PatientSettingsComponent},
+      { path: 'favorite', component: PatientFavoriteComponent },
+      { path: 'appointment', component: PatientAppointmentComponent },
+      { path: 'view-prescription', component: ViewPrescriptionComponent },
+      { path: 'my-appointment', component: MyAppointmentComponent },
+      { path: 'patient-profile', component: PatientProfileComponent },
+      { path: 'patient-settings', component: PatientSettingsComponent },
       { path: 'patient-home', component: PatientHomeComponent },
     ],
   },
@@ -51,11 +53,11 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'doctor-home', pathMatch: 'full' }, // ✅ add this
       { path: 'doctor-home', component: DoctorHomeComponent },
-      {path: 'prescription', component: PrescriptionComponent},
-      {path: 'doctor-appointment', component: DoctorAppointmentComponent},
-      {path: 'view-prescription', component: ViewPrescriptionComponent},
-      {path: 'doctor-settings', component: DoctorSettingsComponent},
-      {path: 'doctor-profile', component: DoctorProfileComponent}
+      { path: 'prescription', component: PrescriptionComponent },
+      { path: 'doctor-appointment', component: DoctorAppointmentComponent },
+      { path: 'view-prescription', component: ViewPrescriptionComponent },
+      { path: 'doctor-settings', component: DoctorSettingsComponent },
+      { path: 'doctor-profile', component: DoctorProfileComponent },
     ],
   },
   {
@@ -65,7 +67,9 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'admin-home', pathMatch: 'full' }, // ✅ add this
       { path: 'admin-home', component: AdminHomeComponent },
-      {path: 'add-doctor', component: AddDoctorComponent},
+      { path: 'add-doctor', component: AddDoctorComponent },
+      { path: 'manage-users', component: ManageUsersComponent },
+      { path: 'manage-appointments', component: ManageAppointmentsComponent },
     ],
   },
 

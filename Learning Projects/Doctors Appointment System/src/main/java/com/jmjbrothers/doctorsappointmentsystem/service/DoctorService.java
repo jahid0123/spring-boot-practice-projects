@@ -1,5 +1,6 @@
 package com.jmjbrothers.doctorsappointmentsystem.service;
 
+import com.jmjbrothers.doctorsappointmentsystem.dto.DoctorDto;
 import com.jmjbrothers.doctorsappointmentsystem.dto.DoctorListDto;
 import com.jmjbrothers.doctorsappointmentsystem.dto.DoctorRegisterRequestDto;
 import com.jmjbrothers.doctorsappointmentsystem.model.Doctor;
@@ -68,7 +69,24 @@ public class DoctorService {
 
     //Get all doctors by admin
     @Transactional
-    public List<Doctor> getAllDoctors() {
-        return doctorRepository.findAll();
+    public List<DoctorDto> getAllDoctors() {
+        List<Doctor> doctorList = doctorRepository.findAll();
+        return doctorList.stream().map(this::mappedDoctorDto).collect(Collectors.toList());
+    }
+
+    private DoctorDto mappedDoctorDto(Doctor doctor) {
+
+        DoctorDto doctorDto = new DoctorDto();
+        doctorDto.setId(doctor.getId());
+        doctorDto.setName(doctor.getName());
+        doctorDto.setEmail(doctor.getEmail());
+        doctorDto.setCreatedAt(doctor.getCreatedAt());
+        doctorDto.setExperience(doctor.getExperience());
+        doctorDto.setHospitalName(doctor.getHospitalName());
+        doctorDto.setSpecialization(doctor.getSpecialization());
+        doctorDto.setPhone(doctor.getPhone());
+        doctorDto.setQualification(doctor.getQualification());
+
+        return doctorDto;
     }
 }

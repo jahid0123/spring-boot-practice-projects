@@ -41,17 +41,18 @@
     </div>
 
     <!-- Action Buttons -->
-      <button class="btn btn-primary btn-sm"
-              [disabled]="appt.appointmentStatus !== 'CONFIRMED'"
-              (click)="generatePrescription(appt)">
-        Generate Prescription
+    <div class="mt-3 d-flex gap-2 justify-content-end">
+      <button class="btn btn-outline-success btn-sm"
+              *ngIf="appt.appointmentStatus === 'PENDING'"
+              (click)="updateStatus(appt.appointmentId, 'CONFIRMED')">
+        Confirmed
       </button>
 
-      <button class="btn btn-primary btn-sm"
-              [disabled]="appt.appointmentStatus !== 'APPROVED'"
-              (click)="generatePrescription(appt)">
-        Download Prescription
+      <button class="btn btn-outline-danger btn-sm"
+              *ngIf="appt.appointmentStatus === 'PENDING'"
+              (click)="updateStatus(appt.appointmentId, 'REJECTED')">
+        Reject
       </button>
-
     </div>
   </div>
+</div>

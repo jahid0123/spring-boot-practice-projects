@@ -48,6 +48,4 @@ public class Doctor implements PortalUser {
     private Role role = Role.DOCTOR;
 
     private LocalDateTime createdAt = LocalDateTime.now();
-
-    //private String status; // "PENDING", "APPROVED", "REJECTED"
 }

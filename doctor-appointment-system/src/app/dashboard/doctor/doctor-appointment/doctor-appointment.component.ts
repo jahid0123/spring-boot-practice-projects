@@ -25,8 +25,8 @@ export class DoctorAppointmentComponent implements OnInit{
 
     this.doctorService.getAppointmentsByDoctorId().subscribe({
       next: (res) => {
-        this.appointments = res;
-        //this.approvedAppointments = res.filter(appointment => appointment.appointmentStatus?.toUpperCase() === 'APPROVED');
+        //this.appointments = res;
+        this.appointments = res.filter(appointment => appointment.appointmentStatus?.toUpperCase() === 'CONFIRMED');
       },
       error: (err) =>{
         console.error(err);

@@ -15,12 +15,11 @@ import { Router } from '@angular/router';
   styleUrl: './patient-home.component.css',
 })
 export class PatientHomeComponent implements OnInit {
-
   doctors: DoctorListDto[] = [];
 
   constructor(
     private patientHomeService: PatientHomeService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +37,22 @@ export class PatientHomeComponent implements OnInit {
   }
 
   saveFavorite(doctor: DoctorResponseDto): void {
-    console.log('Saved as favorite:', doctor.name);
-    // Save to local storage or call backend API
+    const favoritesKey = 'favoriteDoctors';
+
+    // Get existing favorites or initialize an empty array
+    let favorites = JSON.parse(localStorage.getItem(favoritesKey) || '[]');
+
+    // Check if the property is already saved
+    const exists = favorites.some(
+      (p: any) => p.name === doctor.name && p.phone === doctor.phone,
+    );
+
+    if (!exists) {
+      favorites.push(doctor);
+      localStorage.setItem(favoritesKey, JSON.stringify(favorites));
+      alert('Doctor added to favorites!');
+    } else {
+      alert('Doctor already in favorites.');
+    }
   }
 }

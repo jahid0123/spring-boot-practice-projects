@@ -95,4 +95,9 @@ public class AppointmentService {
 
         return appointmentRepository.save(appointment);
     }
+
+    public List<AppointmentResponseDto> getAllAppointment() {
+        List<Appointment> appointmentList  = appointmentRepository.findAll();
+        return appointmentList.stream().map(this::mapAppointmentResponseDto).collect(Collectors.toList());
+    }
 }
