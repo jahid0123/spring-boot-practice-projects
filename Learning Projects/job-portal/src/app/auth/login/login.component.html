@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card mt-5">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Login</h2>
+          
+          <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+            <!-- Email Field -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email"
+                name="email"
+                [(ngModel)]="loginData.email"
+                #email="ngModel"
+                required
+                email
+                placeholder="example@domain.com"
+              >
+              <div *ngIf="email.invalid && (email.dirty || email.touched)" class="form-text text-danger">
+                <span *ngIf="email.errors?.['required']">Email is required</span>
+                <span *ngIf="email.errors?.['email']">Please enter a valid email</span>
+              </div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-4">
+              <label for="password" class="form-label">Password</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="password"
+                name="password"
+                [(ngModel)]="loginData.password"
+                #password="ngModel"
+                required
+                minlength="6"
+                placeholder="At least 6 characters"
+              >
+              <div *ngIf="password.invalid && (password.dirty || password.touched)" class="form-text text-danger">
+                <span *ngIf="password.errors?.['required']">Password is required</span>
+                <span *ngIf="password.errors?.['minlength']">Minimum 6 characters required</span>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button 
+              type="submit" 
+              class="btn btn-primary w-100 mb-3"
+              [disabled]="!loginForm.valid"
+            >
+              Login
+            </button>
+          </form>
+
+          <!-- Registration Links -->
+          <div class="text-center">
+            <p class="mb-2">Don't have an account?</p>
+            <div class="d-flex justify-content-center gap-3">
+              <a [routerLink]="['/register-company']" class="btn btn-outline-secondary btn-sm">Register as Company</a>
+              <a [routerLink]="['/register-seeker']" class="btn btn-outline-secondary btn-sm">Register as Job Seeker</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
