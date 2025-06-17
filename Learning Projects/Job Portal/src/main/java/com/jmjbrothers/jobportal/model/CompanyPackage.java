@@ -22,9 +22,6 @@ public class CompanyPackage {
     @Column(name = "post_Limit")
     private Integer postLimit;
 
-    @Column(name = "number_of_applicant")
-    private Integer applicantViewLimit;
-
     @Column(name = "package_price")
     private Integer packagePrice;
 

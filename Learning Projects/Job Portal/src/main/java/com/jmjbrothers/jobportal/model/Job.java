@@ -1,5 +1,6 @@
 package com.jmjbrothers.jobportal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,10 @@ public class Job {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @JsonIgnore
+    @Column(name = "number_of_applicant")
+    private Integer applicantViewLimit;
 
     @Column(name = "job_description")
     private String jobDescription;

@@ -38,9 +38,6 @@ public class Company implements PortalUser {
     @OneToOne
     private CompanyPackage currentPackage;
 
-    @Column(name = "job_posted")
-    private Integer jobsPosted = 0;
-
     @Column(name = "phone")
     private String phone;
 
