@@ -3,13 +3,13 @@ package com.jmjbrothers.jobportal.dto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+
 @Data
 @RequiredArgsConstructor
-public class SeekerRegisterRequestDto {
+public class EditSeekerInfoDto {
 
+    private Long id;
     private String name;
-    private String email;
-    private String password;
     private String phone;
     private String education;
     private String jobExperience;

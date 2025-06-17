@@ -1,6 +1,6 @@
 package com.jmjbrothers.jobportal.controller;
 
-import com.jmjbrothers.jobportal.model.PostPackage;
+import com.jmjbrothers.jobportal.model.CompanyPackage;
 import com.jmjbrothers.jobportal.service.PostPackageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +20,9 @@ public class UserController {
     }
 
     @PostMapping("/create/post/package")
-    public ResponseEntity<?> createPostPackage(@RequestBody PostPackage postPackage){
+    public ResponseEntity<?> createPostPackage(@RequestBody CompanyPackage postPackage){
 
-        PostPackage createPackage = postPackageService.createPostPackage(postPackage);
+        CompanyPackage createPackage = postPackageService.createPostPackage(postPackage);
 
         return new ResponseEntity<>(createPackage, HttpStatus.CREATED);
     }

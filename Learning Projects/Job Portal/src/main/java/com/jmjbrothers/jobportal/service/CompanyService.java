@@ -1,6 +1,8 @@
 package com.jmjbrothers.jobportal.service;
 
 import com.jmjbrothers.jobportal.dto.CompanyRegisterRequestDto;
+import com.jmjbrothers.jobportal.dto.EditCompanyInfoDto;
+import com.jmjbrothers.jobportal.dto.PasswordChangeRequestDto;
 import com.jmjbrothers.jobportal.model.Company;
 import com.jmjbrothers.jobportal.model.Seeker;
 import com.jmjbrothers.jobportal.repository.CompanyRepository;
@@ -43,6 +45,32 @@ public class CompanyService {
         company.setBusiness(request.getBusiness());
         company.setContact(request.getPhone());
         company.setAddress(request.getAddress());
+
+        return companyRepository.save(company);
+    }
+
+
+    @Transactional
+    public void changePassword(PasswordChangeRequestDto request) {
+        Company company = companyRepository.findById(request.getId())
+                .orElseThrow(() -> new RuntimeException("Company not found by id: " + request.getId()));
+        if (!passwordEncoder.matches(request.getCurrentPassword(), company.getPassword())) {
+            throw new IllegalArgumentException("Old password is incorrect");
+        }
+        company.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        companyRepository.save(company);
+    }
+
+
+    @Transactional
+    public Company editCompanyInformation(EditCompanyInfoDto editCompanyInfoDto) {
+        Company company = companyRepository.findById(editCompanyInfoDto.getId()).orElse(null);
+        if (company == null) {
+            throw new RuntimeException("Company does not exist by id: " + editCompanyInfoDto.getId());
+        }
+        company.setName(editCompanyInfoDto.getName());
+        company.setAddress(editCompanyInfoDto.getAddress());
+        company.setContact(editCompanyInfoDto.getContact());
 
         return companyRepository.save(company);
     }

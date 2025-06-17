@@ -1,10 +1,14 @@
 package com.jmjbrothers.jobportal.service;
 
-import com.jmjbrothers.jobportal.dto.UserRegisterRequestDto;
+import com.jmjbrothers.jobportal.dto.EditSeekerInfoDto;
+import com.jmjbrothers.jobportal.dto.PasswordChangeRequestDto;
+import com.jmjbrothers.jobportal.dto.SeekerRegisterRequestDto;
 import com.jmjbrothers.jobportal.model.Company;
 import com.jmjbrothers.jobportal.model.Seeker;
 import com.jmjbrothers.jobportal.repository.CompanyRepository;
 import com.jmjbrothers.jobportal.repository.SeekerRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +25,11 @@ public class SeekerService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Seeker registerNewSeeker(UserRegisterRequestDto request) {
+    @Transactional
+    public Seeker registerNewSeeker(SeekerRegisterRequestDto request) {
 
         Seeker existSeeker = seekerRepository.findByEmail(request.getEmail()).orElse(null);
-        if (existSeeker != null){
+        if (existSeeker != null) {
             throw new RuntimeException("Seeker already exist by email: " + request.getEmail());
         }
 
@@ -34,14 +39,51 @@ public class SeekerService {
             throw new RuntimeException("This email already register as a company email!!");
 
 
-
         Seeker seeker = new Seeker();
 
         seeker.setName(request.getName());
         seeker.setEmail(request.getEmail());
         seeker.setPassword(passwordEncoder.encode(request.getPassword()));
         seeker.setPhone(request.getPhone());
+        seeker.setAddress(request.getAddress());
+        seeker.setEducation(request.getEducation());
+        seeker.setDesignation(request.getDesignation());
+        seeker.setJobExperience(request.getJobExperience());
+
 
         return seekerRepository.save(seeker);
+    }
+
+
+    @Transactional
+    public Seeker editSeekerInformation(EditSeekerInfoDto request) {
+
+        Seeker seeker = seekerRepository.findById(request.getId()).orElse(null);
+        if (seeker == null) {
+            throw new RuntimeException("Seeker does not exist by id: " + request.getId());
+        }
+
+        seeker.setName(request.getName());
+        seeker.setAddress(request.getAddress());
+        seeker.setPhone(request.getPhone());
+        seeker.setEducation(request.getEducation());
+        seeker.setDesignation(request.getDesignation());
+        seeker.setJobExperience(request.getJobExperience());
+
+        return seekerRepository.save(seeker);
+    }
+
+    @Transactional
+    public void changePassword(PasswordChangeRequestDto request) {
+
+        Seeker seeker = seekerRepository.findById(request.getId())
+                .orElseThrow(() -> new UsernameNotFoundException("Job Seeker not found by id: " + request.getId()));
+
+        if (!passwordEncoder.matches(request.getCurrentPassword(), seeker.getPassword())) {
+            throw new IllegalArgumentException("Old password is incorrect");
+        }
+
+        seeker.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        seekerRepository.save(seeker);
     }
 }

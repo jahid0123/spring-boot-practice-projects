@@ -1,6 +1,6 @@
 package com.jmjbrothers.jobportal.service;
 
-import com.jmjbrothers.jobportal.model.PostPackage;
+import com.jmjbrothers.jobportal.model.CompanyPackage;
 import com.jmjbrothers.jobportal.repository.PostPackageRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -16,9 +16,9 @@ public class PostPackageService {
 
 
     @Transactional
-    public PostPackage createPostPackage(PostPackage postPackage) {
+    public CompanyPackage createPostPackage(CompanyPackage postPackage) {
 
-        PostPackage createPackage = postPackageRepository.save(postPackage);
+        CompanyPackage createPackage = postPackageRepository.save(postPackage);
 
         return createPackage;
     }

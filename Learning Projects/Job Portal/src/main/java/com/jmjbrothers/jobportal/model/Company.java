@@ -1,6 +1,7 @@
 package com.jmjbrothers.jobportal.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jmjbrothers.jobportal.constants.JobPackages;
 import com.jmjbrothers.jobportal.constants.Role;
 import com.jmjbrothers.jobportal.interfacedto.PortalUser;
 import jakarta.persistence.*;
@@ -34,14 +35,17 @@ public class Company implements PortalUser {
     @Enumerated(value = EnumType.STRING)
     private Role role = Role.COMPANY;
 
-    @Column(name = "post_balance")
-    private Integer postBalance = 0;
+    @OneToOne
+    private CompanyPackage currentPackage;
+
+    @Column(name = "job_posted")
+    private Integer jobsPosted = 0;
+
+    @Column(name = "phone")
+    private String phone;
 
     @Column(name = "business")
     private String business;
-
-    @Column(name = "contact")
-    private String contact;
 
     @Column(name = "address")
     private String address;

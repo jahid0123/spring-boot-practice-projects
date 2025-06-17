@@ -18,7 +18,7 @@ public class BuyPostPackage {
 
     @ManyToOne
     @JoinColumn(name = "package_id", nullable = false)
-    private PostPackage postPackage;
+    private CompanyPackage postPackage;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)

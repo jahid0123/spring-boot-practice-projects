@@ -1,7 +1,5 @@
 package com.jmjbrothers.jobportal.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jmjbrothers.jobportal.constants.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +9,8 @@ import java.time.LocalDateTime;
 @Data
 @RequiredArgsConstructor
 @Entity
-@Table(name = "faysal_post_package")
-public class PostPackage {
+@Table(name = "faysal_company_package")
+public class CompanyPackage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +19,11 @@ public class PostPackage {
     @Column(name = "package_name")
     private String packageName;
 
-    @Column(name = "post_quantity")
-    private Integer numberOfPost;
+    @Column(name = "post_Limit")
+    private Integer postLimit;
+
+    @Column(name = "number_of_applicant")
+    private Integer applicantViewLimit;
 
     @Column(name = "package_price")
     private Integer packagePrice;

@@ -34,7 +34,7 @@ public class Seeker implements PortalUser {
     @Enumerated(value = EnumType.STRING)
     private Role role = Role.SEEKER;
 
-    @Column(name = "last_education")
+    @Column(name = "education")
     private String education;
 
     @Column(name = "experience")
@@ -48,6 +48,7 @@ public class Seeker implements PortalUser {
 
     @Column(name = "address")
     private String address;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
