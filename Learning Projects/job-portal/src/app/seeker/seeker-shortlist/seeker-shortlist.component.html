@@ -1,0 +1,78 @@
+<div class="container my-5">
+  <div *ngFor="let item of jobs" class="card border-0 shadow-lg mb-5 rounded-4">
+    <div class="card-body p-4">
+
+      <!-- Job Info Header -->
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h4 class="fw-bold text-primary">
+            <i class="fas fa-briefcase me-2"></i>{{ item.jobApply.job.jobTitle }}
+          </h4>
+          <p class="mb-0 text-muted">
+            <i class="fas fa-building me-2"></i>{{ item.jobApply.job.company.name }}
+          </p>
+        </div>
+        <div class="text-end">
+          <span class="badge rounded-pill bg-success px-3 py-2 me-2">
+            <i class="fas fa-user-clock me-1"></i>{{ item.jobApply.job.employmentStatus }}
+          </span>
+          <span class="badge rounded-pill bg-info text-dark px-3 py-2">
+            <i class="fas fa-map-marker-alt me-1"></i>{{ item.jobApply.job.workPlace }}
+          </span>
+        </div>
+      </div>
+
+      <hr class="mb-4">
+
+      <!-- Applicant Info -->
+      <!-- <div class="mb-4">
+        <h5 class="text-dark mb-3"><i class="fas fa-user me-2 text-primary"></i>Applicant Info</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <p><i class="fas fa-user-tag me-2 text-secondary"></i><strong>Name:</strong> {{ item.jobApply.jobSeeker.name }}</p>
+            <p><i class="fas fa-envelope me-2 text-danger"></i><strong>Email:</strong> {{ item.jobApply.jobSeeker.email }}</p>
+            <p><i class="fas fa-phone me-2 text-success"></i><strong>Phone:</strong> {{ item.jobApply.jobSeeker.phone }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><i class="fas fa-graduation-cap me-2 text-info"></i><strong>Education:</strong> {{ item.jobApply.jobSeeker.education }}</p>
+            <p><i class="fas fa-briefcase me-2 text-warning"></i><strong>Experience:</strong> {{ item.jobApply.jobSeeker.jobExperience }}</p>
+            <p><i class="fas fa-user-tie me-2 text-secondary"></i><strong>Designation:</strong> {{ item.jobApply.jobSeeker.designation }}</p>
+            <p><i class="fas fa-map-marked-alt me-2 text-danger"></i><strong>Address:</strong> {{ item.jobApply.jobSeeker.address }}</p>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- Interview Info -->
+      <div class="bg-light p-3 rounded mb-4">
+        <h6 class="mb-3 text-dark"><i class="fas fa-calendar-check me-2 text-success"></i>Interview Schedule</h6>
+        <p><i class="fas fa-clock me-2 text-primary"></i><strong>Date:</strong> {{ item.interviewDate | date: 'fullDate' }} at {{ item.interviewDate | date: 'shortTime' }}</p>
+        <p><i class="fas fa-check-circle me-2 text-info"></i><strong>Shortlisted At:</strong> {{ item.shortlistedAt | date:'medium' }}</p>
+      </div>
+
+      <!-- Job Description -->
+      <div class="row">
+        <div class="col-md-6">
+          <p><i class="fas fa-info-circle me-2 text-secondary"></i><strong>Description:</strong> {{ item.jobApply.job.jobDescription }}</p>
+          <p><i class="fas fa-tasks me-2 text-secondary"></i><strong>Responsibilities:</strong> {{ item.jobApply.job.jobResponsibilities }}</p>
+        </div>
+        <div class="col-md-6">
+          <p><i class="fas fa-list-check me-2 text-secondary"></i><strong>Requirements:</strong> {{ item.jobApply.job.jobRequirement }}</p>
+          <p><i class="fas fa-gift me-2 text-secondary"></i><strong>Benefits:</strong> {{ item.jobApply.job.compensationBenefit }}</p>
+        </div>
+      </div>
+
+      <!-- Footer: Company Contact -->
+      <hr>
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <p class="mb-1"><i class="fas fa-map-pin me-2 text-danger"></i><strong>Company Address:</strong> {{ item.company.address }}</p>
+          <p class="mb-0"><i class="fas fa-phone-square-alt me-2 text-info"></i><strong>Contact:</strong> {{ item.company.phone }}</p>
+        </div>
+        <div>
+          <span class="text-muted small"><i class="fas fa-calendar me-1"></i>Posted: {{ item.jobApply.job.createdAt | date:'medium' }}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

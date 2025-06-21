@@ -1,0 +1,65 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm rounded-4">
+        <div class="card-header bg-secondary text-white">
+          <h5 class="mb-0">Change Password</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+
+            <!-- Current Password -->
+            <div class="mb-3">
+              <label for="currentPassword" class="form-label">Current Password</label>
+              <input
+                type="password"
+                id="currentPassword"
+                class="form-control"
+                formControlName="currentPassword"
+                required
+              />
+              <small class="text-danger" *ngIf="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched">
+                Current password is required.
+              </small>
+            </div>
+
+            <!-- New Password -->
+            <div class="mb-3">
+              <label for="newPassword" class="form-label">New Password</label>
+              <input
+                type="password"
+                id="newPassword"
+                class="form-control"
+                formControlName="newPassword"
+                required
+              />
+              <small class="text-danger" *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched">
+                New password is required.
+              </small>
+            </div>
+
+            <!-- Confirm New Password -->
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Confirm New Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                class="form-control"
+                formControlName="confirmPassword"
+                required
+              />
+              <small class="text-danger" *ngIf="passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmPassword')?.touched">
+                Passwords do not match.
+              </small>
+            </div>
+
+            <button type="submit" class="btn btn-outline-info" [disabled]="passwordForm.invalid" (click)="changePassword()">
+              Change Password
+            </button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

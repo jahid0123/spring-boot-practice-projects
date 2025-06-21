@@ -24,6 +24,10 @@ import { ApplicantsComponent } from './company/applicants/applicants.component';
 import { AllBillsComponent } from './company/all-bills/all-bills.component';
 import { PackagesComponent } from './company/packages/packages.component';
 import { ShortlistedComponent } from './company/shortlisted/shortlisted.component';
+import { SeekerProfileComponent } from './seeker/seeker-profile/seeker-profile.component';
+import { SeekerSettingsComponent } from './seeker/seeker-settings/seeker-settings.component';
+import { SeekerAppliedJobComponent } from './seeker/seeker-applied-job/seeker-applied-job.component';
+import { SeekerShortlistComponent } from './seeker/seeker-shortlist/seeker-shortlist.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -37,6 +41,10 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'seeker-home', pathMatch: 'full' },
       { path: 'seeker-home', component: SeekerHomeComponent },
+      { path: 'seeker-profile', component: SeekerProfileComponent },
+      { path: 'seeker-settings', component: SeekerSettingsComponent },
+      { path: 'applied-jobs', component: SeekerAppliedJobComponent },
+      { path: 'shortlist', component: SeekerShortlistComponent },
     ],
   },
 
@@ -73,7 +81,7 @@ export const routes: Routes = [
       { path: 'manage-applications', component: ManageApplicationsComponent },
       { path: 'admin-settings', component: AdminSettingsComponent },
       { path: 'admin-profile', component: AdminProfileComponent },
-      { path: 'manage-package', component: ManagePackagesComponent }
+      { path: 'manage-package', component: ManagePackagesComponent },
     ],
   },
 

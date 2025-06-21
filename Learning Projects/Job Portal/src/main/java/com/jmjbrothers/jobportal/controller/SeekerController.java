@@ -51,7 +51,7 @@ public class SeekerController {
     }
 
     //Edit seeker information
-    @PutMapping("/edit/seeker/information")
+    @PutMapping("/edit/profile/information")
     public ResponseEntity<?> editSeekerInformation(@RequestBody EditSeekerInfoDto editSeekerInfoDto){
         Seeker seeker =  seekerService.editSeekerInformation(editSeekerInfoDto);
         return new ResponseEntity<>(seeker, HttpStatus.OK);
@@ -71,17 +71,17 @@ public class SeekerController {
 
 
     @GetMapping("/profile/information")
-    public ResponseEntity<?> getProfileInformation(@RequestParam Long seekerId){
+    public ResponseEntity<?> getProfileInformation(@RequestParam Long id){
 
-        Seeker seeker = seekerService.getProfileInformation(seekerId);
+        Seeker seeker = seekerService.getProfileInformation(id);
 
         return new ResponseEntity<>(seeker, HttpStatus.OK);
     }
 
     @GetMapping("/my/applied/jobs")
-    public ResponseEntity<?> getAppliedJobs(@RequestParam Long seekerId){
+    public ResponseEntity<?> getAppliedJobs(@RequestParam Long id){
 
-        List<JobApply> jobApplies = jobApplyService.getAppliedJobs(seekerId);
+        List<JobApply> jobApplies = jobApplyService.getAppliedJobs(id);
 
         return new ResponseEntity<>(jobApplies, HttpStatus.OK);
     }

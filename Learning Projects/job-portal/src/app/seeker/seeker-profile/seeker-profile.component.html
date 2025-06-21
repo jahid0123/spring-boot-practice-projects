@@ -1,1 +1,68 @@
-<p>seeker-profile works!</p>
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-body">
+      <h5 class="card-title"><i class="fas fa-user"></i> {{ user?.name }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-envelope"></i> {{ user?.email }}</h6>
+
+      <ul class="list-group list-group-flush mt-3">
+        <li class="list-group-item"><strong>ID:</strong> {{ user?.id }}</li>
+        <li class="list-group-item"><strong>Education:</strong> {{ user?.education }}</li>
+        <li class="list-group-item"><strong>Experience:</strong> {{ user?.jobExperience }}</li>
+        <li class="list-group-item"><strong>Designation:</strong> {{ user?.designation }}</li>
+        <li class="list-group-item"><strong>Phone:</strong> {{ user?.phone }}</li>
+        <li class="list-group-item"><strong>Address:</strong> {{ user?.address }}</li>
+        <li class="list-group-item"><strong>Created At:</strong> {{ user?.createdAt | date:'medium' }}</li>
+      </ul>
+
+      <div class="text-end mt-3">
+        <button class="btn btn-primary" (click)="openEditModal()">
+          <i class="fas fa-edit"></i> Edit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel"><i class="fas fa-edit"></i> Edit Profile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body row g-3">
+          <div class="col-md-6">
+            <label>Name</label>
+            <input class="form-control" formControlName="name">
+          </div>
+          <div class="col-md-6">
+            <label>Education</label>
+            <input class="form-control" formControlName="education">
+          </div>
+          <div class="col-md-6">
+            <label>Experience</label>
+            <input class="form-control" formControlName="jobExperience">
+          </div>
+          <div class="col-md-6">
+            <label>Designation</label>
+            <input class="form-control" formControlName="designation">
+          </div>
+          <div class="col-md-6">
+            <label>Phone</label>
+            <input class="form-control" formControlName="phone">
+          </div>
+          <div class="col-md-12">
+            <label>Address</label>
+            <textarea class="form-control" formControlName="address"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Save Changes</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

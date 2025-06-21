@@ -1,1 +1,68 @@
-<p>seeker-home works!</p>
+<div class="container mt-5">
+  <div *ngFor="let job of jobs" class="card mb-4 border-0 shadow-lg">
+    <div class="card-body p-4">
+      <div class="d-md-flex justify-content-between align-items-start mb-3">
+        <div>
+          <h4 class="text-primary">
+            <i class="fas fa-briefcase me-2"></i>{{ job.jobTitle }}
+          </h4>
+          <h6 class="text-muted mb-0">
+            <i class="fas fa-building me-2"></i>{{ job.company.name }}
+          </h6>
+        </div>
+        <div>
+          <span class="badge bg-success me-2">{{ job.employmentStatus }}</span>
+          <span class="badge bg-info text-dark">{{ job.workPlace }}</span>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <h6><i class="fas fa-align-left me-2 text-secondary"></i>Description</h6>
+          <p class="text-muted mb-0">{{ job.jobDescription }}</p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <h6><i class="fas fa-user-graduate me-2 text-secondary"></i>Requirements</h6>
+          <p class="text-muted mb-0">{{ job.jobRequirement }}</p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <h6><i class="fas fa-tasks me-2 text-secondary"></i>Responsibilities</h6>
+          <p class="text-muted mb-0">{{ job.jobResponsibilities }}</p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <h6><i class="fas fa-gift me-2 text-secondary"></i>Benefits</h6>
+          <p class="text-muted mb-0">{{ job.compensationBenefit }}</p>
+        </div>
+      </div>
+
+      <div class=" mt-3">
+        <div class="me-4 mb-2">
+          <i class="fas fa-map-marker-alt me-1 text-danger"></i>
+          <strong>Location:</strong> {{ job.jobLocation }}
+        </div>
+        <div class="me-4 mb-2">
+          <i class="fas fa-phone me-1 text-info"></i>
+          <strong>Phone:</strong> {{ job.company.phone }}
+        </div>
+        <div class="mb-2">
+          <i class="fas fa-calendar-alt me-1 text-warning"></i>
+          <strong>Posted:</strong> {{ job.createdAt | date:'medium' }}
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end mt-4">
+        <button class="btn btn-outline-danger me-2" (click)="addToFavorites(job)">
+          <i class="fas fa-heart"></i> Favorite
+        </button>
+        <button class="btn btn-success" (click)="applyToJob(job.id)">
+          <i class="fas fa-paper-plane"></i> Apply Now
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

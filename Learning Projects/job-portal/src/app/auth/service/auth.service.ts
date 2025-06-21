@@ -9,8 +9,8 @@ import { Observable, tap } from 'rxjs';
 export class AuthService {
 
   private loginApiURL = 'http://localhost:8081/api/auth/login';
-   private buyerRegisterApiURL = 'http://localhost:8081/api/auth/buyer/register'; // Corrected register URL
-   private sellerRegisterApiURL = 'http://localhost:8081/api/auth/seller/register'; // Corrected register URL
+   private seekerRegisterApiURL = 'http://localhost:8081/api/auth/seeker/register'; // Corrected register URL
+   private companyRegisterApiURL = 'http://localhost:8081/api/auth/company/register'; // Corrected register URL
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -24,12 +24,12 @@ export class AuthService {
     );
   }
 
-  buyerRegister(data: { name: string; email: string; password: string; phone: string;}): Observable<any> {
-    return this.http.post<any>(this.buyerRegisterApiURL, data);
+  companyRegister(data: any): Observable<any> {
+    return this.http.post<any>(this.companyRegisterApiURL, data);
   }
 
-  sellerRegister(data: { name: string; email: string; password: string}): Observable<any> {
-    return this.http.post<any>(this.sellerRegisterApiURL, data);
+  seekerRegister(data: any): Observable<any> {
+    return this.http.post<any>(this.seekerRegisterApiURL, data);
   }
 
   redirectByRole(role: string) {
