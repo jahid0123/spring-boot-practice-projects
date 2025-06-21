@@ -19,8 +19,19 @@ public class CompanyPackage {
     @OneToOne
     private Company company;
 
+<<<<<<< HEAD
     @ManyToOne
     private Packages pack;
+=======
+    @Column(name = "post_Limit")
+    private Integer postLimit;
+
+    @Column(name = "package_price")
+    private Integer packagePrice;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+>>>>>>> 048d418f61315d9d6ff0d1b89e926102efbe6575
 
     private LocalDate purchaseDate = LocalDate.now();
     private LocalDate lastPurchaseDate = LocalDate.now();

@@ -33,6 +33,12 @@ public class Company implements PortalUser {
     @Enumerated(value = EnumType.STRING)
     private Role role = Role.COMPANY;
 
+<<<<<<< HEAD
+=======
+    @OneToOne
+    private CompanyPackage currentPackage;
+
+>>>>>>> 048d418f61315d9d6ff0d1b89e926102efbe6575
     @Column(name = "phone")
     private String phone;
 
