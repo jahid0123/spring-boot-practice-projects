@@ -24,15 +24,13 @@ public class Job {
     @JoinColumn(name = "company_id")
     private Company company;
 
-<<<<<<< HEAD
-    @Column(name = "job_description", length = 800)
-=======
+
     @JsonIgnore
     @Column(name = "number_of_applicant")
     private Integer applicantViewLimit;
 
-    @Column(name = "job_description")
->>>>>>> 048d418f61315d9d6ff0d1b89e926102efbe6575
+
+    @Column(name = "job_description", length = 800)
     private String jobDescription;
 
     @Column(name = "job_requirement", length = 800)
