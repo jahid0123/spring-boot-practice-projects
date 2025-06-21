@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SeekerService {
 
@@ -85,5 +87,25 @@ public class SeekerService {
 
         seeker.setPassword(passwordEncoder.encode(request.getNewPassword()));
         seekerRepository.save(seeker);
+    }
+
+    @Transactional
+    public Seeker getProfileInformation(Long seekerId) {
+
+        Seeker seeker = seekerRepository.findById(seekerId).orElse(null);
+        if (seeker == null) {
+            throw new RuntimeException("Seeker does not exist by id: " + seekerId);
+        }
+        return seeker;
+    }
+
+    @Transactional
+    public List<Seeker> getAllSeekers() {
+        return seekerRepository.findAll();
+    }
+
+    @Transactional
+    public void deleteSeekerById(Long id) {
+        seekerRepository.deleteById(id);
     }
 }

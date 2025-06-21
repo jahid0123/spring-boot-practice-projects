@@ -3,7 +3,7 @@ package com.jmjbrothers.jobportal.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jmjbrothers.jobportal.constants.Role;
-import com.jmjbrothers.jobportal.interfacedto.PortalUser;
+import com.jmjbrothers.jobportal.commondto.PortalUser;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

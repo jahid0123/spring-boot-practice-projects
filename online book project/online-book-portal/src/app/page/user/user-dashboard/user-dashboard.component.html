@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+  <a class="navbar-brand fw-bold text-warning" [routerLink]="['/user-dashboard/user-home']">Online Book Portal</a>
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav me-auto ms-4">
+      <li class="nav-item">
+        <a class="nav-link active" [routerLink]="['/user-dashboard/user-home']">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/user-dashboard/favorite-list']">Saved Favorites</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ms-auto align-items-center">
+      <!-- Cart Icon -->
+      <li class="nav-item me-3">
+        <a class="nav-link position-relative" [routerLink]="['/user-dashboard/cart']">
+          <i class="bi bi-cart fs-5"></i>
+          <!-- Optional: Cart item count badge -->
+
+        </a>
+      </li>
+
+      <!-- Profile Dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+          <i class="bi bi-person-circle fs-5"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" [routerLink]="['/user-dashboard//user-list']">Profile</a></li>
+          <li><a class="dropdown-item"[routerLink]="['/user-dashboard/orders']">Order History</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" routerLink="/logout">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="main-content">
+    <div class="page-view">
+        <router-outlet></router-outlet>
+    </div>
+</div>

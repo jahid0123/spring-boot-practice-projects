@@ -1,0 +1,125 @@
+<div class="container my-5">
+  <h4 class="text-primary text-center mb-4 fs-2">All Jobs Applications</h4>
+  <hr>
+  <div class="row">
+    <div class="col-md-6 mb-4" *ngFor="let apply of myJobApplies">
+      <div
+        class="card shadow border-start border-primary border-4 rounded-4 h-100"
+      >
+        <div class="card-body">
+          <!-- 🔷 Job Info -->
+          <h5 class="card-title text-primary fw-bold">
+            {{ apply.job.jobTitle }}
+          </h5>
+          <p class="mb-1">
+            <strong>Description:</strong> {{ apply.job.jobDescription }}
+          </p>
+          <p class="mb-1">
+            <strong>Company:</strong> {{ apply.job.company.name }}
+          </p>
+          <p class="mb-1">
+            <strong>Location:</strong> {{ apply.job.jobLocation }}
+          </p>
+          <p class="mb-1">
+            <strong>Work Place:</strong> {{ apply.job.workPlace }}
+          </p>
+          <p class="mb-1">
+            <strong>Employment:</strong> {{ apply.job.employmentStatus }}
+          </p>
+          <hr />
+
+          <!-- 🧑‍💼 Seeker Info -->
+          <h6 class="fw-semibold text-success">Applicant Info</h6>
+          <p class="mb-1"><strong>Name:</strong> {{ apply.jobSeeker.name }}</p>
+          <p class="mb-1">
+            <strong>Email:</strong> {{ apply.jobSeeker.email }}
+          </p>
+          <p class="mb-1">
+            <strong>Phone:</strong> {{ apply.jobSeeker.phone }}
+          </p>
+          <p class="mb-1">
+            <strong>Designation:</strong> {{ apply.jobSeeker.designation }}
+          </p>
+          <p class="mb-1">
+            <strong>Experience:</strong> {{ apply.jobSeeker.jobExperience }}
+          </p>
+          <p class="mb-1">
+            <strong>Education:</strong> {{ apply.jobSeeker.education }}
+          </p>
+          <p class="mb-1">
+            <strong>Address:</strong> {{ apply.jobSeeker.address }}
+          </p>
+
+          <hr />
+          <p class="text-muted small">
+            <i class="bi bi-calendar-event"></i>
+            Applied on: {{ apply.createdAt | date : "medium" }}
+          </p>
+
+          <!-- 🔘 Action Buttons -->
+          <div class="text-end mt-3">
+            <button
+              class="btn btn-outline-success btn-sm me-2"
+              (click)="openShortlistModal(apply)"
+              [disabled]="apply.shortlisted"
+            >
+              <i class="bi bi-check2-circle"></i>
+              {{ apply.shortlisted ? "Shortlisted" : "Shortlist" }}
+            </button>
+            <button
+              class="btn btn-outline-primary btn-sm me-2"
+              (click)="viewDetails(apply)"
+            >
+              <i class="bi bi-eye"></i> View Details
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shortlist Modal -->
+  <div class="modal d-block" tabindex="-1" *ngIf="showShortlistModal">
+    <div class="modal-dialog">
+      <div class="modal-content shadow rounded-4">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title">Shortlist Applicant</h5>
+          <button
+            type="button"
+            class="btn-close"
+            (click)="closeShortlistModal()"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="shortlistForm" (ngSubmit)="submitShortlist()">
+            <div class="mb-3">
+              <label class="form-label">Interview Date</label>
+              <input
+                type="datetime-local"
+                formControlName="interviewDate"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="text-end">
+              <button
+                type="submit"
+                class="btn btn-success me-2"
+                [disabled]="shortlistForm.invalid"
+              >
+                Confirm
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="closeShortlistModal()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

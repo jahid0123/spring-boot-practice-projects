@@ -1,9 +1,8 @@
 package com.jmjbrothers.jobportal.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jmjbrothers.jobportal.constants.JobPackages;
 import com.jmjbrothers.jobportal.constants.Role;
-import com.jmjbrothers.jobportal.interfacedto.PortalUser;
+import com.jmjbrothers.jobportal.commondto.PortalUser;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "faysal_company")
 public class Company implements PortalUser {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,12 +32,6 @@ public class Company implements PortalUser {
     @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     private Role role = Role.COMPANY;
-
-    @OneToOne
-    private CompanyPackage currentPackage;
-
-    @Column(name = "job_posted")
-    private Integer jobsPosted = 0;
 
     @Column(name = "phone")
     private String phone;

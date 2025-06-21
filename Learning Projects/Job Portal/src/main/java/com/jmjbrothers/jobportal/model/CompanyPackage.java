@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @RequiredArgsConstructor
@@ -14,28 +14,26 @@ public class CompanyPackage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long packageId;
+    private Long id;
 
-    @Column(name = "package_name")
-    private String packageName;
+    @OneToOne
+    private Company company;
 
-    @Column(name = "post_Limit")
-    private Integer postLimit;
+    @ManyToOne
+    private Packages pack;
 
-    @Column(name = "number_of_applicant")
-    private Integer applicantViewLimit;
-
-    @Column(name = "package_price")
-    private Integer packagePrice;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
+    private LocalDate purchaseDate = LocalDate.now();
+    private LocalDate lastPurchaseDate = LocalDate.now();
+    private LocalDate expiryDate;
+    private Boolean active;
+    private Integer remainingPosts;
+    private Integer applicantsViewLimit;
 
     @PrePersist
-    public void prePersist() {
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
+    public void initLimits() {
+        this.expiryDate = purchaseDate.plusMonths(pack.getValidityMonth());
+        this.active = true;
     }
+
 }
+

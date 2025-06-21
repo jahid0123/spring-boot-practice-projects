@@ -1,0 +1,21 @@
+<div class="container mt-4" *ngIf="book">
+  <div class="card shadow">
+    <br class="card-body">
+    <h3 class="card-title">{{ book.bookName }}</h3>
+    <h6 class="text-muted">Author Name: {{ book.authorName}}</h6>
+    <h6 class="text-muted">Category: {{ book.bookCategory }}</h6>
+    <p class="card-text">
+      <strong>ISBN:</strong> {{ book.bookIsbnNumber }}<br />
+      <strong>Price:</strong> ₹{{ book.bookPrice }}<br />
+      <strong>Rating:</strong> {{ book.bookRating }} / 5<br />
+      <strong>Quantity:</strong> {{ book.bookQuantity }}<br />
+
+    </p>
+    <div class="justify-content-between">
+      <a class="btn btn-primary btn-sm" (click)="read()">Read more</a>
+      <button class="btn btn-primary btn-sm" (click)="addToCart(book)">Add To Cart</button><br>
+      <button class="btn btn-primary btn-sm" (click)="shareWithFriends()">Share With Friends</button>
+      <button class="btn btn-primary btn-sm" (click)="goBack()">Back</button>
+    </div>
+  </div>
+</div>

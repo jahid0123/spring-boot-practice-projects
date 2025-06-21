@@ -16,23 +16,23 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "job_title")
+    @Column(name = "job_title", length = 255)
     private String jobTitle;
 
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @Column(name = "job_description")
+    @Column(name = "job_description", length = 800)
     private String jobDescription;
 
-    @Column(name = "job_requirement")
+    @Column(name = "job_requirement", length = 800)
     private String jobRequirement;
 
-    @Column(name = "job_responsibilities")
+    @Column(name = "job_responsibilities", length = 800)
     private String jobResponsibilities;
 
-    @Column(name = "job_compensation")
+    @Column(name = "job_compensation", length = 800)
     private String compensationBenefit;
 
     @Column(name = "job_work_place")

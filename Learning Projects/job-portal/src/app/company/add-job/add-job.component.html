@@ -1,0 +1,42 @@
+<div class="container my-5">
+  <h4 class="text-primary mb-4 text-center">My Package Subscriptions</h4>
+  <hr class="mb-4">
+
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow border-start border-success border-4 rounded-4 h-100">
+        <div class="card-body">
+          <h5 class="card-title text-success fw-bold">
+            {{ subscriptions?.company?.name || 'Company Name Unavailable' }}
+          </h5>
+          <hr>
+
+          <div *ngIf="subscriptions?.pack">
+            <p><strong>📦 Package:</strong> {{ subscriptions.pack.name }}</p>
+            <p><strong>📌 Remaining Posts:</strong> {{ subscriptions.remainingPosts }}</p>
+            <p><strong>👁️ Applicant View Limit:</strong> {{ subscriptions.applicantsViewLimit }}</p>
+            <p><strong>🗓️ Purchase Date:</strong> {{ subscriptions.purchaseDate | date: 'mediumDate' }}</p>
+            <p><strong>⏰ Last Purchase:</strong> {{ subscriptions.lastPurchaseDate | date: 'mediumDate' }}</p>
+            <p><strong>📅 Expiry Date:</strong> {{ subscriptions.expiryDate | date: 'mediumDate' }}</p>
+            <p>
+              <strong>Status:</strong>
+              <span [ngClass]="subscriptions.active ? 'text-success fw-bold' : 'text-danger fw-bold'">
+                {{ subscriptions.active ? 'Active' : 'Expired' }}
+              </span>
+            </p>
+          </div>
+
+          <div *ngIf="!subscriptions?.pack" class="text-muted text-center py-3">
+            No active subscription package found.
+          </div>
+
+          <div class="text-end mt-3">
+            <button class="btn btn-outline-success btn-sm" (click)="buyPackage()">
+              <i class="bi bi-bag-plus"></i> Buy Package
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,114 @@
-<p>company-home works!</p>
+<div class="container my-5">
+  <h4 class="text-primary text-center mb-4">Job Listings</h4>
+
+  <!-- 🔹 Job Listings Table -->
+  <table class="table table-bordered table-striped shadow-sm">
+    <thead class="table-primary">
+      <tr>
+        <th>Job Title</th>
+        <th>Company</th>
+        <th>Location</th>
+        <th>Workplace</th>
+        <th>Employment</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let job of jobs">
+        <td>{{ job.jobTitle }}</td>
+        <td>{{ job.company.name }}</td>
+        <td>{{ job.jobLocation }}</td>
+        <td>{{ job.workPlace }}</td>
+        <td>{{ job.employmentStatus }}</td>
+        <td>
+          <button class="btn btn-outline-info btn-sm" (click)="viewApplicants(job)">
+            <i class="bi bi-people"></i> View Applicants
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 🔸 Job Applicants Table -->
+  <div *ngIf="selectedJob && applicants.length > 0" class="mt-5">
+    <h5 class="text-success">Applicants for: {{ selectedJob.jobTitle }}</h5>
+
+    <table class="table table-hover table-bordered mt-3">
+      <thead class="table-light">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Designation</th>
+          <th>Experience</th>
+          <th>Education</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let seeker of applicants">
+          <td>{{ seeker.name }}</td>
+          <td>{{ seeker.email }}</td>
+          <td>{{ seeker.phone }}</td>
+          <td>{{ seeker.designation }}</td>
+          <td>{{ seeker.jobExperience }}</td>
+          <td>{{ seeker.education }}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-success" (click)="openShortlistModal(seeker)">
+              <i class="bi bi-check2-circle"></i> Shortlist
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="selectedJob && applicants.length === 0" class="text-muted fst-italic mt-4 text-center">
+    No applicants found for this job.
+  </div>
+</div>
+
+<!-- Shortlist Modal -->
+  <div class="modal d-block" tabindex="-1" *ngIf="showShortlistModal">
+    <div class="modal-dialog">
+      <div class="modal-content shadow rounded-4">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title">Shortlist Applicant</h5>
+          <button
+            type="button"
+            class="btn-close"
+            (click)="closeShortlistModal()"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="shortlistForm" (ngSubmit)="shortlist()">
+            <div class="mb-3">
+              <label class="form-label">Interview Date</label>
+              <input
+                type="datetime-local"
+                formControlName="interviewDate"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="text-end">
+              <button
+                type="submit"
+                class="btn btn-success me-2"
+                [disabled]="shortlistForm.invalid"
+              >
+                Confirm
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="closeShortlistModal()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

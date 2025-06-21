@@ -1,33 +1,79 @@
-      <!-- Dashboard content -->
-      <div class="p-4">
-        <h2>Welcome, Admin</h2>
-        <div class="row mt-4">
-          <div class="col-md-4">
-            <div class="card shadow border-start border-success border-4">
-              <div class="card-body">
-                <h5 class="card-title">Total Users</h5>
-                <p class="card-text fs-3 text-success">1520</p>
-              </div>
+<!-- Dashboard content -->
+<div class="p-4">
+  <h2>Welcome, Admin</h2>
+  <div class="row mt-4">
+    <div class="col-md-3 mb-3">
+      <div class="card shadow border-start border-success border-4">
+        <div class="card-body">
+          <h5 class="card-title">Total Admins</h5>
+          <p class="card-text fs-3 text-success">{{ adminList.length }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow border-start border-success border-4">
+        <div class="card-body">
+          <h5 class="card-title">Total Companies</h5>
+          <p class="card-text fs-3 text-success">{{ companyList.length }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow border-start border-success border-4">
+        <div class="card-body">
+          <h5 class="card-title">Total Job Seekers</h5>
+          <p class="card-text fs-3 text-success">{{ jobSeekerList.length }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow border-start border-success border-4">
+        <div class="card-body">
+          <h5 class="card-title">Total Packages</h5>
+          <p class="card-text fs-3 text-success">{{ packageList.length }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card shadow border-start border-primary border-4">
+        <div class="card-body">
+          <h5 class="card-title">Total Posted Jobs</h5>
+          <p class="card-text fs-3 text-primary">{{ jobList.length }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card shadow border-start border-warning border-4">
+        <div class="card-body">
+          <h5 class="card-title">Total Applications</h5>
+          <p class="card-text fs-3 text-warning">
+            {{ applicationList.length }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card shadow border-start border-warning border-4">
+        <div class="card-body mb-0">
+          <h5 class="card-title mb-0">Total Bills Summary</h5>
+
+          <div class="d-flex justify-content-between align-items-center mt-3 mb-0">
+            <div>
+              <p class="mb-1 text-muted">Total Count</p>
+              <p class="fs-4 fw-bold text-warning">{{ billList.length }}</p>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card shadow border-start border-primary border-4">
-              <div class="card-body">
-                <h5 class="card-title">Posted Jobs</h5>
-                <p class="card-text fs-3 text-primary">312</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card shadow border-start border-warning border-4">
-              <div class="card-body">
-                <h5 class="card-title">Applications</h5>
-                <p class="card-text fs-3 text-warning">847</p>
-              </div>
+
+            <div class="text-end mb-0">
+              <p class="mb-1 text-muted">Total Price</p>
+              <p class="fs-4 fw-bold text-warning">
+              {{ totalPrice}} BDT
+              </p>
             </div>
           </div>
         </div>
-
-        <!-- Add more dashboard widgets here -->
       </div>
+    </div>
+  </div>
 
+  <!-- Add more dashboard widgets here -->
+</div>

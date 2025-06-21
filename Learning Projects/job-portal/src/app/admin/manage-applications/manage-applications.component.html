@@ -1,1 +1,84 @@
-<p>manage-applications works!</p>
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-6 col-lg-4" *ngFor="let job of jobApplyList">
+      <div class="card mb-4 shadow-sm border-2 border-info rounded-4 p-2 ">
+        <div class="card-body">
+          <!-- Header -->
+          <h5 class="card-title fw-bold text-success">
+            Application Id : #{{ job.id }}
+          </h5>
+          <p class="text-muted mb-3">
+            Applied on:
+            <strong>{{ job.createdAt}}</strong>
+          </p>
+
+          <!-- Seeker Info -->
+          <div class="mb-2">
+            <strong>Seeker: </strong>
+            <span
+              >{{ job.jobSeeker.name }} ({{ job.jobSeeker.email }})</span
+            >
+          </div>
+
+          <!-- Job Info -->
+          <div class="mb-2">
+            <strong>Job: </strong>
+            <span
+              >{{ job.job.jobTitle }} at {{ job.job.company.name }}</span
+            >
+          </div>
+
+          <!-- Optional extra -->
+          <div class="text-end mt-3">
+            <button class="btn btn-outline-primary btn-sm rounded-pill me-3" (click)="viewDetails(job)">
+              View Details
+            </button>
+            <button class="btn btn-outline-warning btn-sm rounded-pill" (click)="deleteApplication(job.id)">
+              Delete Application
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Application Detail Modal -->
+<div
+  class="modal fade show d-block"
+  *ngIf="showModal && selectedApplication"
+  tabindex="-1"
+  style="background: rgba(0, 0, 0, 0.5);"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content rounded-4">
+      <div class="modal-header">
+        <h5 class="modal-title">Application #{{ selectedApplication.id }} Details</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Applied on:</strong> {{ selectedApplication.createdAt }}</p>
+
+        <h6 class="mt-4">Seeker Information</h6>
+        <ul>
+          <li><strong>Name:</strong> {{ selectedApplication.jobSeeker.name }}</li>
+          <li><strong>Email:</strong> {{ selectedApplication.jobSeeker.email }}</li>
+          <li><strong>Phone:</strong> {{ selectedApplication.jobSeeker.phone }}</li>
+          <li><strong>Education:</strong> {{ selectedApplication.jobSeeker.education }}</li>
+          <li><strong>Experience:</strong> {{ selectedApplication.jobSeeker.jobExperience }}</li>
+        </ul>
+
+        <h6 class="mt-4">Job Information</h6>
+        <ul>
+          <li><strong>Job Title:</strong> {{ selectedApplication.job.jobTitle }}</li>
+          <li><strong>Company:</strong> {{ selectedApplication.job.company.name }}</li>
+          <li><strong>Location:</strong> {{ selectedApplication.job.jobLocation }}</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -20,4 +20,8 @@ public interface JobApplyRepository extends JpaRepository<JobApply, Long> {
     List<JobApply> findAllByJob_Id(@Param("jobId") Long jobId);
 
 
+    List<JobApply> findAllByJobSeeker_Id(Long jobSeekerId);
+
+
+    List<JobApply> findAllByJob_Company_Id(Long companyId);
 }

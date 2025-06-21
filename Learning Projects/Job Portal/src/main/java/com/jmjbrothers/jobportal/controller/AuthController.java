@@ -6,7 +6,7 @@ import com.jmjbrothers.jobportal.dto.CompanyRegisterRequestDto;
 import com.jmjbrothers.jobportal.dto.LoginRequest;
 import com.jmjbrothers.jobportal.dto.SeekerRegisterRequestDto;
 import com.jmjbrothers.jobportal.dto.UserRegisterRequestDto;
-import com.jmjbrothers.jobportal.interfacedto.PortalUser;
+import com.jmjbrothers.jobportal.commondto.PortalUser;
 import com.jmjbrothers.jobportal.model.Company;
 import com.jmjbrothers.jobportal.model.Seeker;
 import com.jmjbrothers.jobportal.model.User;

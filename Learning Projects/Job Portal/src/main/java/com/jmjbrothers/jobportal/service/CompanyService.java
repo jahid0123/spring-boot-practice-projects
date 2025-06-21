@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CompanyService {
 
@@ -43,7 +45,7 @@ public class CompanyService {
         company.setEmail(request.getEmail());
         company.setPassword(passwordEncoder.encode(request.getPassword()));
         company.setBusiness(request.getBusiness());
-        company.setContact(request.getPhone());
+        company.setPhone(request.getPhone());
         company.setAddress(request.getAddress());
 
         return companyRepository.save(company);
@@ -70,8 +72,28 @@ public class CompanyService {
         }
         company.setName(editCompanyInfoDto.getName());
         company.setAddress(editCompanyInfoDto.getAddress());
-        company.setContact(editCompanyInfoDto.getContact());
+        company.setBusiness(editCompanyInfoDto.getBusiness());
+        company.setPhone(editCompanyInfoDto.getPhone());
 
         return companyRepository.save(company);
+    }
+
+    @Transactional
+    public Company getProfileInformation(Long companyId) {
+        Company company = companyRepository.findById(companyId).orElse(null);
+        if (company == null) {
+            throw new RuntimeException("Company does not exist by id: " + companyId);
+        }
+        return company;
+    }
+
+    @Transactional
+    public List<Company> getAllCompanies() {
+        return companyRepository.findAll();
+    }
+
+    @Transactional
+    public void deleteCompanyById(Long id) {
+        companyRepository.deleteById(id);
     }
 }

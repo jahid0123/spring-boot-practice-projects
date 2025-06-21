@@ -1,0 +1,78 @@
+<div class="container my-5">
+  <div class="card shadow rounded-4 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="mb-0 text-primary">Package Management</h4>
+      <button class="btn btn-success" (click)="openCreateModal()">
+        <i class="bi bi-plus-lg"></i> Create Package
+      </button>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let pkg of packages">
+        <div class="card border-start border-primary border-4 shadow-sm rounded-4 h-100">
+          <div class="card-body">
+            <h5 class="card-title fw-bold text-primary">{{ pkg.name }}</h5>
+            <p class="mb-1"><strong>Job Post Limit:</strong> {{ pkg.jobPostLimit }}</p>
+            <p class="mb-1"><strong>Applicant View Limit:</strong> {{ pkg.applicantViewLimit }}</p>
+            <p class="mb-1"><strong>Validity:</strong> {{ pkg.validityMonth }} month(s)</p>
+            <p class="mb-2"><strong>Price:</strong> ৳{{ pkg.price }}</p>
+
+            <div class="d-flex justify-content-end gap-2 mt-3">
+              <button class="btn btn-sm btn-outline-info" (click)="openEditModal(pkg)">
+                <i class="bi bi-pencil-square"></i> Edit
+              </button>
+              <button class="btn btn-sm btn-outline-danger" (click)="deletePackage(pkg.id)">
+                <i class="bi bi-trash"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal and Backdrop -->
+  <div *ngIf="showModal">
+    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5); z-index: 1050;">
+      <div class="modal-dialog">
+        <div class="modal-content shadow-lg rounded-4">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">{{ isEditMode ? 'Edit Package' : 'Create Package' }}</h5>
+            <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="packageForm" (ngSubmit)="savePackage()">
+              <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" formControlName="name" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Job Post Limit</label>
+                <input type="number" class="form-control" formControlName="jobPostLimit" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Applicant View Limit</label>
+                <input type="number" class="form-control" formControlName="applicantViewLimit" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Validity (Months)</label>
+                <input type="number" class="form-control" formControlName="validityMonth" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Price (৳)</label>
+                <input type="number" class="form-control" formControlName="price" required />
+              </div>
+
+              <div class="text-end">
+                <button type="submit" class="btn btn-primary me-2">
+                  {{ isEditMode ? 'Update' : 'Create' }}
+                </button>
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

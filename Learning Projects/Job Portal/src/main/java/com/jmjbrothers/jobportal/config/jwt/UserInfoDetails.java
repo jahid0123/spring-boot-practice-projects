@@ -1,8 +1,7 @@
 package com.jmjbrothers.jobportal.config.jwt;
 
 import com.jmjbrothers.jobportal.constants.Role;
-import com.jmjbrothers.jobportal.interfacedto.PortalUser;
-import com.jmjbrothers.jobportal.model.User;
+import com.jmjbrothers.jobportal.commondto.PortalUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

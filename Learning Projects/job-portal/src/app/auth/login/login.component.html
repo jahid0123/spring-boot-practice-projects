@@ -37,7 +37,7 @@
                 [(ngModel)]="loginData.password"
                 #password="ngModel"
                 required
-                minlength="6"
+                minlength="5"
                 placeholder="At least 6 characters"
               >
               <div *ngIf="password.invalid && (password.dirty || password.touched)" class="form-text text-danger">

@@ -10,6 +10,6 @@ public class EditCompanyInfoDto {
     private Long id;
     private String name;
     private String business;
-    private String contact;
+    private String phone;
     private String address;
 }

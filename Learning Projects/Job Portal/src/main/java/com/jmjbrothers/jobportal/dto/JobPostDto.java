@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class JobPostDto {
-
-    private Long companyId;
     private String jobTitle;
     private String jobDescription;
     private String jobRequirement;

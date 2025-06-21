@@ -1,0 +1,56 @@
+<div class="container my-5">
+  <h4 class="text-primary text-center mb-4">Job Listings</h4>
+
+  <table class="table table-bordered table-striped shadow-sm">
+    <thead class="table-primary">
+      <tr>
+        <th>Job Title</th>
+        <th>Company</th>
+        <th>Location</th>
+        <th>Workplace</th>
+        <th>Employment</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let job of jobs">
+        <td>{{ job.jobTitle }}</td>
+        <td>{{ job.company.name }}</td>
+        <td>{{ job.jobLocation }}</td>
+        <td>{{ job.workPlace }}</td>
+        <td>{{ job.employmentStatus }}</td>
+        <td>
+          <button class="btn btn-outline-info btn-sm" (click)="viewShortlists(job)">
+            <i class="bi bi-people"></i> View Shortlist
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Shortlisted Applicants Table -->
+  <div *ngIf="selectedJob">
+    <h5 class="text-success mt-5">Shortlisted Applicants for: {{ selectedJob.jobTitle }}</h5>
+
+    <table class="table table-hover table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>Applicant Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Interview Date</th>
+          <th>Shortlisted At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let shortlist of shortlists">
+          <td>{{ shortlist.jobApply.jobSeeker.name }}</td>
+          <td>{{ shortlist.jobApply.jobSeeker.email }}</td>
+          <td>{{ shortlist.jobApply.jobSeeker.phone }}</td>
+          <td>{{ shortlist.interviewDate | date:'medium' }}</td>
+          <td>{{ shortlist.shortlistedAt | date:'medium' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

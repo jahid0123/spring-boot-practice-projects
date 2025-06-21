@@ -12,9 +12,18 @@ import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
 import { ManageJobsComponent } from './admin/manage-jobs/manage-jobs.component';
 import { ManageApplicationsComponent } from './admin/manage-applications/manage-applications.component';
-import { AdminLayoutComponent } from './admin/admin-layout/admin-layout.component';
 import { AdminSettingsComponent } from './admin/admin-settings/admin-settings.component';
 import { AdminProfileComponent } from './admin/admin-profile/admin-profile.component';
+import { AdminLayoutComponent } from './admin/dashboard/admin-layout/admin-layout.component';
+import { ManagePackagesComponent } from './admin/manager-packages/manager-packages.component';
+import { CompanyProfileComponent } from './company/company-profile/company-profile.component';
+import { CompanySettingsComponent } from './company/company-settings/company-settings.component';
+import { AddJobComponent } from './company/add-job/add-job.component';
+import { MyJobsComponent } from './company/my-jobs/my-jobs.component';
+import { ApplicantsComponent } from './company/applicants/applicants.component';
+import { AllBillsComponent } from './company/all-bills/all-bills.component';
+import { PackagesComponent } from './company/packages/packages.component';
+import { ShortlistedComponent } from './company/shortlisted/shortlisted.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -37,8 +46,16 @@ export const routes: Routes = [
     canActivate: [authGuard],
     data: { roles: ['company', 'admin'] },
     children: [
-      { path: '', redirectTo: 'company-home', pathMatch: 'full' },
+      { path: '', redirectTo: 'applicants', pathMatch: 'full' },
       { path: 'company-home', component: CompanyHomeComponent },
+      { path: 'company-profile', component: CompanyProfileComponent },
+      { path: 'company-settings', component: CompanySettingsComponent },
+      { path: 'add-job', component: AddJobComponent },
+      { path: 'my-jobs', component: MyJobsComponent },
+      { path: 'applicants', component: ApplicantsComponent },
+      { path: 'all-bills', component: AllBillsComponent },
+      { path: 'packages', component: PackagesComponent },
+      { path: 'shortlisted', component: ShortlistedComponent },
     ],
   },
 
@@ -56,6 +73,7 @@ export const routes: Routes = [
       { path: 'manage-applications', component: ManageApplicationsComponent },
       { path: 'admin-settings', component: AdminSettingsComponent },
       { path: 'admin-profile', component: AdminProfileComponent },
+      { path: 'manage-package', component: ManagePackagesComponent }
     ],
   },
 

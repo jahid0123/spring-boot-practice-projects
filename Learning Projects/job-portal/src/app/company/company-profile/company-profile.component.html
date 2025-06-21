@@ -1,1 +1,89 @@
-<p>company-profile works!</p>
+<div class="container mt-5 d-flex justify-content-center">
+  <!-- Profile Card -->
+  <div class="card shadow-sm rounded-4 border-2 mb-4 w-50 fs-5" *ngIf="compnay">
+    <div class="card-body p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-primary mb-0">Company Profile</h4>
+        <button
+          class="btn btn-outline-primary btn-sm rounded-pill"
+          (click)="openEditModal()"
+        >
+          <i class="bi bi-pencil-square me-1"></i> Edit
+        </button>
+      </div>
+      <hr>
+      <p class="mb-2"><strong>Name:</strong> {{ compnay.name }}</p>
+      <p class="mb-2"><strong>Email:</strong> {{ compnay.email }}</p>
+      <p class="mb-2"><strong>Business:</strong> {{ compnay.business }}</p>
+      <p class="mb-2"><strong>Contact:</strong> {{ compnay.phone }}</p>
+      <p class="mb-2"><strong>Address:</strong> {{ compnay.address }}</p>
+      <p class="text-muted">
+        <small
+          ><i class="bi bi-calendar-date"></i> Joined on:
+          {{ compnay.createdAt }}</small
+        >
+      </p>
+    </div>
+  </div>
+
+  <!-- Edit Modal (custom) -->
+  <div
+    class="modal fade show d-block"
+    tabindex="-1"
+    *ngIf="isEditing"
+    style="background: rgba(0, 0, 0, 0.5)"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content rounded-4">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Company Profile</h5>
+          <button
+            type="button"
+            class="btn-close"
+            (click)="cancelEdit()"
+          ></button>
+        </div>
+        <div class="modal-body" *ngIf="editedCompany">
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="editedCompany.name"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Business</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="editedCompany.business"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Contact</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="editedCompany.phone"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Address</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="editedCompany.address"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="cancelEdit()">
+            Cancel
+          </button>
+          <button class="btn btn-primary" (click)="saveChanges()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
