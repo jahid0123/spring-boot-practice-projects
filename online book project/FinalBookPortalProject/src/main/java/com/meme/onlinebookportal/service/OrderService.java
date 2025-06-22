@@ -74,8 +74,27 @@ public class OrderService {
 
     //Admin property
     @Transactional
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public List<OrderResponseDto> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().map(this::mapOrderResponseDto).collect(Collectors.toList());
+    }
+
+    private OrderResponseDto mapOrderResponseDto(Order order) {
+        OrderResponseDto convertTo = new OrderResponseDto();
+        convertTo.setOrderId(order.getOrderId());
+        convertTo.setUserId(order.getUser().getId());
+        convertTo.setOrderPrice(order.getOrderPrice());
+        convertTo.setCreatedAt(order.getCreatedAt());
+        convertTo.setUserPhone(order.getUser().getPhoneNumber());
+        convertTo.setUserName(order.getUser().getName());
+        convertTo.setUserAddress(order.getAddress());
+        // Assuming getBooks() returns a List<Book> and Book has a getName() method
+        List<String> bookNames = order.getBooks()
+                .stream()
+                .map(Book::getBookName)
+                .collect(Collectors.toList());
+        convertTo.setBookName(bookNames); // assuming setBookName accepts List<String>
+        return convertTo;
     }
 
     @Transactional

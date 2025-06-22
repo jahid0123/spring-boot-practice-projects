@@ -13,46 +13,43 @@ import { FavouriteComponent } from './page/user/favourite/favourite.component';
 import { AdminAddAuthorComponent } from './page/admin/admin-add-author/admin-add-author.component';
 import { UserListComponent } from './page/admin/user-list/user-list/user-list.component';
 import { DetailsComponent } from './page/Vivid/details/details.component';
+import { OrderHistoryComponent } from './page/admin/order-history/order-history.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-   { path: 'details', component: DetailsComponent },
+  { path: 'details', component: DetailsComponent },
 
- {
-  path: 'user-dashboard',
-  component: UserDashboardComponent,
-   canActivate: [authGuard],
-  children: [
-    { path: '', redirectTo: 'user-home', pathMatch: 'full' }, // ✅ add this
-    { path: 'user-home', component: UserHomeComponent },
-    {path:'user-list', component: UserListComponent},
-    { path: 'view-details', component: ViewBookDetailsComponent },
-    { path: 'cart', component: UserCartComponent },
-    { path: 'favorite-list', component: FavouriteComponent },
-   
-    { path: '**', redirectTo: 'user-home'  }
-  ]
-},
+  {
+    path: 'user-dashboard',
+    component: UserDashboardComponent,
+    canActivate: [authGuard],
+    children: [
+      { path: '', redirectTo: 'user-home', pathMatch: 'full' }, // ✅ add this
+      { path: 'user-home', component: UserHomeComponent },
+      { path: 'user-list', component: UserListComponent },
+      { path: 'view-details', component: ViewBookDetailsComponent },
+      { path: 'cart', component: UserCartComponent },
+      { path: 'favorite-list', component: FavouriteComponent },
+
+      { path: '**', redirectTo: 'user-home' },
+    ],
+  },
 
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
     canActivate: [authGuard],
     children: [
-    { path: '', redirectTo: 'admin-home', pathMatch: 'full' }, // ✅ add this
-    { path: 'admin-home', component: AdminHomeComponent },
-    { path: 'add-book', component: AdminAddBookComponent },
-    { path: 'add-author', component: AdminAddAuthorComponent },
-    {path: 'order-history', component: UserCartComponent},
-    { path: 'user-list', component: UserListComponent },
-    { path: '**', redirectTo: 'admin-home' }
-  ]
-    
+      { path: '', redirectTo: 'admin-home', pathMatch: 'full' }, // ✅ add this
+      { path: 'admin-home', component: AdminHomeComponent },
+      { path: 'add-book', component: AdminAddBookComponent },
+      { path: 'add-author', component: AdminAddAuthorComponent },
+      { path: 'order-history', component: OrderHistoryComponent },
+      { path: 'user-list', component: UserListComponent },
+      { path: '**', redirectTo: 'admin-home' },
+    ],
   },
 
-  
-
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: 'login' },
 ];
-

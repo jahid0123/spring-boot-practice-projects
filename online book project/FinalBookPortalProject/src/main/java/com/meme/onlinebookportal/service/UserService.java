@@ -45,4 +45,13 @@ public class UserService {
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
 	}
+
+	@Transactional
+	public User getMyProfile(Long id) {
+		User user = userRepository.findById(id).orElseThrow(
+				() -> new RuntimeException("User not found by the id: "+id)
+		);
+
+		return user;
+	}
 }

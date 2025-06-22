@@ -14,6 +14,10 @@ import java.util.List;
 public class OrderResponseDto {
     private Long orderId;
     private BigDecimal orderPrice;
+    private String userName;
+    private String userAddress;
+    private String userPhone;
     private Long userId;
+    private List<String> bookName;
     private LocalDateTime createdAt;
 }

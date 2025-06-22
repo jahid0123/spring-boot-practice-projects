@@ -1,30 +1,17 @@
 package com.meme.onlinebookportal.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.meme.onlinebookportal.model.Order;
-import com.meme.onlinebookportal.model.User;
+import com.meme.onlinebookportal.dto.*;
+import com.meme.onlinebookportal.model.*;
+import com.meme.onlinebookportal.service.*;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.meme.onlinebookportal.dto.AddAuthorDto;
-import com.meme.onlinebookportal.dto.AddBookDto;
-import com.meme.onlinebookportal.dto.AuthorResponseDto;
-import com.meme.onlinebookportal.dto.BookResponseDto;
-import com.meme.onlinebookportal.dto.BookWithAuthorsDto;
-import com.meme.onlinebookportal.dto.UpdateAuthorDto;
-import com.meme.onlinebookportal.dto.UpdateBookDto;
-import com.meme.onlinebookportal.model.Author;
-import com.meme.onlinebookportal.model.Book;
-import com.meme.onlinebookportal.service.AuthorService;
-import com.meme.onlinebookportal.service.BookService;
-import com.meme.onlinebookportal.service.OrderService;
-import com.meme.onlinebookportal.service.UserService;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -35,13 +22,15 @@ public class AdminController {
     private final AuthorService authorService;
     private final OrderService orderService;
     private final UserService userService;
+    private final OrderShippedService orderShippedService;
 
     public AdminController(BookService bookService, AuthorService authorService, OrderService orderService,
-                           UserService userService) {
+                           UserService userService, OrderShippedService orderShippedService) {
         this.bookService = bookService;
         this.authorService = authorService;
         this.orderService = orderService;
         this.userService = userService;
+        this.orderShippedService = orderShippedService;
     }
 
 
@@ -102,7 +91,7 @@ public class AdminController {
 
     @GetMapping("/get/all/order")
     public ResponseEntity<?> getAllOrders() {
-        List<Order> orders = orderService.getAllOrders();
+        List<OrderResponseDto> orders = orderService.getAllOrders();
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
@@ -112,4 +101,23 @@ public class AdminController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping("/get/profile/info")
+    public ResponseEntity<?> getMyProfileInfo(@RequestParam Long id) {
+        User user = userService.getMyProfile(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    
+
+    @PostMapping("/order/shipped")
+    public ResponseEntity<?> orderShipped(@RequestParam Long id) {
+        OrderShipped shipped = orderShippedService.orderShipped(id);
+        return new ResponseEntity<>(shipped, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/get/all/shipped/order")
+    public ResponseEntity<?> getAllShippedOrder() {
+        List<ShippedOrderResponseDto> users = orderShippedService.getAllShippedOrder();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 }

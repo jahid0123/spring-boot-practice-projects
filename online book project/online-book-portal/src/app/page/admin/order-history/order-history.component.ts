@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminHomeService } from './service/admin-home.service';
-import { OrderResponse } from '../../../model/class';
-import { CommonModule } from '@angular/common';
+import { AdminHomeService } from '../admin-home/service/admin-home.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-admin-home',
+  selector: 'app-order-history',
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './admin-home.component.html',
-  styleUrl: './admin-home.component.css'
+  templateUrl: './order-history.component.html',
+  styleUrl: './order-history.component.css'
 })
-export class AdminHomeComponent implements OnInit {
+export class OrderHistoryComponent implements OnInit {
   orders: any[] = [];
   isLoading = true;
   error: string | null = null;
