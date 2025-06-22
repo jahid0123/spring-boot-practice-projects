@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../user/user-dashboard/service/user.service';
 import { Router } from '@angular/router';
 import { User } from '../../../../model/user';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-list',
@@ -10,62 +11,37 @@ import { CommonModule } from '@angular/common';
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css'
 })
-export class UserListComponent {
+export class UserListComponent implements OnInit {
   users: User[] = [];
-  editingUser: boolean = false;
-  editingIndex: number | null = null;
-  user: User = new User(); // Make sure your User model has a default constructor or fields are initialized
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.loadUsers();
   }
 
   loadUsers(): void {
-    this.userService.getUser().subscribe((data) => {
-      this.users = data;
-    });
-  }
-
-  onSubmit(): void {
-    if (this.editingUser && this.editingIndex !== null) {
-      this.userService.updateUser(this.user).subscribe({
-        next: () => {
-          console.log('User updated successfully');
-          this.loadUsers();
-          this.closeModal();
-        },
-        error: (err) => {
-          console.error('Failed to update user:', err);
-        }
-      });
-    } else {
-      alert('Invalid edit state.');
-    }
-  }
-
-  deleteUser(id: number): void {
-    this.userService.deleteUser(id).subscribe({
-      next: () => {
-        console.log('User deleted successfully');
-        this.loadUsers(); // refresh list
+    this.userService.getUser().subscribe({
+      next: (data: User[]) => {
+        this.users = data;
       },
-      error: (err) => {
-        console.error('Failed to delete user:', err);
+      error: (err: HttpErrorResponse) => {
+        console.error('Failed to load users:', err.message);
       }
     });
   }
 
-  updateUser(user: User): void {
-    this.editingUser = true;
-    this.editingIndex = user.id;
-    this.user = { ...user }; // clone the object
-  }
-
-  closeModal(): void {
-    this.editingUser = false;
-    this.editingIndex = null;
-    this.user = new User();
+  deleteUser(id: number): void {
+    if (confirm('Are you sure you want to delete this user?')) {
+      this.userService.deleteUser(id).subscribe({
+        next: () => {
+          console.log('User deleted successfully');
+          this.loadUsers(); // refresh the list
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error('Failed to delete user:', err.message);
+        }
+      });
+    }
   }
 }

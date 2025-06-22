@@ -42,6 +42,9 @@ public class Book {
     @Column(name = "book_quantity")
     private Long bookQuantity;
 
+    @Column(name = "book_description", length = 1000)
+    private String bookDescripton;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "meme_book_author",

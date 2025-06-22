@@ -7,7 +7,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   // Skip adding Authorization header for login and register endpoints
   const isAuthRequest =
-    req.url.includes('/api/auth/login') || req.url.includes('/api/auth/register') || req.url.includes('/api/user/all/posted/property');
+    req.url.includes('/api/auth/login') || req.url.includes('/api/auth/register') || req.url.includes('/api/auth/image/');
 
   if (isAuthRequest) {
     return next(req);

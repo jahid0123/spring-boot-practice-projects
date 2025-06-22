@@ -13,6 +13,7 @@ public class AddBookDto {
 	private String bookName;
 	private Long bookIsbnNumber;
 	private BigDecimal bookPrice;
+	private String bookDescription;
 	private BigDecimal bookRating;
 	private String bookCategory;
 	private Long bookQuantity;

@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    Book findByBookIsbnNumber(Long bookIsbnNumber);
 
     @Query("SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.bookAuthors")
     List<Book> findAllBooksWithAuthors();
@@ -23,4 +22,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT b FROM Book b")
     List<Book> findAllBooks();
 
+    Book findByBookIsbnNumber(Long bookIsbnNumber);
 }

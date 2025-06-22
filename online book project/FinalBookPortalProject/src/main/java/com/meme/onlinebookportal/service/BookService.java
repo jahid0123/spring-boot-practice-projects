@@ -51,6 +51,7 @@ public class BookService {
 		book.setBookRating(addBookDto.getBookRating());
 		book.setBookCategory(addBookDto.getBookCategory());
 		book.setBookQuantity(addBookDto.getBookQuantity());
+		book.setBookDescripton(addBookDto.getBookDescription());
 
 		// Save image file to local folder and store the path
 		if (imageFile != null && !imageFile.isEmpty()) {
@@ -68,7 +69,7 @@ public class BookService {
 				Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
 				// Save the relative or absolute file path
-				book.setBookImageUrl("/uploads/" + uniqueFilename); // or filePath.toString() for absolute path
+				book.setBookImageUrl(uniqueFilename); // or filePath.toString() for absolute path
 
 			} catch (IOException e) {
 				throw new RuntimeException("Failed to save book image", e);
@@ -98,42 +99,70 @@ public class BookService {
 		bookResponseDto.setBookName(book.getBookName());
 		bookResponseDto.setBookCategory(book.getBookCategory());
 		bookResponseDto.setBookPrice(book.getBookPrice());
+		bookResponseDto.setBookQuantity(book.getBookQuantity());
 		bookResponseDto.setBookRating(book.getBookRating());
 		bookResponseDto.setBookImageUrl(book.getBookImageUrl());
+		bookResponseDto.setBookDescription(book.getBookDescripton());
 		bookResponseDto.setBookIsbnNumber(book.getBookIsbnNumber());
+		bookResponseDto.setAuthorNames(book.getBookAuthors().stream().map(Author::getAuthorName).collect(Collectors.toList()));
 
 		return bookResponseDto;
 	}
 
 
 	@Transactional
-	public Book updateBook(UpdateBookDto updateBookDto) {
+	public Book updateBook(UpdateBookDto updateBookDto, MultipartFile imageFile) {
 
-		Book existBook = bookRepository.findById(updateBookDto.getId()).orElseThrow(
-				() -> new RuntimeException("Book not found with ID: " + updateBookDto.getId())
-		);
+		// Fetch the existing book or throw an exception if not found
+		Book existBook = bookRepository.findByBookIsbnNumber(updateBookDto.getBookIsbnNumber());
+		if (existBook == null)
+			throw new RuntimeException("Book not found with ID: " + updateBookDto.getBookIsbnNumber());
 
-			if (updateBookDto.getBookName() != null)
-				existBook.setBookName(updateBookDto.getBookName());
-			if (updateBookDto.getBookCategory() != null)
-				existBook.setBookCategory(updateBookDto.getBookCategory());
-			if (updateBookDto.getBookQuantity() != null)
-				existBook.setBookQuantity(updateBookDto.getBookQuantity());
-			if (updateBookDto.getBookIsbnNumber() != null)
-				existBook.setBookIsbnNumber(updateBookDto.getBookIsbnNumber());
-			if (updateBookDto.getBookPrice() != null)
-				existBook.setBookPrice(updateBookDto.getBookPrice());
-			if (updateBookDto.getBookRating() != null)
-				existBook.setBookRating(updateBookDto.getBookRating());
-			if (updateBookDto.getBookImageUrl() != null)
-				existBook.setBookImageUrl(updateBookDto.getBookImageUrl());
-			if (updateBookDto.getBookAuthorIds() != null) {
-				Set<Author> authors = new HashSet<>(authorRepository.findAllById(updateBookDto.getBookAuthorIds()));
-				existBook.setBookAuthors(authors);
+		// Update basic fields of the book
+		existBook.setBookName(updateBookDto.getBookName());
+		existBook.setBookIsbnNumber(updateBookDto.getBookIsbnNumber());
+		existBook.setBookPrice(updateBookDto.getBookPrice());
+		existBook.setBookRating(updateBookDto.getBookRating());
+		existBook.setBookCategory(updateBookDto.getBookCategory());
+		existBook.setBookQuantity(updateBookDto.getBookQuantity());
+		existBook.setBookDescripton(updateBookDto.getBookDescription());
+
+		// Update authors
+		Set<Author> authors = new HashSet<>(authorRepository.findAllById(updateBookDto.getBookAuthorIds()));
+		existBook.setBookAuthors(authors);
+
+		// Handle image update
+		if (imageFile != null && !imageFile.isEmpty()) {
+			try {
+				// Delete the old image if it exists
+				if (existBook.getBookImageUrl() != null) {
+					Path oldPath = Paths.get("uploads").resolve(existBook.getBookImageUrl());
+					Files.deleteIfExists(oldPath);
+				}
+
+				// Create the uploads directory if it doesn't exist
+				Path uploadDir = Paths.get("uploads");
+				if (!Files.exists(uploadDir)) {
+					Files.createDirectories(uploadDir);
+				}
+
+				// Save the new image
+				String filename = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+				Path filePath = uploadDir.resolve(filename);
+				Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+				// Update the book with the new image URL
+				existBook.setBookImageUrl(filename);
+
+			} catch (IOException e) {
+				throw new RuntimeException("Error updating book image", e);
 			}
+		}
 
-			return bookRepository.save(existBook);
+		// Save and return the updated book
+		return bookRepository.save(existBook);
 	}
+
 
 	@Transactional
 	public void deleteBookById(Long id) {
@@ -148,7 +177,8 @@ public class BookService {
 	}
 
 	@Transactional
-	public List<Book> getAllBooksByAdmin() {
-		return bookRepository.findAllBooks();
+	public List<BookResponseDto> getAllBooksByAdmin() {
+		List<Book> books= bookRepository.findAllBooks();
+		return books.stream().map(this::mapBookResponseDto).collect(Collectors.toList());
 	}
 }

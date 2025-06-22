@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AddBookService } from './service/add-book.service';
-import { AddAuthorService } from '../admin-add-author/service/add-author.service';
 import { CommonModule, NgFor } from '@angular/common';
-import bootstrap from 'bootstrap';
-import { HttpClient } from '@angular/common/http';
+import { Modal } from 'bootstrap';
+
 
 @Component({
   selector: 'app-admin-add-book',
@@ -13,107 +12,154 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './admin-add-book.component.css',
 })
 export class AdminAddBookComponent implements OnInit {
+  @ViewChild('addBookModal', { static: false }) addBookModal!: ElementRef;
+
   books: any[] = [];
   allAuthors: any[] = [];
-  bookForm: FormGroup;
+  bookForm!: FormGroup;
+  isEditMode: boolean = false;
+  selectedBook: any = null;
   selectedFile: File | null = null;
-  selectedFileName = '';
+  previewUrls: string[] = [];
+  modalInstance: Modal | null = null;
 
-  bookFields = [
-    { key: 'bookName', label: 'Book Name', type: 'text' },
-    { key: 'bookIsbnNumber', label: 'ISBN Number', type: 'number' },
-    { key: 'bookPrice', label: 'Price', type: 'number', step: '0.01' },
-    { key: 'bookRating', label: 'Rating', type: 'number', min: 0, max: 5, step: '0.1' },
-    { key: 'bookCategory', label: 'Category', type: 'text' },
-    { key: 'bookQuantity', label: 'Quantity', type: 'number' },
-    { key: 'bookAuthorIds', label: 'Select Authors', type: 'select' },
-  ];
-
-  constructor(private fb: FormBuilder, private http: HttpClient, private bookService: AddBookService,private authorService: AddAuthorService ) {
-    this.bookForm = this.fb.group({
-      bookName: ['', Validators.required],
-      bookIsbnNumber: [null, Validators.required],
-      bookPrice: [null, Validators.required],
-      bookRating: [null, [Validators.required, Validators.min(0), Validators.max(5)]],
-      bookCategory: ['', Validators.required],
-      bookQuantity: [null, Validators.required],
-      bookAuthorIds: [[], Validators.required],
-    });
-  }
+  constructor(private fb: FormBuilder, private bookService: AddBookService) {}
 
   ngOnInit(): void {
-    this.fetchAuthors();
-    this.fetchBooks();
+    this.initializeForm();
+    this.loadBooks();
+    this.loadAuthors();
   }
 
-  fetchAuthors(): void {
-    this.allAuthors = [
-      { id: 1, name: 'Author One' },
-      { id: 2, name: 'Author Two' },
-      { id: 3, name: 'Author Three' },
-    ];
+  initializeForm(): void {
+    this.bookForm = this.fb.group({
+      bookName: ['', Validators.required],
+      bookIsbnNumber: ['', Validators.required],
+      bookPrice: ['', [Validators.required, Validators.min(0)]],
+      bookRating: ['', [Validators.required, Validators.min(0), Validators.max(5)]],
+      bookCategory: ['', Validators.required],
+      bookDescription: ['', Validators.required],
+      bookQuantity: ['', [Validators.required, Validators.min(0)]],
+      bookAuthorIds: [[], Validators.required]
+    });
   }
 
-  fetchBooks(): void {
+  loadBooks(): void {
     this.bookService.getAllBooks().subscribe({
-      next: (res) => this.books = res,
-      error: (err) => console.error('Failed to load books', err)
-    });
-  }
-
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-      this.selectedFileName = this.selectedFile.name;
-    }
-  }
-
-  onSubmit(): void {
-    if (this.bookForm.invalid || !this.selectedFile) return;
-
-    const formValue = this.bookForm.value;
-    const addBookDto = {
-      bookName: formValue.bookName,
-      bookIsbnNumber: formValue.bookIsbnNumber,
-      bookPrice: formValue.bookPrice,
-      bookRating: formValue.bookRating,
-      bookCategory: formValue.bookCategory,
-      bookQuantity: formValue.bookQuantity,
-      bookAuthorIds: formValue.bookAuthorIds,
-    };
-
-    const formData = new FormData();
-    formData.append('book', new Blob([JSON.stringify(addBookDto)], { type: 'application/json' }));
-    formData.append('image', this.selectedFile);
-
-    this.bookService.addBook(formData).subscribe({
-      next: (res) => {
-        this.books.push(res);
-        this.onModalClose();
+      next: (data) => {
+        this.books = data.map((book: any) => ({
+          ...book,
+          bookImageUrl: book.bookImageUrl
+            ? `http://localhost:8082/api/auth/image/${book.bookImageUrl}`
+            : '12.jpg'
+        }));
       },
-      error: (err) => alert('Failed to add book.')
+      error: (err) => console.error('Error loading books:', err)
     });
   }
 
-  onModalClose(): void {
-    this.bookForm.reset();
-    this.selectedFile = null;
-    this.selectedFileName = '';
-    const modalEl = document.getElementById('addBookModal');
-    if (modalEl) bootstrap.Modal.getInstance(modalEl)?.hide();
+  loadAuthors(): void {
+    this.bookService.getAllAuthors().subscribe({
+      next: (res) => this.allAuthors = res,
+      error: (err) => console.error('Error loading authors:', err)
+    });
+  }
+
+  onAdd(): void {
+    this.clearForm();
+    this.isEditMode = false;
   }
 
   onEdit(book: any): void {
-    console.log('Edit', book);
+    this.isEditMode = true;
+    this.selectedBook = book;
+    this.bookForm.patchValue({
+      ...book,
+      bookAuthorIds: book.bookAuthorIds || []
+    });
+    this.previewUrls = book.bookImageUrl ? [book.bookImageUrl] : [];
   }
 
-  onDelete(book: any): void {
-    if (confirm(`Delete "${book.bookName}"?`)) {
-      this.bookService.deleteBook(book.id).subscribe({
-        next: () => this.books = this.books.filter(b => b.id !== book.id),
-        error: (err) => alert('Failed to delete book')
+  onSubmit(): void {
+  if (this.bookForm.invalid) return;
+
+  const formData = new FormData();
+  const bookData = this.bookForm.value;
+
+  formData.append('book', new Blob([JSON.stringify(bookData)], { type: 'application/json' }));
+  if (this.selectedFile) {
+    formData.append('image', this.selectedFile);
+  }
+
+  if (this.isEditMode && this.selectedBook) {
+    this.bookService.updateBook(formData).subscribe({
+      next: () => {
+        this.loadBooks();
+        this.closeModal();
+      },
+      error: (err) => console.error('Error updating book:', err)
+    });
+  } else {
+    this.bookService.addBook(formData).subscribe({
+      next: () => {
+        this.loadBooks();
+        this.closeModal();
+      },
+      error: (err) => console.error('Error adding book:', err)
+    });
+  }
+}
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedFile = input.files[0];
+
+      const reader = new FileReader();
+      reader.onload = () => this.previewUrls = [reader.result as string];
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.src = '12jpg';
+  }
+
+  removeSelectedImage(index: number): void {
+    this.previewUrls.splice(index, 1);
+    if (this.previewUrls.length === 0) {
+      this.selectedFile = null;
+    }
+  }
+
+  onDelete(bookId: number): void {
+    if (confirm('Are you sure you want to delete this book?')) {
+      this.bookService.deleteBook(bookId).subscribe({
+        next: () => this.loadBooks(),
+        error: (err) => console.error('Error deleting book:', err)
       });
+    }
+  }
+
+  clearForm(): void {
+    this.bookForm.reset();
+    this.selectedBook = null;
+    this.selectedFile = null;
+    this.previewUrls = [];
+    this.isEditMode = false;
+  }
+
+  openModal(): void {
+    if (this.addBookModal) {
+      this.modalInstance = new Modal(this.addBookModal.nativeElement);
+      this.modalInstance.show();
+    }
+  }
+
+  closeModal(): void {
+    if (this.modalInstance) {
+      this.modalInstance.hide();
     }
   }
 }

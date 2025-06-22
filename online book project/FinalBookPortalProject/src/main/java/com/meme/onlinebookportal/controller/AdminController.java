@@ -1,9 +1,12 @@
 package com.meme.onlinebookportal.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.meme.onlinebookportal.model.Order;
+import com.meme.onlinebookportal.model.User;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +47,7 @@ public class AdminController {
 
     @PostMapping(value = "/add/book", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> addNewBook(
-            @RequestPart("book") AddBookDto addBookDto,
+            @RequestPart("book") @Valid AddBookDto addBookDto,
             @RequestPart("image") MultipartFile imageFile) {
 
         Book book = bookService.addNewBook(addBookDto, imageFile);
@@ -53,20 +56,22 @@ public class AdminController {
 
     @GetMapping("/get/all/books")
     public ResponseEntity<?> getAllBooks() {
-        List<Book> books = bookService.getAllBooksByAdmin();
+        List<BookResponseDto> books = bookService.getAllBooksByAdmin();
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
-    @PutMapping("/update/book")
-    public ResponseEntity<?> updateBook(@RequestBody UpdateBookDto updateBookDto) {
-        Book book = bookService.updateBook(updateBookDto);
+    @PutMapping(value = "/update/book", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateBook(@RequestPart("book") @Valid UpdateBookDto updateBookDto,
+                                        @RequestPart(value = "image", required = false) MultipartFile image
+    ) throws IOException {
+        Book book = bookService.updateBook(updateBookDto, image);
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/book")
     public ResponseEntity<Void> deleteBook(@RequestParam Long id) {
         bookService.deleteBookById(id);
-        return new ResponseEntity<>(HttpStatus.OK) ;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // author
@@ -78,7 +83,7 @@ public class AdminController {
 
     @GetMapping("/get/all/authors")
     public ResponseEntity<?> getAllAuthors() {
-        List<Author> author = authorService.getAllAuthorsByAdmin();
+        List<AuthorResponseDto> author = authorService.getAllAuthorsByAdmin();
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
@@ -103,7 +108,8 @@ public class AdminController {
 
     @GetMapping("/get/all/users")
     public ResponseEntity<?> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
 }

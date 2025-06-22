@@ -10,11 +10,11 @@ import { User } from '../../../../model/user';
 export class UserService {
   //  return this.http.delete<any>(`${this.deleteBookUrl}/${id}`);
  
-private apiUrl = 'http://localhost:8082/api/admin/books/withAuthor';
+private apiUrl = 'http://localhost:8082/api/user/get/all/books';
 private getAuthorsUrl = 'http://localhost:8082/api/user/get/all/authors';
-private userUrl = 'http://localhost:8082/api/user/get/all/user';
-private deleteUserUrl = 'http://localhost:8082/api/user/delete/user';
-private updateUserUrl = 'http://localhost:8082/api/user/update/user';
+private userUrl = 'http://localhost:8082/api/admin/get/all/users';
+private deleteUserUrl = 'http://localhost:8082/api/user/delete/userbyid';
+private updateUserUrl = 'http://localhost:8082/api/user/update/userbyid';
 
   constructor(private http: HttpClient) {}
 

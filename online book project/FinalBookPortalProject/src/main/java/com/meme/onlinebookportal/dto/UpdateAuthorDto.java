@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class UpdateAuthorDto {
-	private Long authorId;
+	private Long id;
 	private String authorName;
 	private Long authorNid;
 	private String authorBio;

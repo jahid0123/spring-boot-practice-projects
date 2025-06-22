@@ -1,86 +1,276 @@
-<!-- book-list.component.html -->
 <div class="container my-4">
-  <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addBookModal">
-    Add Book
-  </button>
-
-  <div *ngIf="!books || books.length === 0" class="alert alert-info text-center my-4">
-    No books available.
+  <!-- Add Book Button -->
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-success mb-3 px-4" (click)="onAdd(); openModal()">
+      <i class="bi bi-plus-circle me-2"></i>Add Book
+    </button>
   </div>
 
-  <div *ngIf="books && books.length > 0" class="row row-cols-1 row-cols-md-3 g-4">
+  <!-- Books Grid -->
+  <div
+    *ngIf="books.length > 0; else noBooks"
+    class="row row-cols-1 row-cols-md-3 g-4"
+  >
     <div class="col" *ngFor="let book of books">
-      <div class="card h-100 shadow-sm">
-        <img *ngIf="book.bookImageUrl" [src]="book.bookImageUrl" class="card-img-top" [alt]="book.bookName" style="height: 200px; object-fit: cover" />
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title">{{ book.bookName }}</h5>
-          <p class="card-text mb-1"><strong>ISBN:</strong> {{ book.bookIsbnNumber }}</p>
-          <p class="card-text mb-1"><strong>Price:</strong> {{ book.bookPrice | currency }}</p>
-          <p class="card-text mb-1"><strong>Rating:</strong> {{ book.bookRating }}</p>
-          <p class="card-text mb-1"><strong>Category:</strong> {{ book.bookCategory }}</p>
-          <p class="card-text mb-1"><strong>Quantity:</strong> {{ book.bookQuantity }}</p>
-          <p class="card-text mb-3">
+      <div class="card h-100 shadow-sm border-1">
+        <img
+          *ngIf="book.bookImageUrl"
+          [src]="book.bookImageUrl"
+          class="card-img-top"
+          [alt]="book.bookName"
+          style="height: 300px; object-fit: cover"
+          (error)="onImageError($event)"
+        />
+        <div class="card-body">
+          <h5 class="card-title text-truncate">{{ book.bookName }}</h5>
+          <div class="row">
+            <p class="col-md-6 mb-3">
+              <strong>Category:</strong> {{ book.bookCategory }}
+            </p>
+            <p class="col-md-6 mb-3">
+              <strong>Price:</strong> {{ book.bookPrice | currency }}
+            </p>
+          </div>
+          <div class="row">
+            <p class="col-md-6 mb-3">
+              <strong>Rating:</strong> {{ book.bookRating }}
+            </p>
+            <p class="col-md-6 mb-3">
+              <strong>Quantity:</strong> {{ book.bookQuantity }}
+            </p>
+          </div>
+
+          <p class="mb-3">
+            <strong>Description:</strong> {{ book.bookDescription }}
+          </p>
+          <!-- Authors Section -->
+          <p *ngIf="book.authorNames?.length > 0" class="mb-3">
             <strong>Authors:</strong>
-            <span *ngFor="let author of book.bookAuthors; let last = last">
-              {{ author.name }}<span *ngIf="!last">, </span>
+            <span *ngFor="let author of book.authorNames; let i = index">
+              {{ author
+              }}<span *ngIf="i < book.authorNames.length - 1">, </span>
             </span>
           </p>
-          <div class="mt-auto d-flex justify-content-between">
-            <button class="btn btn-sm btn-primary" (click)="onEdit(book)">Edit</button>
-            <button class="btn btn-sm btn-danger" (click)="onDelete(book)">Delete</button>
+          <div class="d-flex justify-content-between">
+            <button
+              class="btn btn-sm btn-outline-primary px-3"
+              (click)="onEdit(book); openModal()"
+            >
+              <i class="bi bi-pencil"></i> Edit
+            </button>
+            <button
+              class="btn btn-sm btn-outline-danger px-3"
+              (click)="onDelete(book.id)"
+            >
+              <i class="bi bi-trash"></i> Delete
+            </button>
           </div>
-        </div>
-        <div class="card-footer text-muted text-end">
-          Created At: {{ book.createdAt | date:'medium' }}
         </div>
       </div>
     </div>
   </div>
+
+  <!-- No Books Fallback -->
+  <ng-template #noBooks>
+    <div class="alert alert-info text-center">
+      <i class="bi bi-info-circle"></i> No books available. Click "Add Book" to
+      create one.
+    </div>
+  </ng-template>
 </div>
 
-<!-- Add Book Modal -->
-<div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+<!-- Add/Edit Book Modal -->
+<div
+  class="modal fade"
+  id="addBookModal"
+  tabindex="-1"
+  aria-labelledby="addBookModalLabel"
+  aria-hidden="true"
+  #addBookModal
+>
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addBookModalLabel">Add New Book</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="onModalClose()"></button>
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">
+            <i class="bi bi-book-fill me-2"></i>
+            {{ isEditMode ? "Edit Book" : "Add New Book" }}
+          </h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+          ></button>
         </div>
         <div class="modal-body">
-          <div class="mb-3" *ngFor="let field of bookFields">
-            <label [for]="field.key" class="form-label">{{ field.label }}</label>
-            <input
-              *ngIf="field.type !== 'select'"
-              [type]="field.type"
-              [id]="field.key"
-              class="form-control"
-              [formControlName]="field.key"
-              [step]="field.step || null"
-              [min]="field.min || null"
-              [max]="field.max || null"
-              required
-            />
+          <!-- Book Details Section -->
+          <fieldset class="border rounded-3 p-3 mb-4">
+            <legend class="w-auto px-2 text-primary">Book Details</legend>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="bookName" class="form-label">Book Name</label>
+                <input
+                  type="text"
+                  id="bookName"
+                  class="form-control"
+                  formControlName="bookName"
+                  placeholder="Enter book name"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="bookIsbnNumber" class="form-label"
+                  >ISBN Number</label
+                >
+                <input
+                  type="number"
+                  id="bookIsbnNumber"
+                  class="form-control"
+                  formControlName="bookIsbnNumber"
+                  placeholder="Enter ISBN number"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="bookPrice" class="form-label">Price</label>
+                <input
+                  type="number"
+                  id="bookPrice"
+                  class="form-control"
+                  formControlName="bookPrice"
+                  step="0.01"
+                  placeholder="Enter price"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="bookRating" class="form-label">Rating</label>
+                <input
+                  type="number"
+                  id="bookRating"
+                  class="form-control"
+                  formControlName="bookRating"
+                  min="0"
+                  max="5"
+                  step="0.1"
+                  placeholder="Enter rating (0-5)"
+                />
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Additional Info Section -->
+          <fieldset class="border rounded-3 p-3 mb-4">
+            <legend class="w-auto px-2 text-primary">
+              Additional Information
+            </legend>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="bookCategory" class="form-label">Category</label>
+                <input
+                  type="text"
+                  id="bookCategory"
+                  class="form-control"
+                  formControlName="bookCategory"
+                  placeholder="Enter category"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="bookQuantity" class="form-label">Quantity</label>
+                <input
+                  type="number"
+                  id="bookQuantity"
+                  class="form-control"
+                  formControlName="bookQuantity"
+                  placeholder="Enter quantity"
+                />
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Description Section -->
+          <fieldset class="border rounded-3 p-3 mb-4">
+            <legend class="w-auto px-2 text-primary">Description</legend>
+            <div class="col-md-12 mb-3">
+              <textarea
+                formControlName="bookDescription"
+                class="form-control"
+                name="bookDescription"
+                id="bookDescription"
+                rows="2"
+                placeholder="Enter Description"
+              ></textarea>
+            </div>
+          </fieldset>
+
+          <!-- Author Selection -->
+          <fieldset class="border rounded-3 p-3 mb-4">
+            <legend class="w-auto px-2 text-primary">Select Authors</legend>
             <select
-              *ngIf="field.type === 'select'"
-              [id]="field.key"
+              id="bookAuthorIds"
               class="form-select"
               formControlName="bookAuthorIds"
               multiple
             >
-              <option *ngFor="let author of allAuthors" [value]="author.id">{{ author.name }}</option>
+              <option *ngFor="let author of allAuthors" [value]="author.id">
+                {{ author.authorName }}
+              </option>
             </select>
-          </div>
+            <small class="text-muted"
+              >Hold Ctrl (Windows) or Command (Mac) to select multiple
+              authors.</small
+            >
+          </fieldset>
 
-          <div class="mb-3">
-            <label for="bookImageFile" class="form-label">Upload Book Image</label>
-            <input type="file" id="bookImageFile" class="form-control" (change)="onFileSelected($event)" accept="image/*" required />
-            <div *ngIf="selectedFileName" class="form-text">Selected file: {{ selectedFileName }}</div>
+          <!-- Image Upload -->
+          <fieldset class="border rounded-3 p-3">
+            <legend class="w-auto px-2 text-primary">Book Cover</legend>
+            <div class="mb-3">
+              <label for="bookImageFile" class="form-label"
+                >Upload Book Image</label
+              >
+              <input
+                type="file"
+                id="bookImageFile"
+                class="form-control"
+                (change)="onFileSelected($event)"
+                accept="image/*"
+              />
+            </div>
+          </fieldset>
+
+          <!-- Image Previews -->
+          <div
+            *ngIf="previewUrls.length > 0"
+            class="mt-3 d-flex flex-wrap gap-3"
+          >
+            <div
+              *ngFor="let img of previewUrls; let i = index"
+              class="position-relative"
+            >
+              <img
+                [src]="img"
+                alt="Preview"
+                class="img-thumbnail shadow-sm"
+                style="width: 100px; height: 100px; object-fit: cover"
+              />
+              <button
+                type="button"
+                class="btn-close position-absolute top-0 end-0 bg-danger"
+                (click)="removeSelectedImage(i)"
+                style="transform: scale(0.8)"
+              ></button>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="onModalClose()">Close</button>
-          <button type="submit" class="btn btn-primary" [disabled]="bookForm.invalid">Save Book</button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            <i class="bi bi-x-circle"></i> Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-save"></i> {{ isEditMode ? "Update" : "Add" }} Book
+          </button>
         </div>
       </form>
     </div>

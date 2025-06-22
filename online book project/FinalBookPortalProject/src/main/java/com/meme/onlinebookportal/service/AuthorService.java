@@ -41,8 +41,8 @@ public class AuthorService {
     @Transactional
     public Author updateAuthor(UpdateAuthorDto updateAuthorDto) {
 
-        Author existingAuthor = authorRepository.findById(updateAuthorDto.getAuthorId()).orElseThrow(
-                () -> new RuntimeException("Author not found with ID: " + updateAuthorDto.getAuthorId())
+        Author existingAuthor = authorRepository.findById(updateAuthorDto.getId()).orElseThrow(
+                () -> new RuntimeException("Author not found with ID: " + updateAuthorDto.getId())
         );
 
         existingAuthor.setAuthorName(updateAuthorDto.getAuthorName());
@@ -77,7 +77,8 @@ public class AuthorService {
 
     //Admin property
     @Transactional
-    public List<Author> getAllAuthorsByAdmin() {
-        return authorRepository.findAll();
+    public List<AuthorResponseDto> getAllAuthorsByAdmin() {
+        List<Author> authors = authorRepository.findAll();
+        return authors.stream().map(this::mapAuthorResponseDto).collect(Collectors.toList());
     }
 }

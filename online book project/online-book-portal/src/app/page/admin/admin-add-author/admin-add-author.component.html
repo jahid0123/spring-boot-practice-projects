@@ -2,95 +2,88 @@
 
 <!-- Add/Edit Author Modal -->
 <div class="modal fade" id="authorModal" tabindex="-1" aria-labelledby="authorModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <form #authorForm="ngForm" (ngSubmit)="onSubmitAuthor()" class="modal-content shadow-lg border-0 rounded-4">
-            <div class="modal-header bg-success text-white rounded-top-4">
-                <h5 class="modal-title" id="authorModalLabel">
-                    {{ editingAuthor ? "EDIT AUTHOR" : "ADD NEW AUTHOR" }}
-                </h5>
-                <button type="button" class="btn-close btn-close-white" (click)="closeAuthorModal()"
-                    aria-label="Close"></button>
-            </div>
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <form #authorForm="ngForm" (ngSubmit)="onSubmitAuthor()" class="modal-content shadow-lg border-0 rounded-4">
+      <div class="modal-header bg-success text-white rounded-top-4">
+        <h5 class="modal-title" id="authorModalLabel">
+          {{ editingAuthor ? "EDIT AUTHOR" : "ADD NEW AUTHOR" }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="closeAuthorModal()" aria-label="Close"></button>
+      </div>
 
-            <div class="modal-body px-4 py-3">
-                <div class="row g-3">
-                    <!-- Author Name -->
-                    <div class="col-md-6">
-                        <label for="authorName" class="form-label fw-semibold">AUTHOR NAME</label>
-                        <input type="text" id="authorName" name="authorName" [(ngModel)]="author.authorName"
-                            class="form-control" placeholder="Enter author name" required />
-                    </div>
+      <div class="modal-body px-4 py-3">
+        <div class="row g-3">
+          <!-- Author Name -->
+          <div class="col-md-6">
+            <label for="authorName" class="form-label fw-semibold">AUTHOR NAME</label>
+            <input type="text" id="authorName" name="authorName" [(ngModel)]="author.authorName" class="form-control" placeholder="Enter author name" required />
+          </div>
 
-                    <!-- Author NID -->
-                    <div class="col-md-6">
-                        <label for="authorNid" class="form-label fw-semibold">AUTHOR NID</label>
-                        <input type="number" id="authorNid" name="authorNid" [(ngModel)]="author.authorNid"
-                            class="form-control" placeholder="Enter NID number" required />
-                    </div>
+          <!-- Author NID -->
+          <div class="col-md-6">
+            <label for="authorNid" class="form-label fw-semibold">AUTHOR NID</label>
+            <input type="number" id="authorNid" name="authorNid" [(ngModel)]="author.authorNid" class="form-control" placeholder="Enter NID number" required />
+          </div>
 
-                    <!-- Author Bio -->
-                    <div class="col-md-12">
-                        <label for="authorBio" class="form-label fw-semibold">BIO</label>
-                        <textarea id="authorBio" name="authorBio" [(ngModel)]="author.authorBio" class="form-control"
-                            rows="3" placeholder="Short biography" required></textarea>
-                    </div>
+          <!-- Author Bio -->
+          <div class="col-md-12">
+            <label for="authorBio" class="form-label fw-semibold">BIO</label>
+            <textarea id="authorBio" name="authorBio" [(ngModel)]="author.authorBio" class="form-control" rows="3" placeholder="Short biography" required></textarea>
+          </div>
 
-                    <!-- Address -->
-                    <div class="col-md-12">
-                        <label for="address" class="form-label fw-semibold">ADDRESS</label>
-                        <input type="text" id="address" name="address" [(ngModel)]="author.address" class="form-control"
-                            placeholder="Author address" required />
-                    </div>
-                </div>
-            </div>
+          <!-- Address -->
+          <div class="col-md-12">
+            <label for="address" class="form-label fw-semibold">ADDRESS</label>
+            <input type="text" id="address" name="address" [(ngModel)]="author.address" class="form-control" placeholder="Author address" required />
+          </div>
+        </div>
+      </div>
 
-            <div class="modal-footer bg-light rounded-bottom-4">
-                <button type="submit" class="btn btn-success px-4" [disabled]="!authorForm.form.valid">
-                    {{ editingAuthor ? "Update Author" : "Add Author" }}
-                </button>
-                <button type="button" class="btn btn-outline-secondary" (click)="closeAuthorModal()">
-                    Cancel
-                </button>
-            </div>
-        </form>
-    </div>
+      <div class="modal-footer bg-light rounded-bottom-4">
+        <button type="submit" class="btn btn-success px-4" [disabled]="!authorForm.form.valid">
+          {{ editingAuthor ? "Update Author" : "Add Author" }}
+        </button>
+        <button type="button" class="btn btn-outline-secondary" (click)="closeAuthorModal()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <!-- Author Table -->
 <div class="container mt-4">
-    <button class="btn btn-success mb-3" (click)="openAddAuthorModal()">
-        Add Author
-    </button>
+  <button class="btn btn-success mb-3" (click)="openAddAuthorModal()">
+    Add Author
+  </button>
 
-    <table class="table table-bordered table-hover">
-        <thead class="table-success text-dark">
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>NID</th>
-                <th>Bio</th>
-                <th>Address</th>
-                <!-- <th>Date</th> -->
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let a of getAuthors; author: trackByAuthorId" class="text-center align-middle">
-                <td>{{ a.authorId }}</td>
-                <td>{{ a.authorName }}</td>
-                <td>{{ a.authorNid }}</td>
-                <td>{{ a.authorBio }}</td>
-                <td>{{ a.address }}</td>
-                <!-- <td>{{ a.createdAt }}</td> -->
-                <td>
-                    <button class="btn btn-sm btn-primary me-1" (click)="openEditAuthorModal(a)">
-                        Edit
-                    </button>
-                    <button class="btn btn-sm btn-danger" (click)="deleteAuthor(a.authorId)">
-                        Delete
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+  <table class="table table-bordered table-hover">
+    <thead class="table-success text-dark">
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>NID</th>
+        <th>Bio</th>
+        <th>Address</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let a of getAuthors; trackBy: trackByAuthorId" class="text-center align-middle">
+        <td>{{ a.id }}</td>
+        <td>{{ a.authorName }}</td>
+        <td>{{ a.authorNid }}</td>
+        <td>{{ a.authorBio }}</td>
+        <td>{{ a.address }}</td>
+        <td>
+          <button class="btn btn-sm btn-primary me-1" (click)="openEditAuthorModal(a)">
+            Edit
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="deleteAuthor(a.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

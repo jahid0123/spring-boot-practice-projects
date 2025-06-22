@@ -58,7 +58,7 @@ export class AddAuthor {
 }
 
 export interface Author {
-  authorId: number;
+  id: number;
   authorName: string;
   authorNid: number;
   authorBio: string;

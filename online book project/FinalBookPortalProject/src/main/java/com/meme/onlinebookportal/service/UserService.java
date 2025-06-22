@@ -18,12 +18,13 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 
-	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-		this.userRepository = userRepository;
-		this.passwordEncoder = passwordEncoder;
-	}
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
-	@Transactional
+
+    @Transactional
 	public User registerNewUser(SignupRequestDto request) {
 
 		User existUser = userRepository.findByEmail(request.getEmail()).orElse(null);

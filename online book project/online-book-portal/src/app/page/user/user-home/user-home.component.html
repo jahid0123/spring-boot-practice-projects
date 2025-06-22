@@ -1,18 +1,58 @@
 <div class="container mt-4">
+  <!-- Carousel for Featured Books -->
+  <div id="featuredCarousel" class="carousel slide mb-5 shadow-sm rounded" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="1.jpg" class="d-block w-100 rounded" alt="Banner 1" style="height: 350px; object-fit: cover;">
+      </div>
+      <div class="carousel-item">
+        <img src="2.jpg" class="d-block w-100 rounded" alt="Banner 2" style="height: 350px; object-fit: cover;">
+      </div>
+      <div class="carousel-item">
+        <img src="3.jpg" class="d-block w-100 rounded" alt="Banner 3" style="height: 350px; object-fit: cover;">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#featuredCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#featuredCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
+  <!-- Book Grid -->
   <div class="row">
-    <div class="col-md-4 mb-4" *ngFor="let book of books">
-      <div class="card h-100 shadow-sm">
+    <div class="col-md-3 mb-4" *ngFor="let book of books">
+      <div class="card h-100 shadow-sm border-0">
+        <!-- Book Image -->
+        <img
+          [src]="getImageUrl(book.bookImageUrl)"
+          class="card-img-top"
+          [alt]="book.bookName"
+          style="height: 250px; object-fit: cover"
+          (error)="onImageError($event)"
+        />
+
         <div class="card-body">
-          <img src="{{ book.bookImageUrl }}" class="card-img-top" alt="Book Image">
-          <h5 class="card-title">{{ book.bookName }}</h5>
-          <strong>Authors Name:</strong> {{ book.authorNames }}<br />
-          <h6 class="card-subtitle mb-2 text-muted">Category: {{ book.bookCategory }}</h6>
-          <p class="card-text">
-            <strong>ISBN:</strong> {{ book.bookIsbnNumber }}<br />
-            <strong>Price:</strong> {{ book.bookPrice }} BDT<br />
-            <strong>Rating:</strong> {{ book.bookRating }} / 5<br />
+          <h5 class="card-title text-truncate">{{ book.bookName }}</h5>
+
+          <p class="mb-1">
+            <strong>Authors:</strong>
+            <ng-container *ngIf="book.authorNames?.length; else noAuthor">
+              <span *ngFor="let author of book.authorNames; let i = index">
+                {{ author }}<span *ngIf="i < book.authorNames.length - 1">, </span>
+              </span>
+            </ng-container>
+            <ng-template #noAuthor>Unknown</ng-template>
           </p>
+
+          <p class="text-muted mb-1">Category: {{ book.bookCategory }}</p>
+          <p class="mb-1"><strong>ISBN:</strong> {{ book.bookIsbnNumber }}</p>
+          <p class="mb-1"><strong>Price:</strong> {{ book.bookPrice }} BDT</p>
+          <p class="mb-1"><strong>Rating:</strong> {{ book.bookRating }} / 5</p>
         </div>
+
+        <!-- Action Buttons -->
         <div class="card-footer d-flex justify-content-between">
           <button class="btn btn-primary btn-sm" (click)="addToCart(book)">
             <i class="bi bi-cart-plus"></i> Add to Cart
