@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jmjbrothers.doctorsappointmentsystem.common.PortalUser;
 import com.jmjbrothers.doctorsappointmentsystem.constants.Role;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +32,6 @@ public class Doctor implements PortalUser {
     @JsonIgnore
     @Column(name = "doctor_password", nullable = false)
     private String password;
-
 
     private String specialization;
 
