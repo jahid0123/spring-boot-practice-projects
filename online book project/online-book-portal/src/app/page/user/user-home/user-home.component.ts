@@ -17,9 +17,9 @@ export class UserHomeComponent implements OnInit {
   cart: Book[] = [];
   favorites: Book[] = [];
 
-  defaultImagePath = '12.jpg';
+  selectedBook: any = null;
 
-  
+  defaultImagePath = '12.jpg';
 
   constructor(
     private bookService: UserService,
@@ -37,20 +37,17 @@ export class UserHomeComponent implements OnInit {
   loadBooks(): void {
     this.bookService.getAllBooks().subscribe({
       next: (data) => (this.books = data),
-      error: (err) => console.error('Failed to load books:', err)
+      error: (err) => console.error('Failed to load books:', err),
     });
   }
 
-  // Navigate to book details page
-  viewDetails(book: Book): void {
-    this.router.navigate(['/user-dashboard/view-details'], {
-      state: { book }
-    });
+  viewDetails(book: any): void {
+    this.selectedBook = book;
   }
 
   // Add book to cart with quantity handling
   addToCart(book: Book): void {
-    const existingBook = this.cart.find(item => item.id === book.id);
+    const existingBook = this.cart.find((item) => item.id === book.id);
 
     if (existingBook) {
       existingBook.quantity = (existingBook.quantity || 1) + 1;
@@ -69,7 +66,7 @@ export class UserHomeComponent implements OnInit {
     const stored = localStorage.getItem('favorites');
     const favorites: Book[] = stored ? JSON.parse(stored) : [];
 
-    if (!favorites.some(b => b.id === book.id)) {
+    if (!favorites.some((b) => b.id === book.id)) {
       favorites.push(book);
       localStorage.setItem('favorites', JSON.stringify(favorites));
       alert('Book added to favorites!');
@@ -88,6 +85,8 @@ export class UserHomeComponent implements OnInit {
   }
 
   getImageUrl(bookImageUrl: string | null): string {
-    return bookImageUrl ? `http://localhost:8082/api/auth/image/${bookImageUrl}` : this.defaultImagePath;
+    return bookImageUrl
+      ? `http://localhost:8082/api/auth/image/${bookImageUrl}`
+      : this.defaultImagePath;
   }
 }

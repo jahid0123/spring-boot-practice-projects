@@ -1,73 +1,90 @@
-<nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm px-4 py-3 rounded-bottom">
-  <a class="navbar-brand fw-bold d-flex align-items-center" [routerLink]="['/admin-dashboard']">
-    <i class="bi bi-speedometer2 me-2 fs-4"></i>Admin Dashboard
-  </a>
+<div class="d-flex" style="min-height: 100vh;">
+  <!-- Sidebar -->
+  <nav
+    class="bg-primary text-white p-3 shadow-sm d-flex flex-column"
+    style="width: 250px;"
+  >
+    <div class="d-flex align-items-center mb-4">
+      <i class="bi bi-speedometer2 fs-4 me-2"></i>
+      <span class="fs-5 fw-bold">Admin Panel</span>
+    </div>
 
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="adminNavbar">
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center" [routerLink]="['/admin-dashboard/admin-home']">
-          <i class="bi bi-house-door me-2"></i>Home
+    <ul class="nav flex-column">
+      <li class="nav-item mb-2">
+        <a class="nav-link text-white d-flex align-items-center"
+           routerLink="/admin-dashboard/admin-home"
+           routerLinkActive="active fw-semibold bg-white text-primary rounded px-2">
+          <i class="bi bi-house-door me-2"></i> Home
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center" [routerLink]="['/admin-dashboard/add-book']">
-          <i class="bi bi-book me-2"></i>Book Management
+      <li class="nav-item mb-2">
+        <a class="nav-link text-white d-flex align-items-center"
+           routerLink="/admin-dashboard/add-book"
+           routerLinkActive="active fw-semibold bg-white text-primary rounded px-2">
+          <i class="bi bi-book me-2"></i> Book Management
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center" [routerLink]="['/admin-dashboard/add-author']">
-          <i class="bi bi-people me-2"></i>Author Management
+      <li class="nav-item mb-2">
+        <a class="nav-link text-white d-flex align-items-center"
+           routerLink="/admin-dashboard/add-author"
+           routerLinkActive="active fw-semibold bg-white text-primary rounded px-2">
+          <i class="bi bi-people me-2"></i> Author Management
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center" [routerLink]="['/admin-dashboard/order-history']">
-          <i class="bi bi-basket me-2"></i>Order Management
+      <li class="nav-item mb-2">
+        <a class="nav-link text-white d-flex align-items-center"
+           routerLink="/admin-dashboard/order-history"
+           routerLinkActive="active fw-semibold bg-white text-primary rounded px-2">
+          <i class="bi bi-basket me-2"></i> Order Management
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center" [routerLink]="['/admin-dashboard/user-list']">
-          <i class="bi bi-person-lines-fill me-2"></i>User Management
+      <li class="nav-item mb-2">
+        <a class="nav-link text-white d-flex align-items-center"
+           routerLink="/admin-dashboard/user-list"
+           routerLinkActive="active fw-semibold bg-white text-primary rounded px-2">
+          <i class="bi bi-person-lines-fill me-2"></i> User Management
         </a>
       </li>
     </ul>
+  </nav>
 
-    <!-- Profile Dropdown -->
-    <div class="dropdown">
-      <a
-        class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-        href="#"
-        id="adminProfileDropdown"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        <i class="bi bi-person-circle fs-4 me-2"></i>
-        <span>Admin</span>
-      </a>
-      <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="adminProfileDropdown">
-        <li>
-          <a class="dropdown-item" [routerLink]="['/admin-dashboard/profile']">
-            <i class="bi bi-person me-2"></i>Profile
+  <!-- Main Content Area -->
+  <div class="flex-grow-1 d-flex flex-column">
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm px-4">
+      <div class="ms-auto">
+        <div class="dropdown">
+          <a
+            class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
+            href="#"
+            id="adminProfileDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="bi bi-person-circle fs-4 me-2"></i>
+            <span>Admin</span>
           </a>
-        </li>
-        <li><hr class="dropdown-divider" /></li>
-        <li>
-          <a class="dropdown-item text-danger" href="#" (click)="logout()">
-            <i class="bi bi-box-arrow-right me-2"></i>Logout
-          </a>
-        </li>
-      </ul>
+          <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="adminProfileDropdown">
+            <li>
+              <a class="dropdown-item" routerLink="/admin-dashboard/profile">
+                <i class="bi bi-person me-2"></i> Profile
+              </a>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item text-danger" href="#" (click)="logout()">
+                <i class="bi bi-box-arrow-right me-2"></i> Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Router View -->
+    <div class="p-4 bg-light flex-grow-1">
+      <router-outlet></router-outlet>
     </div>
-  </div>
-</nav>
-
-<div class="main-content mt-4">
-  <div class="page-view">
-    <router-outlet></router-outlet>
   </div>
 </div>

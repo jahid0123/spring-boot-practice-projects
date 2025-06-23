@@ -9,8 +9,6 @@ import com.meme.onlinebookportal.repository.BookRepository;
 import com.meme.onlinebookportal.repository.OrderRepository;
 import com.meme.onlinebookportal.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -63,7 +61,7 @@ public class OrderService {
 
         // Build response DTO
         OrderResponseDto responseDto = new OrderResponseDto();
-        responseDto.setOrderId(savedOrder.getOrderId());
+        responseDto.setOrderId(savedOrder.getId());
         responseDto.setUserId(savedOrder.getUser().getId());
         responseDto.setOrderPrice(savedOrder.getOrderPrice());
 
@@ -81,7 +79,7 @@ public class OrderService {
 
     private OrderResponseDto mapOrderResponseDto(Order order) {
         OrderResponseDto convertTo = new OrderResponseDto();
-        convertTo.setOrderId(order.getOrderId());
+        convertTo.setOrderId(order.getId());
         convertTo.setUserId(order.getUser().getId());
         convertTo.setOrderPrice(order.getOrderPrice());
         convertTo.setCreatedAt(order.getCreatedAt());

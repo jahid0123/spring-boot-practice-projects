@@ -2,9 +2,6 @@ package com.meme.onlinebookportal.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.meme.onlinebookportal.constants.OrderStatus;
@@ -33,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long orderId;
+	private Long id;
 
 	@Column(name = "order_price", nullable = false)
 	private BigDecimal orderPrice;

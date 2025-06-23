@@ -22,15 +22,13 @@ public class AdminController {
     private final AuthorService authorService;
     private final OrderService orderService;
     private final UserService userService;
-    private final OrderShippedService orderShippedService;
 
     public AdminController(BookService bookService, AuthorService authorService, OrderService orderService,
-                           UserService userService, OrderShippedService orderShippedService) {
+                           UserService userService) {
         this.bookService = bookService;
         this.authorService = authorService;
         this.orderService = orderService;
         this.userService = userService;
-        this.orderShippedService = orderShippedService;
     }
 
 
@@ -109,15 +107,15 @@ public class AdminController {
 
 
 
-    @PostMapping("/order/shipped")
-    public ResponseEntity<?> orderShipped(@RequestParam Long id) {
-        OrderShipped shipped = orderShippedService.orderShipped(id);
-        return new ResponseEntity<>(shipped, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/get/all/shipped/order")
-    public ResponseEntity<?> getAllShippedOrder() {
-        List<ShippedOrderResponseDto> users = orderShippedService.getAllShippedOrder();
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
+//    @PostMapping("/order/shipped")
+//    public ResponseEntity<?> orderShipped(@RequestParam Long id) {
+//        OrderShipped shipped = orderShippedService.orderShipped(id);
+//        return new ResponseEntity<>(shipped, HttpStatus.CREATED);
+//    }
+//
+//    @GetMapping("/get/all/shipped/order")
+//    public ResponseEntity<?> getAllShippedOrder() {
+//        List<ShippedOrderResponseDto> users = orderShippedService.getAllShippedOrder();
+//        return new ResponseEntity<>(users, HttpStatus.OK);
+//    }
 }
