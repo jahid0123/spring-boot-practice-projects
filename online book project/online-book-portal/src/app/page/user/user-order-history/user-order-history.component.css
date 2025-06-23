@@ -1,0 +1,16 @@
+
+
+.btn:hover {
+  background-color: #2b3642; 
+  transform: translateY(-2px);
+}
+
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+
+button + br + button {
+  margin-top: 10px;
+}

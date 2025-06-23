@@ -3,7 +3,6 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { UserDashboardComponent } from './page/user/user-dashboard/user-dashboard.component';
 import { AdminDashboardComponent } from './page/admin/admin-dashboard/admin-dashboard.component';
-import { ViewBookDetailsComponent } from './page/user/view-book-details/view-book-details.component';
 import { authGuard } from './core/auth.guard';
 import { UserHomeComponent } from './page/user/user-home/user-home.component';
 import { AdminAddBookComponent } from './page/admin/admin-add-book/admin-add-book.component';
@@ -14,6 +13,7 @@ import { AdminAddAuthorComponent } from './page/admin/admin-add-author/admin-add
 import { UserListComponent } from './page/admin/user-list/user-list/user-list.component';
 import { DetailsComponent } from './page/Vivid/details/details.component';
 import { OrderHistoryComponent } from './page/admin/order-history/order-history.component';
+import { UserOrderHistoryComponent } from './page/user/user-order-history/user-order-history.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -28,7 +28,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'user-home', pathMatch: 'full' }, // ✅ add this
       { path: 'user-home', component: UserHomeComponent },
       { path: 'user-list', component: UserListComponent },
-      { path: 'view-details', component: ViewBookDetailsComponent },
+      { path: 'order-history', component: UserOrderHistoryComponent },
       { path: 'cart', component: UserCartComponent },
       { path: 'favorite-list', component: FavouriteComponent },
 

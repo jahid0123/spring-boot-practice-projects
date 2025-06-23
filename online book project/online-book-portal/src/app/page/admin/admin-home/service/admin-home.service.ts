@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrderResponse } from '../../../../model/class';
@@ -8,11 +8,18 @@ import { OrderResponse } from '../../../../model/class';
 })
 export class AdminHomeService {
 
-    private apiUrl = 'http://localhost:8082/api/admin/get/all/order';
+  private apiUrl = 'http://localhost:8082/api/admin/get/all/order';
+  private deleteOrderbyIdUrl = 'http://localhost:8082/api/admin/delete/order';
 
   constructor(private http: HttpClient) {}
 
   getAllOrders(): Observable<OrderResponse[]> {
     return this.http.get<OrderResponse[]>(this.apiUrl);
   }
+
+  deleteOrder(orderId: number): Observable<void> {
+  const params = new HttpParams().set('id', orderId.toString());
+  return this.http.delete<void>(this.deleteOrderbyIdUrl, {params});
+}
+
 }

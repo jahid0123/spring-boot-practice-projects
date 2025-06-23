@@ -93,6 +93,12 @@ public class AdminController {
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/order")
+    public ResponseEntity<Void> deleteOrderById(@RequestParam Long id) {
+        orderService.deleteOrderById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/get/all/users")
     public ResponseEntity<?> getAllUsers() {
         List<User> users = userService.getAllUsers();

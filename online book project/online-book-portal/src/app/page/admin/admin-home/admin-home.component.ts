@@ -3,6 +3,7 @@ import { AdminHomeService } from './service/admin-home.service';
 import { OrderResponse } from '../../../model/class';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-admin-home',
@@ -12,12 +13,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class AdminHomeComponent implements OnInit {
   orders: any[] = [];
+  selectedOrder: any = null;
   isLoading = true;
   error: string | null = null;
 
   constructor(private orderService: AdminHomeService) {}
 
   ngOnInit(): void {
+    this.fetchOrders();
+  }
+
+  fetchOrders(): void {
+    this.isLoading = true;
     this.orderService.getAllOrders().subscribe({
       next: (data) => {
         this.orders = data;
@@ -32,12 +39,29 @@ export class AdminHomeComponent implements OnInit {
   }
 
   viewOrder(order: any): void {
-    console.log("Viewing order:", order);
+    this.selectedOrder = order;
+
+    const modalElement = document.getElementById('orderModal');
+    if (modalElement) {
+      const modal = new Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  closeModal(): void {
+    const modalElement = document.getElementById('orderModal');
+    if (modalElement) {
+      const modal = Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
+    }
+    this.selectedOrder = null;
   }
 
   markAsShipped(order: any): void {
-    order.status = 'Shipped';
-    console.log("Order marked as shipped:", order);
+    // Optional: call backend API to update status
+    order.status = 'Shipped'; // local update for UI
+    console.log('Order marked as shipped:', order);
   }
 }
-

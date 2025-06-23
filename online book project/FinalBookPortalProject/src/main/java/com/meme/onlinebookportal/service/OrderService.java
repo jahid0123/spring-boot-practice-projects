@@ -1,9 +1,12 @@
 package com.meme.onlinebookportal.service;
 
+import com.meme.onlinebookportal.constants.OrderStatus;
+import com.meme.onlinebookportal.dto.OrderItemDto;
 import com.meme.onlinebookportal.dto.OrderRequestDto;
 import com.meme.onlinebookportal.dto.OrderResponseDto;
 import com.meme.onlinebookportal.model.Book;
 import com.meme.onlinebookportal.model.Order;
+import com.meme.onlinebookportal.model.OrderItem;
 import com.meme.onlinebookportal.model.User;
 import com.meme.onlinebookportal.repository.BookRepository;
 import com.meme.onlinebookportal.repository.OrderRepository;
@@ -32,68 +35,115 @@ public class OrderService {
     public OrderResponseDto placeOrderRequest(OrderRequestDto orderRequestDto) {
 
         // Fetch and validate user
-        User user = userRepository.findById(orderRequestDto.getUserId()).orElseThrow(() -> new RuntimeException("User not found with ID: " + orderRequestDto.getUserId()));
+        User user = userRepository.findById(orderRequestDto.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + orderRequestDto.getUserId()));
 
-        // Fetch and validate books
+        // Get requested book IDs and count duplicates
         List<Long> requestedIds = orderRequestDto.getBookIds();
-        List<Book> foundBooks = bookRepository.findAllById(requestedIds);
-
-        if (foundBooks.size() != requestedIds.size()) {
-            throw new RuntimeException("Some books not found with IDs: " + requestedIds);
+        if (requestedIds == null || requestedIds.isEmpty()) {
+            throw new RuntimeException("Book ID list cannot be null or empty.");
         }
 
-        List<Book> books = new ArrayList<>(foundBooks);
+        Map<Long, Long> bookIdCountMap = requestedIds.stream()
+                .collect(Collectors.groupingBy(id -> id, Collectors.counting()));
 
+        // Fetch books by unique IDs
+        List<Book> foundBooks = bookRepository.findAllById(bookIdCountMap.keySet());
+        if (foundBooks.size() != bookIdCountMap.size()) {
+            Set<Long> foundIds = foundBooks.stream().map(Book::getId).collect(Collectors.toSet());
+            List<Long> missingIds = bookIdCountMap.keySet().stream()
+                    .filter(id -> !foundIds.contains(id))
+                    .collect(Collectors.toList());
+            throw new RuntimeException("Some books not found with IDs: " + missingIds);
+        }
 
-        BigDecimal totalPrice = books.stream().map(book -> book.getBookPrice() != null ? book.getBookPrice() : BigDecimal.ZERO).reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        // Create Order entity
+        // Create the order
         Order order = new Order();
         order.setUser(user);
-        order.setBooks(new HashSet<>(books));
+        order.setAddress(orderRequestDto.getAddress());
+        order.setContact(orderRequestDto.getContact());
+        order.setOrderStatus(OrderStatus.INPROGRESS);
 
-        BigDecimal finalPrice = orderRequestDto.getOrderPrice() != null ? orderRequestDto.getOrderPrice() : totalPrice;
+        // Prepare order items and calculate total price
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        Set<OrderItem> orderItems = new HashSet<>();
 
+        for (Book book : foundBooks) {
+            Long quantity = bookIdCountMap.getOrDefault(book.getId(), 1L);
+            BigDecimal bookPrice = book.getBookPrice() != null ? book.getBookPrice() : BigDecimal.ZERO;
+            BigDecimal itemTotal = bookPrice.multiply(BigDecimal.valueOf(quantity));
+
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(order);
+            orderItem.setBook(book);
+            orderItem.setQuantity(quantity.intValue());
+            orderItem.setItemPrice(itemTotal);
+
+            orderItems.add(orderItem);
+            totalPrice = totalPrice.add(itemTotal);
+        }
+
+        // Set total or override if provided
+        BigDecimal finalPrice = orderRequestDto.getOrderPrice() != null
+                ? orderRequestDto.getOrderPrice()
+                : totalPrice;
         order.setOrderPrice(finalPrice);
+        order.setOrderItems(orderItems);
 
-        // Save order
+        // Save order (cascades OrderItems)
         Order savedOrder = orderRepository.save(order);
 
-        // Build response DTO
+        // Build response
         OrderResponseDto responseDto = new OrderResponseDto();
         responseDto.setOrderId(savedOrder.getId());
         responseDto.setUserId(savedOrder.getUser().getId());
         responseDto.setOrderPrice(savedOrder.getOrderPrice());
 
+        // Optional: Add item list to DTO if needed
 
         return responseDto;
     }
+
+
 
 
     //Admin property
     @Transactional
     public List<OrderResponseDto> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
-        return orders.stream().map(this::mapOrderResponseDto).collect(Collectors.toList());
+        return orders.stream()
+                .map(this::mapOrderResponseDto)
+                .collect(Collectors.toList());
     }
 
+
     private OrderResponseDto mapOrderResponseDto(Order order) {
-        OrderResponseDto convertTo = new OrderResponseDto();
-        convertTo.setOrderId(order.getId());
-        convertTo.setUserId(order.getUser().getId());
-        convertTo.setOrderPrice(order.getOrderPrice());
-        convertTo.setCreatedAt(order.getCreatedAt());
-        convertTo.setUserPhone(order.getUser().getPhoneNumber());
-        convertTo.setUserName(order.getUser().getName());
-        convertTo.setUserAddress(order.getAddress());
-        // Assuming getBooks() returns a List<Book> and Book has a getName() method
-        List<String> bookNames = order.getBooks()
+        OrderResponseDto dto = new OrderResponseDto();
+        dto.setOrderId(order.getId());
+        dto.setUserId(order.getUser().getId());
+        dto.setUserName(order.getUser().getName());
+        dto.setUserPhone(order.getUser().getPhoneNumber());
+        dto.setUserAddress(order.getAddress());
+        dto.setOrderPrice(order.getOrderPrice());
+        dto.setCreatedAt(order.getCreatedAt());
+        dto.setOrderStatus(order.getOrderStatus());
+
+        // Convert OrderItems to DTOs
+        List<OrderItemDto> itemDtos = order.getOrderItems()
                 .stream()
-                .map(Book::getBookName)
+                .map(item -> new OrderItemDto(
+                        item.getBook().getId(),
+                        item.getBook().getBookName(),
+                        item.getQuantity(),
+                        item.getItemPrice()
+                ))
                 .collect(Collectors.toList());
-        convertTo.setBookName(bookNames); // assuming setBookName accepts List<String>
-        return convertTo;
+
+        dto.setItems(itemDtos);
+
+        return dto;
     }
+
 
     @Transactional
     public List<Order> getAllOrdersByMe(Long userId) {
@@ -101,6 +151,12 @@ public class OrderService {
                 () -> new RuntimeException("User not found with ID: " + userId));
 
         return orderRepository.findAllByUser_Id(userId);
+    }
+
+    @Transactional
+    public void deleteOrderById(Long id) {
+
+        orderRepository.deleteById(id);
     }
 }
 

@@ -1,5 +1,6 @@
 package com.meme.onlinebookportal.dto;
 
+import com.meme.onlinebookportal.constants.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,16 @@ public class OrderResponseDto {
     private String userName;
     private String userAddress;
     private String userPhone;
+    private OrderStatus orderStatus;
     private Long userId;
-    private List<String> bookName;
+    private List<OrderItemDto> items;
     private LocalDateTime createdAt;
 }
+
+
+
+
+
+
+
+

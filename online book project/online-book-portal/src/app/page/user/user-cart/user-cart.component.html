@@ -1,11 +1,5 @@
 <div class="container mt-4">
   <h2>Your Cart</h2>
-<!--  [(ngModel)]="userId"/ customerName
-  <div class="mb-3">
-    <label for="customerName" class="form-label"> Customer Name:</label>
-    <input type="text" id="customerName" [(ngModel)]="order.customerName" name="customerName" required class="form-control"
-      placeholder="Enter Your name" />
-  </div>-->
   <div *ngIf="cartItems.length === 0">
     <p>Your cart is empty.</p>
   </div>
@@ -16,7 +10,7 @@
         <tr>
           <th>Name</th>
           <th>Unit Price</th>
-           <th>Quantity</th>
+          <th>Quantity</th>
           <th>Subtotal</th>
           <th>Remove</th>
         </tr>
@@ -26,12 +20,11 @@
           <td>{{ item.bookName }}</td>
           <td>BDT {{ item.bookPrice }}</td>
           <td>
-    <button (click)="decreaseQuantity(item.id)">−</button>
-    {{item.quantity || 1}}
-    <button (click)="increaseQuantity(item.id)">+</button>
-  </td>
-  <td>BDT {{item.bookPrice * (item.quantity || 1)}}</td>
-          <!-- <td>{{ item.quantity }}</td> -->
+            <button (click)="decreaseQuantity(item.id)">−</button>
+            {{ item.quantity || 1 }}
+            <button (click)="increaseQuantity(item.id)">+</button>
+          </td>
+          <td>BDT {{ item.bookPrice * (item.quantity || 1) }}</td>
           <td><button class="btn btn-danger btn-sm" (click)="removeFromCart(i)">Remove</button></td>
         </tr>
       </tbody>
@@ -39,71 +32,48 @@
 
     <div class="text-end">
       <h5>Total: BDT {{ totalPrice }}</h5>
-      <button class="btn btn-success" (click)="placeOrder()">Place Order</button>
+      <button class="btn btn-success" (click)="openOrderModal()">Place Order</button>
     </div>
   </div>
 </div>
-<!-- <div class="cart-container">
-  <h2>Your Cart</h2>
 
-  
-  <div class="mb-3">
-    <label for="customerName" class="form-label">Customer Name:</label>
-    <input
-      type="text"
-      id="customerName"
-      [(ngModel)]="customerName"
-      name="customerName"
-      required
-      class="form-control"
-      placeholder="Enter your name"
-    />
+<!-- Order Confirmation Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Order</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Order Details -->
+        <div>
+          <h4>Order Details:</h4>
+          <ul>
+            <li *ngFor="let item of cartItems">
+              {{ item.bookName }} (x{{ item.quantity }}) - BDT {{ item.bookPrice * item.quantity }}
+            </li>
+          </ul>
+          <h5>Total: BDT {{ totalPrice }}</h5>
+        </div>
+
+        <!-- User Info Form (Address and Contact) -->
+        <div class="mt-3">
+          <h4>Shipping Info:</h4>
+          <div>
+            <label for="address">Address:</label>
+            <input id="address" [(ngModel)]="userAddress" class="form-control" placeholder="Enter address" />
+          </div>
+          <div class="mt-2">
+            <label for="contact">Contact Number:</label>
+            <input id="contact" [(ngModel)]="userContact" class="form-control" placeholder="Enter contact number" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="placeOrder()">Place Order</button>
+      </div>
+    </div>
   </div>
-
- 
-  <table *ngIf="carts.length > 0" class="cart-table table table-striped">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Book</th>
-        <th>Author</th>
-        <th>Quantity</th>
-        <th>Price (each)</th>
-        <th>Subtotal</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of carts; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ item.book.title }}</td>
-        <td>{{ item.book.author.name }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>{{ item.priceAt }} BDT</td>
-        <td>{{ item.quantity * item.priceAt }} BDT</td>
-        <td>
-          <button class="btn btn-danger btn-sm" (click)="removeFromCart(item.cartItemID)">
-            Remove
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-
-  <div *ngIf="totalPrice > 0" class="mt-3">
-    <h4>Total Price: {{ totalPrice }} BDT</h4>
-  </div>
-
-
-  <div *ngIf="carts.length === 0" class="alert alert-info">
-    Your cart is empty. Start shopping!
-  </div>
-
-
-  <div *ngIf="carts.length > 0" class="mt-4">
-    <button (click)="checkout()" class="btn btn-success">
-      Proceed to Checkout
-    </button>
-  </div>
-</div> -->
+</div>

@@ -54,4 +54,11 @@ public class UserService {
 
 		return user;
 	}
+
+	@Transactional
+	public User getMyInfo(Long id) {
+	return	userRepository.findById(id).orElseThrow(
+			() -> new RuntimeException("User not found by the id: "+id)
+	);
+	}
 }

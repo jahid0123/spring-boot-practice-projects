@@ -4,17 +4,16 @@ import com.meme.onlinebookportal.dto.AuthorResponseDto;
 import com.meme.onlinebookportal.dto.BookResponseDto;
 import com.meme.onlinebookportal.dto.OrderRequestDto;
 import com.meme.onlinebookportal.dto.OrderResponseDto;
-import com.meme.onlinebookportal.model.Author;
-import com.meme.onlinebookportal.model.Book;
 import com.meme.onlinebookportal.model.Order;
+import com.meme.onlinebookportal.model.User;
 import com.meme.onlinebookportal.service.AuthorService;
 import com.meme.onlinebookportal.service.BookService;
 import com.meme.onlinebookportal.service.OrderService;
+import com.meme.onlinebookportal.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,11 +23,13 @@ public class UserController {
     private final BookService bookService;
     private final OrderService orderService;
     private final AuthorService authorService;
+    private final UserService userService;
 
-    public UserController(BookService bookService, OrderService orderService, AuthorService authorService) {
+    public UserController(BookService bookService, OrderService orderService, AuthorService authorService, UserService userService) {
         this.bookService = bookService;
         this.orderService = orderService;
         this.authorService = authorService;
+        this.userService = userService;
     }
 
     @GetMapping("/get/all/books")
@@ -53,5 +54,13 @@ public class UserController {
         List<Order> orders = orderService.getAllOrdersByMe(userId);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
+
+    @GetMapping("/get/my/info")
+    public ResponseEntity<?> getMyInfo(@RequestParam Long id ) {
+        User user = userService.getMyInfo(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+
 
 }
