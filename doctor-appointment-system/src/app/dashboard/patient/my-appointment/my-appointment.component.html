@@ -1,56 +1,78 @@
 <div class="container mt-4">
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    <div class="col" *ngFor="let appt of appointments">
-      <div class="card shadow-sm h-100">
+
+  <!-- 🔄 Loading indicator -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status" aria-hidden="true"></div>
+    <div class="mt-2">Loading appointments...</div>
+  </div>
+
+  <!-- ⚠️ Error message -->
+  <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+    {{ error }}
+  </div>
+
+  <!-- 📭 No appointments -->
+  <div *ngIf="!loading && !appointments.length && !error" class="text-center">
+    <p class="text-muted">No appointments found.</p>
+  </div>
+
+  <!-- ✅ Appointment cards -->
+  <div
+    class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+    *ngIf="!loading && appointments.length"
+  >
+    <div
+      class="col"
+      *ngFor="let appt of appointments; trackBy: trackById"
+    >
+      <div class="card shadow-sm h-100 border-1 border-secondary">
         <div class="card-body">
           <h5 class="card-title text-primary">{{ appt.doctorName }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">
-            {{ appt.qualification }}
-          </h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{ appt.qualification }}</h6>
 
-          <hr />
+          <hr class="my-3" />
 
           <p><strong>Patient:</strong> {{ appt.patientName }}</p>
           <p><strong>DOB:</strong> {{ appt.patientDob }}</p>
           <p><strong>Gender:</strong> {{ appt.patientGender }}</p>
           <p><strong>Appointment Date:</strong> {{ appt.appointmentDate }}</p>
           <p><strong>Time:</strong> {{ appt.appointmentTime }}</p>
+
           <p>
             <strong>Status:</strong>
             <span
               [ngClass]="{
                 'badge bg-success': appt.appointmentStatus === 'APPROVED',
-                'badge bg-warning text-dark':
-                  appt.appointmentStatus === 'PENDING',
+                'badge bg-warning text-dark': appt.appointmentStatus === 'PENDING',
                 'badge bg-danger': appt.appointmentStatus === 'REJECTED'
               }"
+              class="ms-1"
+              >{{ appt.appointmentStatus }}</span
             >
-              {{ appt.appointmentStatus }}
-            </span>
           </p>
 
-          <!-- ✅ Show download button if status is APPROVED -->
-          
+          <!-- ✅ Show buttons only if status is APPROVED -->
           <div class="row mt-3" *ngIf="appt.appointmentStatus === 'APPROVED'">
-         
             <div class="col-12 col-md-6 mb-3 mb-md-0">
-
               <button
                 class="btn btn-outline-primary w-100"
-                (click)="downloadPrescription(appt.appointmentId)"
+                (click)="viewPrescription(appt.appointmentId)"
+                title="View prescription as PDF"
               >
-                <i class="bi bi-download me-2"></i> Prescription
+                <i class="bi bi-eye me-2" aria-hidden="true"></i> View Prescription
               </button>
             </div>
             <div class="col-12 col-md-6">
               <button
-                class="btn btn-outline-primary w-100"
-                (click)="viewPrescription(appt.appointmentId)"
+                class="btn btn-outline-success w-100"
+                (click)="downloadPrescription(appt.appointmentId)"
+                title="Download prescription as PDF"
               >
-                <i class="bi bi-eye me-2"></i> Prescription
+                <i class="bi bi-download me-2" aria-hidden="true"></i> Download PDF
               </button>
             </div>
           </div>
+
         </div>
       </div>
     </div>

@@ -10,6 +10,7 @@ export class MyAppointmentService {
 
   private apiUrl = 'http://localhost:8081/api/patient/all/appointmentlist';
   private gerPrescriptionApiUrl = 'http://localhost:8081/api/patient/get/prescription/by/app';
+  private downloadPrecriptionApiUrl = 'http://localhost:8081/api/prescriptions/';
 
   constructor(private http: HttpClient) {}
 
@@ -24,6 +25,10 @@ getPrecriptionByAppId(appId: number): Observable<any>{
 
   const params = { id: appId.toString() }; // or simply { id: `${id}` }
   return this.http.get<any>(this.gerPrescriptionApiUrl, {params});
+}
+
+downloadPrecriptionByAppId(id: number): Observable<any>{
+  return this.http.get<any>(`this.gerPrescriptionApiUrl${id}/report`);
 }
 
 }
