@@ -111,6 +111,24 @@ public class AdminController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @PutMapping("/order/delivered")
+    public ResponseEntity<?> orderDelivered(@RequestParam Long orderId) {
+        Order order = orderService.orderDelivered(orderId);
+        return new ResponseEntity<>( HttpStatus.OK);
+    }
+
+    @PutMapping("/order/completed")
+    public ResponseEntity<?> orderCompleted(@RequestParam Long orderId) {
+        Order order = orderService.orderCompleted(orderId);
+        return new ResponseEntity<>( HttpStatus.OK);
+    }
+
+
+    @PutMapping("/order/cancelled")
+    public ResponseEntity<?> orderCancelled(@RequestParam Long orderId) {
+        Order order = orderService.orderCancelled(orderId);
+        return new ResponseEntity<>( HttpStatus.OK);
+    }
 
 
 //    @PostMapping("/order/shipped")

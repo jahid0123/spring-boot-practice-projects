@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <!-- Carousel for Featured Books -->
+  <!-- Carousel -->
   <div id="featuredCarousel" class="carousel slide mb-5 shadow-sm rounded" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -20,9 +20,29 @@
     </button>
   </div>
 
+  <!-- Search & Sort -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <input
+      type="text"
+      class="form-control w-50"
+      placeholder="Search by book name or author"
+      [(ngModel)]="searchTerm"
+      (input)="applyFilters()"
+    />
+
+    <select class="form-select w-auto" [(ngModel)]="sortOption" (change)="applyFilters()">
+      <option value="default">Sort By</option>
+      <option value="nameAsc">Name (A-Z)</option>
+      <option value="nameDesc">Name (Z-A)</option>
+      <option value="priceLow">Price: Low to High</option>
+      <option value="priceHigh">Price: High to Low</option>
+      <option value="ratingHigh">Rating: High to Low</option>
+    </select>
+  </div>
+
   <!-- Book Grid -->
   <div class="row">
-    <div class="col-md-4 mb-4" *ngFor="let book of books">
+    <div class="col-md-4 mb-4" *ngFor="let book of filteredBooks">
       <div class="card h-100 shadow-sm border-1">
         <img
           [src]="getImageUrl(book.bookImageUrl)"
@@ -54,11 +74,7 @@
           <button class="btn btn-primary btn-sm" (click)="addToCart(book)">
             <i class="bi bi-cart-plus"></i> Add to Cart
           </button>
-          <button
-            class="btn btn-outline-secondary btn-sm"
-            data-bs-toggle="modal"
-            data-bs-target="#detailsModal"
-            (click)="viewDetails(book)">
+          <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#detailsModal" (click)="viewDetails(book)">
             <i class="bi bi-info-circle"></i> Details
           </button>
           <button class="btn btn-outline-danger btn-sm" (click)="addToFavorites(book)">
@@ -90,7 +106,7 @@
             />
           </div>
           <div class="col-md-7">
-            <p><strong>Authors:</strong> {{ selectedBook.authorNames?.join(', ') || 'Unknown' }}</p>
+            <p><strong>Authors:</strong> {{ selectedBook.authorNames.join(', ') || 'Unknown' }}</p>
             <p><strong>Category:</strong> {{ selectedBook.bookCategory }}</p>
             <p><strong>ISBN:</strong> {{ selectedBook.bookIsbnNumber }}</p>
             <p><strong>Price:</strong> {{ selectedBook.bookPrice }} BDT</p>

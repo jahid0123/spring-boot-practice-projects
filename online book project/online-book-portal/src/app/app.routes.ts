@@ -14,6 +14,8 @@ import { UserListComponent } from './page/admin/user-list/user-list/user-list.co
 import { DetailsComponent } from './page/Vivid/details/details.component';
 import { OrderHistoryComponent } from './page/admin/order-history/order-history.component';
 import { UserOrderHistoryComponent } from './page/user/user-order-history/user-order-history.component';
+import { UserProfileComponent } from './page/user/user-profile/user-profile.component';
+import { AdminProfileComponent } from './page/admin/admin-profile/admin-profile.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -27,7 +29,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'user-home', pathMatch: 'full' }, // ✅ add this
       { path: 'user-home', component: UserHomeComponent },
-      { path: 'user-list', component: UserListComponent },
+      { path: 'user-profile', component: UserProfileComponent },
       { path: 'order-history', component: UserOrderHistoryComponent },
       { path: 'cart', component: UserCartComponent },
       { path: 'favorite-list', component: FavouriteComponent },
@@ -46,6 +48,7 @@ export const routes: Routes = [
       { path: 'add-book', component: AdminAddBookComponent },
       { path: 'add-author', component: AdminAddAuthorComponent },
       { path: 'order-history', component: OrderHistoryComponent },
+      { path: 'admin-profile', component: AdminProfileComponent },
       { path: 'user-list', component: UserListComponent },
       { path: '**', redirectTo: 'admin-home' },
     ],

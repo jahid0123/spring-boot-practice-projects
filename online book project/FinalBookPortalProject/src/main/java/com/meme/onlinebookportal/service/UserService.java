@@ -1,5 +1,6 @@
 package com.meme.onlinebookportal.service;
 
+import com.meme.onlinebookportal.dto.EditUserDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -60,5 +61,19 @@ public class UserService {
 	return	userRepository.findById(id).orElseThrow(
 			() -> new RuntimeException("User not found by the id: "+id)
 	);
+	}
+
+	@Transactional
+	public User editMyInfo(EditUserDto editUserDto, Long id) {
+		User user = userRepository.findById(id).orElseThrow(
+				() -> new RuntimeException("User not found by the id: "+id)
+		);
+
+		user.setName(editUserDto.getName());
+		user.setPhoneNumber(editUserDto.getPhoneNo());
+		user.setAddress(editUserDto.getAddress());
+
+		return userRepository.save(user);
+
 	}
 }

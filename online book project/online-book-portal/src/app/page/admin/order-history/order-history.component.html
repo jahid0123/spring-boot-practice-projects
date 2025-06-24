@@ -7,7 +7,7 @@
     <button class="btn btn-outline-primary" [class.active]="selectedStatus === 'INPROGRESS'" (click)="filterByStatus('INPROGRESS')">In Progress</button>
     <button class="btn btn-outline-info" [class.active]="selectedStatus === 'DELIVERED'" (click)="filterByStatus('DELIVERED')">Delivered</button>
     <button class="btn btn-outline-success" [class.active]="selectedStatus === 'COMPLETED'" (click)="filterByStatus('COMPLETED')">Completed</button>
-    <button class="btn btn-outline-warning" [class.active]="selectedStatus === 'CANCELLED'" (click)="filterByStatus('CANCELLED')">Cencelled</button>
+    <button class="btn btn-outline-warning" [class.active]="selectedStatus === 'CANCELLED'" (click)="filterByStatus('CANCELLED')">Cancelled</button>
   </div>
 
   <!-- Status Info -->
@@ -26,8 +26,8 @@
           <small>{{ order.createdAt | date: 'short' }}</small>
         </div>
         <div class="card-body">
-          <h5>{{ order.userName }}</h5>
-          <p><strong>Total Price:</strong> {{ order.orderPrice | currency:'USD' }}</p>
+          <h5>Customer: {{ order.userName }}</h5>
+          <p><strong>Total Price:</strong> {{ order.orderPrice | currency:'BDT' }}</p>
           <p *ngIf="order.userPhone"><strong>Phone:</strong> {{ order.userPhone }}</p>
           <p *ngIf="order.userAddress"><strong>Address:</strong> {{ order.userAddress }}</p>
           <p><strong>Status:</strong> <span class="badge bg-info">{{ order.orderStatus }}</span></p>
@@ -36,15 +36,31 @@
             <strong>Books:</strong>
             <ul>
               <li *ngFor="let item of order.items">
-                {{ item.bookName }} (x{{ item.quantity }}) - {{ item.itemPrice | currency:'USD' }}
+                {{ item.bookName }} (x{{ item.quantity }}) - {{ item.itemPrice | currency:'BDT' }}
               </li>
             </ul>
           </div>
 
+          <!-- Action Buttons -->
           <div class="d-flex gap-2 mt-2">
+            <!-- Always show View -->
             <button class="btn btn-primary btn-sm" (click)="viewOrder(order)">View</button>
-            <button class="btn btn-success btn-sm" (click)="markAsShipped(order)">Mark as Delivered</button>
-            <button class="btn btn-danger btn-sm" (click)="deleteOrder(order)">Delete</button>
+
+            <!-- INPROGRESS: Deliver, Cancel, Delete -->
+            <button *ngIf="order.orderStatus === 'INPROGRESS'" class="btn btn-success btn-sm" (click)="markAsDelivered(order.orderId)">Mark as Delivered</button>
+            <button *ngIf="order.orderStatus === 'INPROGRESS'" class="btn btn-warning btn-sm" (click)="markAsCancelled(order.orderId)">Cancel</button>
+            <button *ngIf="order.orderStatus === 'INPROGRESS'" class="btn btn-danger btn-sm" (click)="deleteOrder(order.orderId)">Delete</button>
+
+            <!-- DELIVERED: Complete, Cancel, Delete -->
+            <button *ngIf="order.orderStatus === 'DELIVERED'" class="btn btn-success btn-sm" (click)="markAsCompleted(order.orderId)">Mark as Completed</button>
+            <button *ngIf="order.orderStatus === 'DELIVERED'" class="btn btn-warning btn-sm" (click)="markAsCancelled(order.orderId)">Cancel</button>
+            <button *ngIf="order.orderStatus === 'DELIVERED'" class="btn btn-danger btn-sm" (click)="deleteOrder(order.orderId)">Delete</button>
+
+            <!-- COMPLETED: Delete -->
+            <button *ngIf="order.orderStatus === 'COMPLETED'" class="btn btn-danger btn-sm" (click)="deleteOrder(order.orderId)">Delete</button>
+
+            <!-- CANCELLED: Delete -->
+            <button *ngIf="order.orderStatus === 'CANCELLED'" class="btn btn-danger btn-sm" (click)="deleteOrder(order.orderId)">Delete</button>
           </div>
         </div>
       </div>
@@ -78,12 +94,12 @@
             <tr *ngFor="let item of selectedOrder.items">
               <td>{{ item.bookName }}</td>
               <td>{{ item.quantity }}</td>
-              <td>{{ item.itemPrice | currency:'USD' }}</td>
+              <td>{{ item.itemPrice | currency:'BDT' }}</td>
             </tr>
           </tbody>
         </table>
 
-        <p class="text-end"><strong>Total:</strong> {{ selectedOrder.orderPrice | currency:'USD' }}</p>
+        <p class="text-end"><strong>Total:</strong> {{ selectedOrder.orderPrice | currency:'BDT' }}</p>
       </div>
     </div>
   </div>

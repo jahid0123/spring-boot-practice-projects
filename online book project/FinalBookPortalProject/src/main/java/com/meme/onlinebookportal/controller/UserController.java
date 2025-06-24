@@ -1,9 +1,6 @@
 package com.meme.onlinebookportal.controller;
 
-import com.meme.onlinebookportal.dto.AuthorResponseDto;
-import com.meme.onlinebookportal.dto.BookResponseDto;
-import com.meme.onlinebookportal.dto.OrderRequestDto;
-import com.meme.onlinebookportal.dto.OrderResponseDto;
+import com.meme.onlinebookportal.dto.*;
 import com.meme.onlinebookportal.model.Order;
 import com.meme.onlinebookportal.model.User;
 import com.meme.onlinebookportal.service.AuthorService;
@@ -49,15 +46,21 @@ public class UserController {
         OrderResponseDto orderRequest = orderService.placeOrderRequest(orderRequestDto);
         return new ResponseEntity<>(orderRequest,HttpStatus.CREATED);
     }
-    @GetMapping("/get/all/order/by/me")
-    public ResponseEntity<?> getAllOrdersByMe(@RequestParam Long userId ) {
-        List<Order> orders = orderService.getAllOrdersByMe(userId);
+    @GetMapping("/get/my/all/order")
+    public ResponseEntity<?> getAllOrdersByMe(@RequestParam Long id ) {
+        List<OrderResponseDto> orders = orderService.getAllOrdersByMe(id);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @GetMapping("/get/my/info")
     public ResponseEntity<?> getMyInfo(@RequestParam Long id ) {
         User user = userService.getMyInfo(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PutMapping("/edit/my/info")
+    public ResponseEntity<?> editMyInfo(@RequestBody EditUserDto editUserDto, @RequestParam Long id ) {
+        User user = userService.editMyInfo(editUserDto, id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

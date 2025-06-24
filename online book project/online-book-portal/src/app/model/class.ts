@@ -1,7 +1,7 @@
 export interface Book {
   quantity?: number;
   bookImageUrl: string;
-  authorNames: string;
+  authorNames: string[];
   id: number;
   bookName: string;
   bookIsbnNumber: number;
@@ -10,6 +10,7 @@ export interface Book {
   bookCategory: string;
   bookQuantity: number;
   createdAt: string;
+  bookDescription: string;
 }
 
 export class AddBook {

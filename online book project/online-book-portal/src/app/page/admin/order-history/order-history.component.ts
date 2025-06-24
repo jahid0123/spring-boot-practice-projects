@@ -67,26 +67,67 @@ export class OrderHistoryComponent implements OnInit {
     this.selectedOrder = null;
   }
 
-  markAsShipped(order: any): void {
-    // Update status locally
-    order.status = 'DELIVERED';
-    console.log('Order marked as delivered:', order);
+  markAsDelivered(orderId: number): void {
+    this.orderService.orderDelivered(orderId).subscribe({
+      next: () => {
+        this.updateOrderStatus(orderId, 'DELIVERED');
+        alert(`Order #${orderId} marked as Delivered.`);
+      },
+      error: (err) => {
+        console.error('Failed to mark as delivered:', err);
+        alert('Failed to mark order as delivered.');
+      }
+    });
   }
 
-  deleteOrder(order: any): void {
-    const confirmed = confirm(`Are you sure you want to delete Order #${order.orderId}?`);
+  markAsCompleted(orderId: number): void {
+    this.orderService.orderCompleted(orderId).subscribe({
+      next: () => {
+        this.updateOrderStatus(orderId, 'COMPLETED');
+        alert(`Order #${orderId} marked as Completed.`);
+      },
+      error: (err) => {
+        console.error('Failed to mark as completed:', err);
+        alert('Failed to mark order as completed.');
+      }
+    });
+  }
+
+  markAsCancelled(orderId: number): void {
+    this.orderService.orderCancelled(orderId).subscribe({
+      next: () => {
+        this.updateOrderStatus(orderId, 'CANCELLED');
+        alert(`Order #${orderId} marked as Cancelled.`);
+      },
+      error: (err) => {
+        console.error('Failed to cancel order:', err);
+        alert('Failed to cancel order.');
+      }
+    });
+  }
+
+  deleteOrder(orderId: number): void {
+    const confirmed = confirm(`Are you sure you want to delete Order #${orderId}?`);
     if (!confirmed) return;
 
-    this.orderService.deleteOrder(order.orderId).subscribe({
+    this.orderService.deleteOrder(orderId).subscribe({
       next: () => {
-        this.orders = this.orders.filter(o => o.orderId !== order.orderId);
+        this.orders = this.orders.filter(order => order.orderId !== orderId);
         this.filterByStatus(this.selectedStatus);
-        console.log(`Order #${order.orderId} deleted successfully.`);
+        alert(`Order #${orderId} deleted successfully.`);
       },
       error: (err) => {
         console.error('Failed to delete order:', err);
-        alert('Failed to delete order. Please try again.');
+        alert('Failed to delete order.');
       }
     });
+  }
+
+  private updateOrderStatus(orderId: number, newStatus: string): void {
+    const order = this.orders.find(o => o.orderId === orderId);
+    if (order) {
+      order.orderStatus = newStatus;
+      this.filterByStatus(this.selectedStatus);
+    }
   }
 }

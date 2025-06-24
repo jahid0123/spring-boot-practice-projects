@@ -122,7 +122,7 @@ public class OrderService {
         dto.setOrderId(order.getId());
         dto.setUserId(order.getUser().getId());
         dto.setUserName(order.getUser().getName());
-        dto.setUserPhone(order.getUser().getPhoneNumber());
+        dto.setUserPhone(order.getContact());
         dto.setUserAddress(order.getAddress());
         dto.setOrderPrice(order.getOrderPrice());
         dto.setCreatedAt(order.getCreatedAt());
@@ -146,17 +146,44 @@ public class OrderService {
 
 
     @Transactional
-    public List<Order> getAllOrdersByMe(Long userId) {
+    public List<OrderResponseDto> getAllOrdersByMe(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new RuntimeException("User not found with ID: " + userId));
 
-        return orderRepository.findAllByUser_Id(userId);
+        List<Order> orders = orderRepository.findAllByUser_Id(userId);
+
+        return orders.stream().map(this::mapOrderResponseDto).collect(Collectors.toList());
     }
 
     @Transactional
     public void deleteOrderById(Long id) {
 
         orderRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Order orderDelivered(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Order not found with ID: " + id));
+        order.setOrderStatus(OrderStatus.DELIVERED);
+        return orderRepository.save(order);
+    }
+
+    @Transactional
+    public Order orderCancelled(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Order not found with ID: " + id));
+        order.setOrderStatus(OrderStatus.CANCELLED);
+        return orderRepository.save(order);
+    }
+
+
+    @Transactional
+    public Order orderCompleted(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Order not found with ID: " + id));
+        order.setOrderStatus(OrderStatus.COMPLETED);
+        return orderRepository.save(order);
     }
 }
 

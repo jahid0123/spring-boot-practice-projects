@@ -1,61 +1,80 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Book } from '../../../model/class';
 import { StorageServiceService } from '../../../core/service/storage-service.service';
+import { UserService } from '../user-dashboard/service/user.service';
+import { Modal } from 'bootstrap';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-view-book-details',
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './user-order-history.component.html',
   styleUrl: './user-order-history.component.css'
 })
-export class UserOrderHistoryComponent {
-    book: any;
-books: Book[] = [];
+export class UserOrderHistoryComponent implements OnInit {
+  orders: any[] = [];
+  selectedOrder: any = null;
+  isLoading = true;
+  error: string | null = null;
 
-  cart: Book[] = [];
-addToCart(book: Book): void {
-  const existingBook = this.cart.find(item => item.id === book.id);
+  constructor(private orderService: UserService) {}
 
-  if (existingBook) {
-    existingBook.quantity = (existingBook.quantity || 1) + 1;
-    alert(`${book.bookName} quantity increased to ${existingBook.quantity}.`);
-  } else {
-    book.quantity = 1;
-    this.cart.push(book);
-    alert(`${book.bookName} added to cart.`);
+  ngOnInit(): void {
+    this.fetchOrders();
   }
 
-  this.storageService.saveCartItems(this.cart);
-}
-read() {
-  this.router.navigate(['/details']);
-}
-
- 
-  constructor(private router: Router,
-     private storageService: StorageServiceService
-  ) {
-    const nav = this.router.getCurrentNavigation();
-    this.book = nav?.extras?.state?.['book'];
+  fetchOrders(): void {
+    this.isLoading = true;
+    this.orderService.getMyAllOrder().subscribe({
+      next: (data) => {
+        this.orders = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.error = 'Failed to load orders';
+        this.isLoading = false;
+        console.error(err);
+      }
+    });
   }
 
-  goBack() {
-  history.back();
-}
-shareWithFriends() {
-    if (navigator.share) {
-      navigator.share({
-        title: 'Check out this book!',
-        text: 'I found a great book for you.',
-        url: window.location.href
-      }).then(() => {
-        console.log('Thanks for sharing!');
-      }).catch(console.error);
-    } else {
-      alert('Sharing not supported in this browser.');
+  viewOrder(order: any): void {
+    this.selectedOrder = order;
+    const modalElement = document.getElementById('orderModal');
+    if (modalElement) {
+      const modal = new Modal(modalElement);
+      modal.show();
     }
   }
+
+  closeModal(): void {
+    const modalElement = document.getElementById('orderModal');
+    if (modalElement) {
+      const modal = Modal.getInstance(modalElement);
+      modal?.hide();
+    }
+    this.selectedOrder = null;
+  }
+
+  deleteOrder(orderId: number): void {
+    const confirmed = confirm(`Are you sure you want to delete Order #${orderId}?`);
+    if (!confirmed) return;
+
+    this.orderService.deleteMyOrder(orderId).subscribe({
+      next: () => {
+        this.orders = this.orders.filter(order => order.orderId !== orderId);
+        alert(`Order #${orderId} deleted successfully.`);
+      },
+      error: (err) => {
+        console.error('Failed to delete order:', err);
+        alert('Failed to delete order.');
+      }
+    });
+  }
+
+  canDelete(order: any): boolean {
+    return order.orderStatus === 'INPROGRESS';
+  }
 }
-
-
