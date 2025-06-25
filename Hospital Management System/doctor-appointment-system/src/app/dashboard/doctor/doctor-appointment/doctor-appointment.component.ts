@@ -11,33 +11,27 @@ import { DoctorService } from '../service/doctor.service';
   templateUrl: './doctor-appointment.component.html',
   styleUrl: './doctor-appointment.component.css'
 })
-export class DoctorAppointmentComponent implements OnInit{
-
-
+export class DoctorAppointmentComponent implements OnInit {
   appointments: any[] = [];
-  //approvedAppointments: GetAppointmentsPatient[] = [];
 
-
-  constructor(private router: Router, private doctorService: DoctorService){}
-
+  constructor(private router: Router, private doctorService: DoctorService) {}
 
   ngOnInit(): void {
-    const doctorId = Number(localStorage.getItem('id'))
+    const doctorId = Number(localStorage.getItem('id'));
 
     this.doctorService.getAdmittedPatientsByDoctor(doctorId).subscribe({
       next: (res) => {
-        //this.appointments = res;
         this.appointments = res;
       },
-      error: (err) =>{
-        console.error(err);
-      }
+      error: (err) => {
+        console.error('Error fetching appointments:', err);
+      },
     });
-    
   }
 
-generatePrescription(appt: GetAppointmentsPatient) {
-  this.router.navigateByUrl('/doctor/prescription'), {state: { appointment: appt}};
-}
-
+  generatePrescription(appt: any) {
+    this.router.navigate(['/doctor/prescription'], {
+      state: { appointment: appt },
+    });
+  }
 }

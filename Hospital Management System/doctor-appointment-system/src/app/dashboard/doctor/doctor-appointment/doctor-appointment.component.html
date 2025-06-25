@@ -1,39 +1,39 @@
 <div class="container mt-4">
-  <h4 class="text-primary mb-3">Appointments</h4>
+  <h4 class="text-primary mb-3">
+    <i class="bi bi-calendar2-check-fill me-2"></i>Admitted Patients Under You
+  </h4>
 
   <div *ngIf="appointments.length === 0" class="alert alert-info">
-    No appointments found.
+    No admitted patients found.
   </div>
 
   <div *ngFor="let appt of appointments" class="card shadow-sm rounded-3 mb-3 p-3">
     <div class="row">
       <!-- Doctor Info -->
-      <div class="col-md-4">
-        <h5 class="text-success">{{ appt.doctorName }}</h5>
+      <div class="col-md-4 mb-2">
+        <h5 class="text-success"><i class="bi bi-person-badge-fill me-1"></i>{{ appt.doctorName }}</h5>
       </div>
 
       <!-- Patient Info -->
-      <div class="col-md-4">
-        <h6><strong>Patient Name: </strong>{{ appt.name }}</h6>
-        <p class="mb-1"><strong>Patient DOB:</strong> {{ appt.dob | date }}</p>
-        <p class="mb-1"><strong>Patient Gender:</strong> {{ appt.gender }}</p>
+      <div class="col-md-4 mb-2">
+        <h6><strong>Patient:</strong> {{ appt.name }}</h6>
+        <p class="mb-1"><strong>DOB:</strong> {{ appt.dob | date }}</p>
+        <p class="mb-1"><strong>Gender:</strong> {{ appt.gender }}</p>
       </div>
 
-      <!-- Appointment Info -->
-      <div class="col-md-4">
-        <p><strong>Bed Number:</strong> {{ appt.bedNumber }}</p>
-        <p><strong>Word:</strong> {{ appt.bedWard }}</p>
-        <p><strong>Admission Date:</strong> {{ appt.admissionDate }}</p>
-      
+      <!-- Admission Info -->
+      <div class="col-md-4 mb-2">
+        <p><strong>Bed No:</strong> {{ appt.bedNumber }}</p>
+        <p><strong>Ward:</strong> {{ appt.bedWard }}</p>
+        <p><strong>Admission Date:</strong> {{ appt.admissionDate | date }}</p>
       </div>
     </div>
 
     <!-- Action Buttons -->
-      <button class="btn btn-primary btn-sm"
-              (click)="generatePrescription(appt)">
-        Generate Prescription
+    <div class="text-end mt-3">
+      <button class="btn btn-primary btn-sm" (click)="generatePrescription(appt)">
+        <i class="bi bi-file-medical me-1"></i> Generate Prescription
       </button>
-
-
     </div>
   </div>
+</div>

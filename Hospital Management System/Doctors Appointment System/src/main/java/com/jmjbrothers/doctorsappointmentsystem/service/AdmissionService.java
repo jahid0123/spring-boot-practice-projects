@@ -176,7 +176,7 @@ public class AdmissionService {
             dto.setDueAmount(adm.getDueAmount());
             dto.setDischargeDate(adm.getDischargeDate());
             dto.setDoctorName(adm.getDoctor().getName());
-            
+
             return dto;
         }).collect(Collectors.toList());
     }

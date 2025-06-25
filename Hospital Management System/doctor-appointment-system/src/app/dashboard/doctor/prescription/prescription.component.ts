@@ -14,46 +14,48 @@ import { DoctorService } from '../service/doctor.service';
 })
 export class PrescriptionComponent implements OnInit {
 
+
   prescriptionForm!: FormGroup;
   appointments: any[] = [];
   selectedAppointment?: any;
 
   constructor(
     private fb: FormBuilder,
-    private prescriptionService: DoctorService,
-    private pres: PrescriptionService,
-    private router: Router,
-    private route: ActivatedRoute
+    private doctorService: DoctorService,
+    private prescriptionService: PrescriptionService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    // Suppose doctorId is passed in router state or query param
     const doctorId = Number(localStorage.getItem('id'));
     if (doctorId) {
-      this.loadApprovedAppointments(doctorId);
+      this.loadAppointments(doctorId);
     }
 
     this.prescriptionForm = this.fb.group({
-      appointmentId: [0, Validators.required],
+      appointmentId: [null, Validators.required],
       patientName: [{ value: '', disabled: true }],
       symptoms: ['', Validators.required],
       diagnosis: ['', Validators.required],
-      medicines: this.fb.array([]),
+      medicines: this.fb.array([])
     });
 
-    // React to appointment selection to show patientName
+    // React to appointment selection
     this.prescriptionForm.get('appointmentId')?.valueChanges.subscribe((id) => {
-      this.selectedAppointment = this.appointments.find((a) => a.appointmentId === +id);
+      this.selectedAppointment = this.appointments.find((a) => a.id === +id);
       this.prescriptionForm.patchValue({
-        patientName: this.selectedAppointment?.patientName || '',
+        patientName: this.selectedAppointment?.name || ''
       });
     });
+
+    // Add at least one medicine field by default
+    this.addMedicine();
   }
 
-  loadApprovedAppointments(doctorId: number) {
-    this.prescriptionService.getAdmittedPatientsByDoctor(doctorId).subscribe({
+  loadAppointments(doctorId: number) {
+    this.doctorService.getAdmittedPatientsByDoctor(doctorId).subscribe({
       next: (data) => (this.appointments = data),
-      error: (err) => console.error('Error loading appointments', err),
+      error: (err) => console.error('Error loading appointments', err)
     });
   }
 
@@ -67,7 +69,7 @@ export class PrescriptionComponent implements OnInit {
         name: ['', Validators.required],
         dosage: ['', Validators.required],
         frequency: ['', Validators.required],
-        duration: ['', Validators.required],
+        duration: ['', Validators.required]
       })
     );
   }
@@ -78,7 +80,7 @@ export class PrescriptionComponent implements OnInit {
 
   onSubmit() {
     if (!this.selectedAppointment) {
-      alert('Please select a valid appointment.');
+      alert('Please select an appointment.');
       return;
     }
 
@@ -89,26 +91,25 @@ export class PrescriptionComponent implements OnInit {
 
     const formValue = this.prescriptionForm.getRawValue();
 
-    const prescriptionDto: PrescriptionDto = {
+    const prescriptionDto = {
       symptoms: formValue.symptoms,
       diagnosis: formValue.diagnosis,
       medicines: formValue.medicines,
-      appointmentId: this.selectedAppointment.appointmentId,
+      appointmentId: this.selectedAppointment.id,
       doctorId: this.selectedAppointment.doctorId,
-      patientId: this.selectedAppointment.patientId,
+      patientId: this.selectedAppointment.patientId
     };
 
-    this.pres.createPrescription(prescriptionDto).subscribe({
+    this.prescriptionService.createPrescription(prescriptionDto).subscribe({
       next: () => {
         alert('Prescription created successfully!');
-        this.prescriptionForm.reset();
-        this.router.navigateByUrl('/doctor/doctor-appointment'); // Or wherever
+        this.router.navigateByUrl('/doctor/doctor-appointment');
       },
-      error: (error) => {
-        console.error('Error saving prescription', error);
-        alert('Ops, Already prescribed!!!');
-         this.router.navigateByUrl('/doctor/doctor-appointment');
-      },
+      error: (err) => {
+        console.error('Error saving prescription', err);
+        alert('Oops! Already prescribed or server error.');
+        this.router.navigateByUrl('/doctor/doctor-appointment');
+      }
     });
   }
 }
