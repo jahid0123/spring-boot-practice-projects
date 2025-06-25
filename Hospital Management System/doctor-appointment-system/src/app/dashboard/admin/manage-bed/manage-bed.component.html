@@ -1,0 +1,87 @@
+<div class="container mt-4">
+  <h3 class="mb-3">{{ isEditMode ? 'Edit Bed' : 'Add New Bed' }}</h3>
+
+  <form [formGroup]="bedForm" (ngSubmit)="onSubmit()" class="row g-2 mb-4">
+    <div class="col-md-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Ward (e.g., ICU, General)"
+        formControlName="ward"
+        required
+      />
+    </div>
+    <div class="col-md-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Bed Number"
+        formControlName="bedNumber"
+        required
+      />
+    </div>
+    <div class="col-md-3">
+      <input
+        type="number"
+        class="form-control"
+        placeholder="Fee per Day"
+        formControlName="feePerDay"
+        required
+      />
+    </div>
+    <div class="col-md-2 d-flex align-items-center">
+      <div class="form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          id="isOccupiedCheckbox"
+          formControlName="isOccupied"
+          (change)="onOccupiedChange($event)"
+        />
+        <label class="form-check-label" for="isOccupiedCheckbox">Occupied</label>
+      </div>
+    </div>
+    <div class="col-md-1">
+      <button type="submit" class="btn btn-success w-100">
+        {{ isEditMode ? 'Update' : 'Add' }}
+      </button>
+    </div>
+  </form>
+
+  <!-- Bed List -->
+  <div class="row">
+    <div class="col-md-3 mb-3" *ngFor="let bed of beds">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ bed.ward }} - {{ bed.bedNumber }}</h5>
+          <p>
+            Status:
+            <span
+              class="badge"
+              [ngClass]="bed.occupied ? 'bg-danger' : 'bg-success'"
+            >
+              {{ bed.occupied ? 'Not Available' : 'Available' }}
+            </span>
+          </p>
+          <p>Fee per Day: <strong>৳{{ bed.feePerDay }}</strong></p>
+          <div class="d-flex gap-2 mt-2">
+            <button
+              class="btn btn-sm btn-primary"
+              (click)="onEdit(bed)"
+              type="button"
+            >
+              Edit
+            </button>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="onDelete(bed.id)"
+              type="button"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,117 @@
+<div class="container mt-4">
+  <h3 class="text-primary mb-4">
+    <i class="bi bi-hospital-fill me-2"></i>Admitted Patients
+  </h3>
+
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let patient of patients">
+      <div class="card border-0 shadow h-100">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-success">{{ patient.name }}</h5>
+          <p><i class="bi bi-envelope me-1 text-muted"></i>{{ patient.email }}</p>
+          <p><i class="bi bi-telephone me-1 text-muted"></i>{{ patient.phone }}</p>
+          <p><strong>Doctor:</strong> {{ patient.doctorName }}</p>
+          <p><strong>Ward:</strong> {{ patient.bedWard }} - {{ patient.bedNumber }}</p>
+          <p><strong>Due:</strong> <span class="text-danger fw-bold">৳{{ patient.dueAmount }}</span></p>
+
+          <div class="mt-auto d-grid gap-2">
+            <button class="btn btn-outline-primary" (click)="openDetails(patient)" data-bs-toggle="modal" data-bs-target="#patientModal">
+              <i class="bi bi-eye-fill me-1"></i> View Details
+            </button>
+
+            <button class="btn btn-outline-success" (click)="openAdvanceModal(patient)">
+              <i class="bi bi-cash-coin me-1"></i> Add Advance
+            </button>
+
+            <button class="btn btn-outline-warning" (click)="showBill(patient.id)">
+              <i class="bi bi-receipt me-1"></i> View Bill
+            </button>
+
+            <button class="btn btn-outline-danger" [disabled]="patient.dueAmount > 0" (click)="discharge(patient.id)">
+              <i class="bi bi-box-arrow-right me-1"></i> Discharge
+            </button>
+
+            <button class="btn btn-outline-dark" (click)="downloadReceipt(patient.id)">
+              <i class="bi bi-download me-1"></i> PDF Receipt
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Patient Details Modal -->
+  <div class="modal fade" id="patientModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-person-lines-fill me-2"></i>Patient Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" *ngIf="selectedPatient">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Name:</strong> {{ selectedPatient.name }}</li>
+            <li class="list-group-item"><strong>Email:</strong> {{ selectedPatient.email }}</li>
+            <li class="list-group-item"><strong>Phone:</strong> {{ selectedPatient.phone }}</li>
+            <li class="list-group-item"><strong>Gender:</strong> {{ selectedPatient.gender }}</li>
+            <li class="list-group-item"><strong>DOB:</strong> {{ selectedPatient.dob | date }}</li>
+            <li class="list-group-item"><strong>Address:</strong> {{ selectedPatient.address }}</li>
+            <li class="list-group-item"><strong>Doctor:</strong> {{ selectedPatient.doctorName }}</li>
+            <li class="list-group-item"><strong>Ward:</strong> {{ selectedPatient.bedWard }}</li>
+            <li class="list-group-item"><strong>Bed No:</strong> {{ selectedPatient.bedNumber }}</li>
+            <li class="list-group-item"><strong>Admission Date:</strong> {{ selectedPatient.admissionDate | date }}</li>
+            <li class="list-group-item"><strong>Advance:</strong> ৳{{ selectedPatient.advanceAmount }}</li>
+            <li class="list-group-item"><strong>Due:</strong> ৳{{ selectedPatient.dueAmount }}</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Advance Modal -->
+  <div class="modal fade" id="advanceModal" tabindex="-1" aria-labelledby="advanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" (ngSubmit)="submitAdvance()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="advanceModalLabel"><i class="bi bi-cash me-2"></i>Add Advance</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <label>Advance Amount (৳)</label>
+          <input type="number" [(ngModel)]="advanceAmount" name="amount" class="form-control" required min="1" />
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" type="submit">Submit</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bill Modal -->
+  <div class="modal fade" id="billModal" tabindex="-1" aria-labelledby="billModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="billModalLabel">
+            <i class="bi bi-receipt me-2"></i>Patient Bill
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" *ngIf="bill">
+          <p><strong>Room Charge:</strong> ৳{{ bill.roomCharge }}</p>
+          <p><strong>Doctor Fee:</strong> ৳{{ bill.doctorFee }}</p>
+          <p><strong>Medicine Cost:</strong> ৳{{ bill.medicineCost }}</p>
+          <hr />
+          <h5><strong>Total:</strong> ৳{{ bill.total }}</h5>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

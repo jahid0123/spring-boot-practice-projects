@@ -1,0 +1,305 @@
+<div class="container mt-4">
+  <h3 class="text-primary mb-3">
+    <i class="bi bi-hospital-fill me-2"></i>Admitted Patients
+  </h3>
+
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let patient of patients">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-success">{{ patient.name }}</h5>
+          <p><i class="bi bi-envelope-fill me-1"></i> {{ patient.email }}</p>
+          <p><i class="bi bi-phone-fill me-1"></i> {{ patient.phone }}</p>
+          <p><strong>Doctor:</strong> {{ patient.doctorName }}</p>
+          <p><strong>Ward:</strong> {{ patient.bedWard }} - {{ patient.bedNumber }}</p>
+          <p><strong>Due:</strong> ৳{{ patient.dueAmount }}</p>
+
+          <div class="mt-auto d-grid gap-2">
+            <button
+              class="btn btn-outline-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#patientModal"
+              (click)="openDetails(patient)"
+              type="button"
+            >
+              <i class="bi bi-eye-fill me-1"></i> View Details
+            </button>
+
+            <button
+              class="btn btn-outline-success"
+              (click)="openAdvanceModal(patient)"
+              type="button"
+            >
+              <i class="bi bi-cash-coin me-1"></i> Add Advance
+            </button>
+
+            <button
+              class="btn btn-outline-warning"
+              (click)="openBillCreateModal(patient)"
+              type="button"
+            >
+              <i class="bi bi-receipt me-1"></i> Create Bill
+            </button>
+
+            <button
+              class="btn btn-outline-danger"
+              [disabled]="patient.dueAmount > 0"
+              (click)="discharge(patient.id)"
+              type="button"
+            >
+              <i class="bi bi-box-arrow-right me-1"></i> Discharge
+            </button>
+
+            <button
+              class="btn btn-outline-dark"
+              (click)="downloadReceipt(patient.id)"
+              type="button"
+            >
+              <i class="bi bi-download me-1"></i> PDF Receipt
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Patient Details Modal -->
+  <div
+    class="modal fade"
+    id="patientModal"
+    tabindex="-1"
+    aria-labelledby="modalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">
+            <i class="bi bi-person-lines-fill me-2"></i>Patient Details
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body" *ngIf="selectedPatient">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <strong>Name:</strong> {{ selectedPatient.name }}
+            </li>
+            <li class="list-group-item">
+              <strong>Email:</strong> {{ selectedPatient.email }}
+            </li>
+            <li class="list-group-item">
+              <strong>Phone:</strong> {{ selectedPatient.phone }}
+            </li>
+            <li class="list-group-item">
+              <strong>Gender:</strong> {{ selectedPatient.gender }}
+            </li>
+            <li class="list-group-item">
+              <strong>Date of Birth:</strong>
+              {{ selectedPatient.dob | date }}
+            </li>
+            <li class="list-group-item">
+              <strong>Address:</strong> {{ selectedPatient.address }}
+            </li>
+            <li class="list-group-item">
+              <strong>Doctor:</strong> {{ selectedPatient.doctorName }}
+            </li>
+            <li class="list-group-item">
+              <strong>Ward:</strong> {{ selectedPatient.bedWard }}
+            </li>
+            <li class="list-group-item">
+              <strong>Bed Number:</strong> {{ selectedPatient.bedNumber }}
+            </li>
+            <li class="list-group-item">
+              <strong>Admission Date:</strong>
+              {{ selectedPatient.admissionDate | date }}
+            </li>
+            <li class="list-group-item">
+              <strong>Advance:</strong> ৳{{ selectedPatient.advanceAmount }}
+            </li>
+            <li class="list-group-item">
+              <strong>Due:</strong> ৳{{ selectedPatient.dueAmount }}
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Advance Modal -->
+  <div
+    class="modal fade"
+    id="advanceModal"
+    tabindex="-1"
+    aria-labelledby="advanceModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <form
+        class="modal-content"
+        (ngSubmit)="submitAdvance()"
+        #advanceForm="ngForm"
+        novalidate
+      >
+        <div class="modal-header">
+          <h5 class="modal-title" id="advanceModalLabel">Add Advance Payment</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <label for="advanceAmount" class="form-label"
+            >Advance Amount (৳)</label
+          >
+          <input
+            id="advanceAmount"
+            type="number"
+            [(ngModel)]="advanceAmount"
+            name="amount"
+            class="form-control"
+            required
+            min="1"
+            #amount="ngModel"
+          />
+          <div
+            *ngIf="amount.invalid && (amount.dirty || amount.touched)"
+            class="text-danger mt-1"
+          >
+            <small *ngIf="amount.errors?.['required']">Amount is required.</small>
+            <small *ngIf="amount.errors?.['min']">
+              Amount must be at least 1.
+            </small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn btn-success"
+            type="submit"
+            [disabled]="advanceForm.invalid"
+          >
+            Submit
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bill Creation Modal -->
+  <div
+    class="modal fade"
+    id="billCreateModal"
+    tabindex="-1"
+    aria-labelledby="billCreateModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <form
+        class="modal-content"
+        (ngSubmit)="submitBill()"
+        #billForm="ngForm"
+        novalidate
+      >
+        <div class="modal-header">
+          <h5 class="modal-title" id="billCreateModalLabel">
+            <i class="bi bi-receipt me-2"></i>Create Bill for
+            {{ selectedPatient?.name }}
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="doctorFee" class="form-label">Doctor Fee (৳)</label>
+            <input
+              type="number"
+              id="doctorFee"
+              name="doctorFee"
+              class="form-control"
+              [(ngModel)]="doctorFee"
+              min="0"
+              required
+              #doctorFeeInput="ngModel"
+            />
+            <div
+              *ngIf="doctorFeeInput.invalid && (doctorFeeInput.dirty || doctorFeeInput.touched)"
+              class="text-danger mt-1"
+            >
+              <small *ngIf="doctorFeeInput.errors?.['required']">Doctor fee is required.</small>
+              <small *ngIf="doctorFeeInput.errors?.['min']">
+                Doctor fee cannot be negative.
+              </small>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="medicineCost" class="form-label">Medicine Cost (৳)</label>
+            <input
+              type="number"
+              id="medicineCost"
+              name="medicineCost"
+              class="form-control"
+              [(ngModel)]="medicineCost"
+              min="0"
+              required
+              #medicineCostInput="ngModel"
+            />
+            <div
+              *ngIf="medicineCostInput.invalid && (medicineCostInput.dirty || medicineCostInput.touched)"
+              class="text-danger mt-1"
+            >
+              <small *ngIf="medicineCostInput.errors?.['required']">Medicine cost is required.</small>
+              <small *ngIf="medicineCostInput.errors?.['min']">
+                Medicine cost cannot be negative.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="billForm.invalid"
+          >
+            Create Bill
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

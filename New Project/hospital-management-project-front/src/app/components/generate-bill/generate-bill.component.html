@@ -1,0 +1,40 @@
+<div class="container mt-4">
+  <h3>💵 Generate Patient Bill</h3>
+
+  <div *ngIf="message" class="alert alert-info">{{ message }}</div>
+
+  <div class="mb-3">
+    <label>Select Discharged Admission</label>
+    <select class="form-select" [(ngModel)]="selectedAdmissionId">
+      <option *ngFor="let a of dischargedAdmissions" [value]="a.id">
+        Admission ID: {{ a.id }} | Patient: {{ a.patientId }}
+      </option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label>Room Charge per Day</label>
+    <input type="number" class="form-control" [(ngModel)]="roomCharge">
+  </div>
+
+  <div class="mb-3">
+    <label>Doctor Fee</label>
+    <input type="number" class="form-control" [(ngModel)]="doctorFee">
+  </div>
+
+  <div class="mb-3">
+    <label>Medicine Cost</label>
+    <input type="number" class="form-control" [(ngModel)]="medicineCost">
+  </div>
+
+  <button class="btn btn-success" (click)="generate()">Generate Bill</button>
+
+  <div *ngIf="bill" class="mt-4 card p-3">
+    <h5>💳 Bill Summary</h5>
+    <p>Room Charges: {{ bill.roomCharge }}</p>
+    <p>Doctor Fee: {{ bill.doctorFee }}</p>
+    <p>Medicine Cost: {{ bill.medicineCost }}</p>
+    <hr>
+    <h6>Total: {{ bill.total }}</h6>
+  </div>
+</div>

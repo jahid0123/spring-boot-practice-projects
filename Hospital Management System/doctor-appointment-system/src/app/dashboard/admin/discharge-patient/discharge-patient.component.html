@@ -1,0 +1,82 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let patient of admittedPatients">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body">
+          <h5 class="card-title text-success">{{ patient.name }}</h5>
+          <p><i class="bi bi-envelope-fill me-1"></i> {{ patient.email }}</p>
+          <p><i class="bi bi-phone-fill me-1"></i> {{ patient.phone }}</p>
+          <p><strong>Doctor:</strong> {{ patient.doctorName }}</p>
+          <p><strong>Ward:</strong> {{ patient.bedWard }} - {{ patient.bedNumber }}</p>
+          <p><strong>Due:</strong> ৳{{ patient.dueAmount }}</p>
+
+          <button class="btn btn-outline-primary" (click)="openDetails(patient)">
+            <i class="bi bi-eye-fill me-1"></i> View Details
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="text-danger mt-5 mb-3">
+    <i class="bi bi-person-check-fill me-2"></i>Discharged Patients
+  </h3>
+
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let patient of dischargedPatients">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body">
+          <h5 class="card-title text-danger">{{ patient.name }}</h5>
+          <p><i class="bi bi-envelope-fill me-1"></i> {{ patient.email }}</p>
+          <p><i class="bi bi-phone-fill me-1"></i> {{ patient.phone }}</p>
+          <p><strong>Doctor:</strong> {{ patient.doctorName }}</p>
+          <p><strong>Ward:</strong> {{ patient.bedWard }} - {{ patient.bedNumber }}</p>
+          <p><strong>Discharged On:</strong> {{ patient.dischargeDate | date:'mediumDate' }}</p>
+          <p><strong>Total Bill:</strong> ৳{{ patient.totalBill }}</p>
+
+          <button class="btn btn-outline-primary" (click)="openDetails(patient)">
+            <i class="bi bi-eye-fill me-1"></i> View Details
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional: Patient Details Modal here -->
+  <div
+    class="modal fade"
+    id="patientModal"
+    tabindex="-1"
+    aria-labelledby="modalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content" *ngIf="selectedPatient">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">
+            <i class="bi bi-person-lines-fill me-2"></i>Patient Details
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Name:</strong> {{ selectedPatient.name }}</li>
+            <li class="list-group-item"><strong>Email:</strong> {{ selectedPatient.email }}</li>
+            <li class="list-group-item"><strong>Phone:</strong> {{ selectedPatient.phone }}</li>
+            <li class="list-group-item"><strong>Doctor:</strong> {{ selectedPatient.doctorName }}</li>
+            <li class="list-group-item"><strong>Ward:</strong> {{ selectedPatient.bedWard }}</li>
+            <li class="list-group-item"><strong>Bed Number:</strong> {{ selectedPatient.bedNumber }}</li>
+            <li class="list-group-item" *ngIf="selectedPatient.admissionDate"><strong>Admission Date:</strong> {{ selectedPatient.admissionDate | date }}</li>
+            <li class="list-group-item" *ngIf="selectedPatient.dischargeDate"><strong>Discharge Date:</strong> {{ selectedPatient.dischargeDate | date }}</li>
+            <li class="list-group-item" *ngIf="selectedPatient.dueAmount !== undefined"><strong>Due Amount:</strong> ৳{{ selectedPatient.dueAmount }}</li>
+            <li class="list-group-item" *ngIf="selectedPatient.totalBill !== undefined"><strong>Total Bill:</strong> ৳{{ selectedPatient.totalBill }}</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport
+        xmlns="http://jasperreports.sourceforge.net/jasperreports"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+        http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+        name="receipt"
+        pageWidth="595"
+        pageHeight="842"
+        columnWidth="555"
+        leftMargin="20"
+        rightMargin="20"
+        topMargin="20"
+        bottomMargin="20"
+        uuid="12345678-1234-1234-1234-123456789012">
+
+    <!-- Parameters -->
+    <parameter name="roomCharge" class="java.lang.Double"/>
+    <parameter name="doctorFee" class="java.lang.Double"/>
+    <parameter name="medicineCost" class="java.lang.Double"/>
+    <parameter name="total" class="java.lang.Double"/>
+
+    <!-- Title Band -->
+    <title>
+        <band height="50">
+            <staticText>
+                <reportElement x="0" y="10" width="555" height="30" uuid="a1a1a1a1-a1a1-4a1a-a1a1-a1a1a1a1a1a1"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="20" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Hospital Bill Receipt]]></text>
+            </staticText>
+        </band>
+    </title>
+
+    <!-- Detail Band -->
+    <detail>
+        <band height="150">
+
+            <!-- Room Charge Label -->
+            <staticText>
+                <reportElement x="0" y="0" width="200" height="25" uuid="b2b2b2b2-b2b2-4b2b-b2b2-b2b2b2b2b2b2"/>
+                <textElement>
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Room Charge:]]></text>
+            </staticText>
+
+            <!-- Room Charge Value -->
+            <textField pattern="###,##0.00">
+                <reportElement x="220" y="0" width="150" height="25" uuid="c3c3c3c3-c3c3-4c3c-c3c3-c3c3c3c3c3c3"/>
+                <textElement>
+                    <font size="14"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{roomCharge}]]></textFieldExpression>
+            </textField>
+
+            <!-- Doctor Fee Label -->
+            <staticText>
+                <reportElement x="0" y="30" width="200" height="25" uuid="d4d4d4d4-d4d4-4d4d-d4d4-d4d4d4d4d4d4"/>
+                <textElement>
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Doctor Fee:]]></text>
+            </staticText>
+
+            <!-- Doctor Fee Value -->
+            <textField pattern="###,##0.00">
+                <reportElement x="220" y="30" width="150" height="25" uuid="e5e5e5e5-e5e5-4e5e-e5e5-e5e5e5e5e5e5"/>
+                <textElement>
+                    <font size="14"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{doctorFee}]]></textFieldExpression>
+            </textField>
+
+            <!-- Medicine Cost Label -->
+            <staticText>
+                <reportElement x="0" y="60" width="200" height="25" uuid="f6f6f6f6-f6f6-4f6f-f6f6-f6f6f6f6f6f6"/>
+                <textElement>
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Medicine Cost:]]></text>
+            </staticText>
+
+            <!-- Medicine Cost Value -->
+            <textField pattern="###,##0.00">
+                <reportElement x="220" y="60" width="150" height="25" uuid="a1b2c3d4-e5f6-7890-abcd-1234567890ab"/>
+                <textElement>
+                    <font size="14"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{medicineCost}]]></textFieldExpression>
+            </textField>
+
+            <!-- Separator Line -->
+            <line>
+                <reportElement x="0" y="95" width="370" height="1" uuid="3f47a4e2-1e9d-4f2b-bb21-2a9e4a8d2f14"/>
+            </line>
+
+            <!-- Total Label -->
+            <staticText>
+                <reportElement x="0" y="105" width="200" height="30" uuid="b1b2b3b4-c5c6-4c7d-8e9f-a0b1c2d3e4f5"/>
+                <textElement>
+                    <font size="16" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total:]]></text>
+            </staticText>
+
+            <!-- Total Value -->
+            <textField pattern="###,##0.00">
+                <reportElement x="220" y="105" width="150" height="30" uuid="c1c2c3c4-d5d6-4d7e-8f9a-b0c1d2e3f4a5"/>
+                <textElement>
+                    <font size="16" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
+            </textField>
+
+        </band>
+    </detail>
+
+</jasperReport>

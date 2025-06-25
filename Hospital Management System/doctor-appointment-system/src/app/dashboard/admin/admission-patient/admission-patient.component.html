@@ -1,0 +1,88 @@
+<div class="container mt-5">
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-body p-4">
+      <h3 class="card-title mb-4 text-primary d-flex align-items-center">
+        <i class="bi bi-person-plus-fill me-2 fs-4"></i> Admit New Patient
+      </h3>
+
+      <form [formGroup]="admitForm" (ngSubmit)="onSubmit()" class="row g-4">
+
+        <!-- Name -->
+        <div class="col-md-4 form-floating">
+          <input type="text" formControlName="name" class="form-control" id="name" placeholder="Name">
+          <label for="name"><i class="bi bi-person-fill"></i> Full Name</label>
+        </div>
+
+        <!-- Email -->
+        <div class="col-md-4 form-floating">
+          <input type="email" formControlName="email" class="form-control" id="email" placeholder="Email">
+          <label for="email"><i class="bi bi-envelope-fill"></i> Email</label>
+        </div>
+
+        <!-- Phone -->
+        <div class="col-md-4 form-floating">
+          <input type="text" formControlName="phone" class="form-control" id="phone" placeholder="Phone">
+          <label for="phone"><i class="bi bi-telephone-fill"></i> Phone</label>
+        </div>
+
+        <!-- Gender -->
+        <div class="col-md-4">
+          <label class="form-label"><i class="bi bi-gender-ambiguous"></i> Gender</label>
+          <select class="form-select" formControlName="gender" required>
+            <option value="" disabled>Select Gender</option>
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="col-md-4 form-floating">
+          <input type="date" formControlName="dob" class="form-control" id="dob" placeholder="Date of Birth">
+          <label for="dob"><i class="bi bi-calendar3"></i> Date of Birth</label>
+        </div>
+
+        <!-- Address -->
+        <div class="col-md-4 form-floating">
+          <input type="text" formControlName="address" class="form-control" id="address" placeholder="Address">
+          <label for="address"><i class="bi bi-geo-alt-fill"></i> Address</label>
+        </div>
+
+        <!-- Doctor -->
+        <div class="col-md-6">
+          <label class="form-label"><i class="bi bi-stethoscope"></i> Assigned Doctor</label>
+          <select class="form-select" formControlName="doctorId" required>
+            <option value="" disabled>Select Doctor</option>
+            <option *ngFor="let doc of doctors" [value]="doc.id">
+              {{ doc.name }} ({{ doc.specialization }})
+            </option>
+          </select>
+        </div>
+
+        <!-- Bed -->
+        <div class="col-md-6">
+          <label class="form-label"><i class="bi bi-hospital"></i> Bed</label>
+          <select class="form-select" formControlName="bedId" required>
+            <option value="" disabled>Select Bed</option>
+            <option *ngFor="let bed of beds" [value]="bed.id">
+              {{ bed.ward }} - {{ bed.bedNumber }} (৳{{ bed.feePerDay }})
+            </option>
+          </select>
+        </div>
+
+        <!-- Advance Amount -->
+        <div class="col-md-4 form-floating">
+          <input type="number" min="0" formControlName="advanceAmount" class="form-control" id="advanceAmount" placeholder="Advance Amount">
+          <label for="advanceAmount"><i class="bi bi-cash-stack"></i> Advance Amount (৳)</label>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="col-12 text-end mt-3">
+          <button type="submit" class="btn btn-success px-4 py-2" [disabled]="admitForm.invalid">
+            <i class="bi bi-check-circle me-2"></i> Admit Patient
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

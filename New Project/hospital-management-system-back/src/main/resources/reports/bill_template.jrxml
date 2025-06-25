@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="bill_report" pageWidth="595" pageHeight="842"
+              columnWidth="555" leftMargin="20" rightMargin="20"
+              topMargin="20" bottomMargin="20" uuid="12345678-90ab-cdef-1234-567890abcdef">
+
+    <parameter name="patientName" class="java.lang.String"/>
+    <parameter name="admissionDate" class="java.lang.String"/>
+    <parameter name="dischargeDate" class="java.lang.String"/>
+    <parameter name="roomCharge" class="java.lang.Double"/>
+    <parameter name="doctorFee" class="java.lang.Double"/>
+    <parameter name="medicineCost" class="java.lang.Double"/>
+    <parameter name="total" class="java.lang.Double"/>
+
+    <title>
+        <band height="60">
+            <textField>
+                <reportElement x="0" y="0" width="555" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Hospital Bill Summary"]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <detail>
+        <band height="200">
+            <textField><reportElement x="0" y="10" width="300" height="20"/>
+                <textFieldExpression><![CDATA["Patient Name: " + $P{patientName}]]></textFieldExpression>
+            </textField>
+            <textField><reportElement x="0" y="35" width="300" height="20"/>
+                <textFieldExpression><![CDATA["Admission Date: " + $P{admissionDate}]]></textFieldExpression>
+            </textField>
+            <textField><reportElement x="0" y="60" width="300" height="20"/>
+                <textFieldExpression><![CDATA["Discharge Date: " + $P{dischargeDate}]]></textFieldExpression>
+            </textField>
+            <textField><reportElement x="0" y="85" width="300" height="20"/>
+                <textFieldExpression><![CDATA["Room Charge: $" + $P{roomCharge}]]></textFieldExpression>
+            </textField>
+            <textField><reportElement x="0" y="110" width="300" height="20"/>
+                <textFieldExpression><![CDATA["Doctor Fee: $" + $P{doctorFee}]]></textFieldExpression>
+            </textField>
+            <textField><reportElement x="0" y="135" width="300" height="20"/>
+                <textFieldExpression><![CDATA["Medicine Cost: $" + $P{medicineCost}]]></textFieldExpression>
+            </textField>
+            <textField><reportElement x="0" y="160" width="300" height="20"/>
+                <textFieldExpression><![CDATA["Total: $" + $P{total}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+</jasperReport>

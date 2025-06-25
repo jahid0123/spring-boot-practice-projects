@@ -1,0 +1,39 @@
+<div class="container mt-4">
+  <h4 class="text-primary mb-3">Appointments</h4>
+
+  <div *ngIf="appointments.length === 0" class="alert alert-info">
+    No appointments found.
+  </div>
+
+  <div *ngFor="let appt of appointments" class="card shadow-sm rounded-3 mb-3 p-3">
+    <div class="row">
+      <!-- Doctor Info -->
+      <div class="col-md-4">
+        <h5 class="text-success">{{ appt.doctorName }}</h5>
+      </div>
+
+      <!-- Patient Info -->
+      <div class="col-md-4">
+        <h6><strong>Patient Name: </strong>{{ appt.name }}</h6>
+        <p class="mb-1"><strong>Patient DOB:</strong> {{ appt.dob | date }}</p>
+        <p class="mb-1"><strong>Patient Gender:</strong> {{ appt.gender }}</p>
+      </div>
+
+      <!-- Appointment Info -->
+      <div class="col-md-4">
+        <p><strong>Bed Number:</strong> {{ appt.bedNumber }}</p>
+        <p><strong>Word:</strong> {{ appt.bedWard }}</p>
+        <p><strong>Admission Date:</strong> {{ appt.admissionDate }}</p>
+      
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+      <button class="btn btn-primary btn-sm"
+              (click)="generatePrescription(appt)">
+        Generate Prescription
+      </button>
+
+
+    </div>
+  </div>

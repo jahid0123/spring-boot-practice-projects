@@ -1,0 +1,152 @@
+<div class="d-flex justify-content-end mb-3 gap-2">
+  <button class="btn btn-outline-primary" (click)="printPrescription()">
+    🖨️ Print
+  </button>
+  <button class="btn btn-outline-danger" (click)="downloadPdf()">
+    📄 Download PDF
+  </button>
+</div>
+
+<div *ngIf="prescription" class="container mt-4 mb-5" id="prescription-container">
+  <div class="card shadow-lg mb-4 border-primary">
+    <div class="card-header bg-primary text-white h4 text-center py-3">
+      <i class="bi bi-file-earmark-medical me-2"></i> Prescription Details
+    </div>
+
+    <div class="card-body">
+      <h5 class="card-title text-primary mb-3">
+        <i class="bi bi-person-fill me-2"></i> Doctor Information
+      </h5>
+      <hr class="mb-4" />
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <p class="mb-0">
+            <strong>Name:</strong> {{ prescription.doctorName }}
+          </p>
+          <p class="mb-0">
+            <strong>Qualification:</strong>
+            {{ prescription.doctorQualification }}
+          </p>
+          <p class="mb-0">
+            <strong>Specialization:</strong>
+            {{ prescription.doctorSpecialization }}
+          </p>
+          <p class="mb-0">
+            <strong>Hospital:</strong> {{ prescription.doctorHospitalName }}
+          </p>
+        </div>
+      </div>
+      <hr class="mb-4" />
+
+      <!-- Patient Name, DOB, and Date Issued in one row -->
+      <h5 class="card-title text-success mt-4 mb-3">
+        <i class="bi bi-person-heart me-2"></i> Patient & Visit Information
+      </h5>
+      <hr class="mb-4" />
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <p class="mb-0">
+            <strong>Patient Name:</strong> {{ prescription.patientName }}
+          </p>
+        </div>
+        <div class="col-md-4">
+
+          <!-- Using DatePipe for patient's Date of Birth -->
+          <p class="mb-0">
+            <strong>Date of Birth:</strong>
+            {{ prescription.patientDob | date : "mediumDate" }}
+          </p>
+        </div>
+        <div class="col-md-4">
+
+          <!-- Using DatePipe for date issued -->
+          <p class="mb-0">
+            <strong>Date Issued:</strong>
+            {{ prescription.dateIssued | date : "mediumDate" }}
+          </p>
+        </div>
+      </div>
+      <hr class="mb-4" />
+
+      <!-- Main Content: Symptoms/Diagnosis (Column 1) and Medicines (Column 2) -->
+      <div class="row">
+        <!-- First Column: Symptoms and Diagnosis -->
+        <div class="col-lg-5 mb-4 mb-lg-0">
+          <h5 class="card-title text-info mb-3">
+            <i class="bi bi-clipboard-pulse me-2"></i> Clinical Notes
+          </h5>
+          <hr class="mb-4" />
+          <div class="mb-3">
+            <p><strong>Symptoms:</strong> {{ prescription.symptom }}</p>
+          </div>
+          <div class="mb-3">
+            <p class="mb-0">
+              <strong>Diagnosis:</strong> {{ prescription.diagnosis }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Second Column: Medicines List -->
+        <div class="col-lg-7">
+          <h5 class="card-title text-warning mb-3">
+            <i class="bi bi-pill-fill me-2"></i> Medicines Prescribed
+          </h5>
+          <hr class="mb-4" />
+
+          <!-- Check if there are medicines to display -->
+          <ng-container
+            *ngIf="
+              prescription.medicines && prescription.medicines.length > 0;
+              else noMedicines
+            "
+          >
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>#</th>
+                    <th>Medicine Name</th>
+                    <th>Dosage</th>
+                    <th>Frequency</th>
+                    <th>Duration</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Loop through medicines using ngFor -->
+                  <tr *ngFor="let med of prescription.medicines; index as i">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ med.name }}</td>
+                    <td>{{ med.dosage }}</td>
+                    <td>{{ med.frequency }}</td>
+                    <td>{{ med.duration }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-container>
+          <!-- Template to show if no medicines are found -->
+          <ng-template #noMedicines>
+            <div class="p-3 text-muted border rounded text-center">
+              No medicines prescribed.
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <!-- End of card-body -->
+  </div>
+  <!-- End of single card -->
+
+  <!-- Print Button (remains outside the main card, but within the overall container) -->
+  <div class="d-grid gap-2 mt-4">
+    <!-- The (click) event should call a method in your component to handle printing -->
+    <button class="btn btn-dark btn-lg" (click)="printPrescription()">
+      <i class="bi bi-printer-fill me-2"></i> Print Prescription
+    </button>
+  </div>
+</div>
+
+<!-- Fallback message if no prescription data is available -->
+<div *ngIf="!prescription" class="container mt-5 text-center text-muted">
+  <p>Loading prescription data or no prescription found.</p>
+</div>

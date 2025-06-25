@@ -1,0 +1,47 @@
+<div class="container my-5">
+  <h2 class="mb-4">Favorite Doctors</h2>
+
+  <div *ngIf="favoriteDoctors.length === 0" class="alert alert-info">
+    No favorite doctors added yet.
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col" *ngFor="let doctor of favoriteDoctors">
+      <div class="card shadow rounded-4 h-100">
+
+        <!-- ✅ Doctor image in header -->
+        <img
+          [src]="doctor.image"
+          class="card-img-top rounded-top"
+          alt="{{ doctor.name }}"
+          style="object-fit: cover; height: 200px;"
+        />
+
+        <div class="card-body">
+          <h5 class="card-title">{{ doctor.name }}</h5>
+          <p class="card-text">
+            <strong>Specialty:</strong> {{ doctor.specialization }} <br />
+            <strong>Phone:</strong> {{ doctor.phone }} <br />
+            <strong>Experience:</strong> {{ doctor.experience }} <br />
+            <strong>Hospital:</strong> {{ doctor.hospitalName }}
+          </p>
+        </div>
+
+        <div class="card-footer bg-transparent d-flex justify-content-between">
+          <button
+            class="btn btn-outline-danger"
+            (click)="removeDoctor(doctor)"
+          >
+            Remove
+          </button>
+          <button
+            class="btn btn-outline-primary"
+            (click)="bookAppointment(doctor)"
+          >
+            Book Appointment
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

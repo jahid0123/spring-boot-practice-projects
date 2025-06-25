@@ -1,0 +1,91 @@
+<div class="container py-3">
+  <div class="card shadow border-0 rounded-4 mx-auto" style="max-width: 900px; background: #f8f9fa">
+    <div class="card-body p-5">
+      <h2 class="text-center mb-4 text-primary">
+        <i class="bi bi-person-plus-fill me-2"></i>Doctor Registration
+      </h2>
+
+      <form [formGroup]="doctorForm" (ngSubmit)="onSubmit()">
+        <div class="row g-4">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Full Name</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+              <input type="text" class="form-control" formControlName="name" placeholder="Dr. John Doe" />
+            </div>
+            <div class="text-danger small" *ngIf="submitted && f['name'].errors">Name is required.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Email</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+              <input type="email" class="form-control" formControlName="email" placeholder="example@domain.com" />
+            </div>
+            <div class="text-danger small" *ngIf="submitted && f['email'].errors">Valid email is required.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Password</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+              <input type="password" class="form-control" formControlName="password" placeholder="••••••" />
+            </div>
+            <div class="text-danger small" *ngIf="submitted && f['password'].errors">
+              Password is required (min 6 chars).
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Specialization</label>
+            <input type="text" class="form-control" formControlName="specialization" placeholder="e.g. Cardiologist" />
+            <div class="text-danger small" *ngIf="submitted && f['specialization'].errors">
+              Specialization is required.
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Qualification</label>
+            <input type="text" class="form-control" formControlName="qualification" placeholder="MBBS, MD etc." />
+            <div class="text-danger small" *ngIf="submitted && f['qualification'].errors">
+              Qualification is required.
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Experience (Years)</label>
+            <input type="number" class="form-control" formControlName="experience" placeholder="e.g. 5" />
+            <div class="text-danger small" *ngIf="submitted && f['experience'].errors">
+              Experience is required.
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Hospital Name</label>
+            <input type="text" class="form-control" formControlName="hospitalName" placeholder="City Hospital" />
+            <div class="text-danger small" *ngIf="submitted && f['hospitalName'].errors">
+              Hospital name is required.
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Phone</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-telephone-fill"></i></span>
+              <input type="text" class="form-control" formControlName="phone" placeholder="e.g. +8801XXXXXXXXX" />
+            </div>
+            <div class="text-danger small" *ngIf="submitted && f['phone'].errors">
+              Phone number is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-5">
+          <button class="btn btn-primary btn-lg px-5">
+            <i class="bi bi-check-circle-fill me-2"></i>Register
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

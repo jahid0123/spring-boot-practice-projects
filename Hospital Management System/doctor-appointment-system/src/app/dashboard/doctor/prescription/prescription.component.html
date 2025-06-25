@@ -1,0 +1,129 @@
+<div class="container mt-4">
+  <h3>Create Prescription</h3>
+
+  <form [formGroup]="prescriptionForm" (ngSubmit)="onSubmit()">
+    <!-- Appointment Select -->
+    <div class="mb-3">
+      <label for="appointmentId" class="form-label">Select Appointment (Approved)</label>
+      <select
+        id="appointmentId"
+        class="form-select"
+        formControlName="appointmentId"
+        [class.is-invalid]="prescriptionForm.get('appointmentId')?.invalid && prescriptionForm.get('appointmentId')?.touched"
+      >
+        <option value="" disabled selected>-- Select Appointment --</option>
+        <option *ngFor="let app of appointments" [value]="app.id">
+          {{ app.name }} - {{ app.admissionDate }} {{ app.email }}
+        </option>
+      </select>
+      <div class="invalid-feedback">Please select an appointment.</div>
+    </div>
+
+    <!-- Patient Name (readonly) -->
+    <div class="mb-3">
+      <label class="form-label">Patient Name</label>
+      <input type="text" class="form-control" formControlName="name" readonly />
+    </div>
+
+    <!-- Symptoms -->
+    <div class="mb-3">
+      <label for="symptoms" class="form-label">Symptoms</label>
+      <textarea
+        id="symptoms"
+        class="form-control"
+        formControlName="symptoms"
+        rows="3"
+        placeholder="Enter symptoms"
+      ></textarea>
+      <div
+        class="text-danger"
+        *ngIf="prescriptionForm.get('symptoms')?.invalid && prescriptionForm.get('symptoms')?.touched"
+      >
+        Symptoms are required.
+      </div>
+    </div>
+
+    <!-- Diagnosis -->
+    <div class="mb-3">
+      <label for="diagnosis" class="form-label">Diagnosis</label>
+      <textarea
+        id="diagnosis"
+        class="form-control"
+        formControlName="diagnosis"
+        rows="3"
+        placeholder="Enter diagnosis"
+      ></textarea>
+      <div
+        class="text-danger"
+        *ngIf="prescriptionForm.get('diagnosis')?.invalid && prescriptionForm.get('diagnosis')?.touched"
+      >
+        Diagnosis is required.
+      </div>
+    </div>
+
+    <!-- Medicines -->
+    <div formArrayName="medicines">
+      <label class="form-label">Medicines</label>
+      <div
+        *ngFor="let medicine of medicines.controls; let i = index"
+        [formGroupName]="i"
+        class="border p-3 mb-3 rounded"
+      >
+        <div class="row">
+          <div class="mb-2 col-md-3">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="Medicine Name"
+          />
+          <div *ngIf="medicine.get('name')?.invalid && medicine.get('name')?.touched" class="text-danger">
+            Medicine name is required.
+          </div>
+        </div>
+        <div class="mb-2 col-md-3">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="dosage"
+            placeholder="Dosage (e.g. 500mg)"
+          />
+          <div *ngIf="medicine.get('dosage')?.invalid && medicine.get('dosage')?.touched" class="text-danger">
+            Dosage is required.
+          </div>
+        </div>
+        <div class="mb-2 col-md-3">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="frequency"
+            placeholder="Frequency (e.g. 1 tablet twice a day)"
+          />
+          <div *ngIf="medicine.get('frequency')?.invalid && medicine.get('frequency')?.touched" class="text-danger">
+            Frequency is required.
+          </div>
+        </div>
+        <div class="mb-2 col-md-3">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="duration"
+            placeholder="Duration (e.g. 5 days)"
+          />
+          <div *ngIf="medicine.get('duration')?.invalid && medicine.get('duration')?.touched" class="text-danger">
+            Duration is required.
+          </div>
+        </div>
+        </div>
+        <button type="button" class="btn btn-danger btn-sm" (click)="removeMedicine(i)">Remove</button>
+      </div>
+
+      <button type="button" class="btn btn-primary" (click)="addMedicine()">Add Medicine</button>
+    </div>
+
+    <!-- Submit -->
+    <div class="mt-4">
+      <button type="submit" class="btn btn-success" [disabled]="prescriptionForm.invalid">Save Prescription</button>
+    </div>
+  </form>
+</div>

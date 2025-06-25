@@ -1,0 +1,23 @@
+<div class="container mt-4">
+  <h3>🏥 Admit Patient</h3>
+
+  <form [formGroup]="admitForm" (ngSubmit)="admit()">
+    <div class="mb-3">
+      <label for="patient" class="form-label">Select Patient</label>
+      <select class="form-select" formControlName="patientId" required>
+        <option *ngFor="let p of patients" [value]="p.id">{{ p.name }}</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="bed" class="form-label">Select Bed</label>
+      <select class="form-select" formControlName="bedId" required>
+        <option *ngFor="let b of beds" [value]="b.id">{{ b.ward }} - Bed {{ b.bedNumber }}</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Admit Patient</button>
+  </form>
+
+  <div *ngIf="message" class="alert alert-info mt-3">{{ message }}</div>
+</div>

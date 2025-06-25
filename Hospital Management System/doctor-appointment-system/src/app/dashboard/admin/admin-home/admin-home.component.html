@@ -1,0 +1,55 @@
+<div class="container my-4">
+  <h2 class="mb-4">Admin Dashboard</h2>
+
+  <div class="row g-3">
+    <div class="col-md-3">
+      <div class="card text-white bg-primary shadow">
+        <div class="card-body">
+          <h5 class="card-title">Total Admissions</h5>
+          <p class="card-text fs-3">{{ stats.totalAdmissions || 0 }}</p>
+          <i class="bi bi-journal-medical fs-1"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-white bg-success shadow">
+        <div class="card-body">
+          <h5 class="card-title">Total Discharges</h5>
+          <p class="card-text fs-3">{{ stats.totalDischarges || 0 }}</p>
+          <i class="bi bi-door-open fs-1"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-white bg-info shadow">
+        <div class="card-body">
+          <h5 class="card-title">Total Revenue (৳)</h5>
+          <p class="card-text fs-3">{{ stats.totalRevenue || 0 }}</p>
+          <i class="bi bi-currency-dollar fs-1"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-white bg-warning shadow">
+        <div class="card-body">
+          <h5 class="card-title">Total Beds</h5>
+          <p class="card-text fs-3">{{ stats.totalBeds || 0 }}</p>
+          <i class="bi bi-house fs-1"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 mt-3">
+      <div class="card text-white bg-danger shadow">
+        <div class="card-body">
+          <h5 class="card-title">Occupied Beds</h5>
+          <p class="card-text fs-3">{{ stats.occupiedBeds || 0 }}</p>
+          <i class="bi bi-bed fs-1"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

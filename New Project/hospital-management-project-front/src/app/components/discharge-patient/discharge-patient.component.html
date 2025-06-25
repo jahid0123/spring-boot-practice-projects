@@ -1,0 +1,12 @@
+<div class="container mt-4">
+  <h3>📤 Discharge Patient</h3>
+
+  <div *ngIf="message" class="alert alert-info">{{ message }}</div>
+
+  <ul class="list-group">
+    <li *ngFor="let admission of admissions" class="list-group-item d-flex justify-content-between align-items-center">
+      <span>Patient ID: {{ admission.patientId }} | Bed ID: {{ admission.bedId }}</span>
+      <button class="btn btn-danger btn-sm" (click)="discharge(admission.id)">Discharge</button>
+    </li>
+  </ul>
+</div>
