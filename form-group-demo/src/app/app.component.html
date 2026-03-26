@@ -1,0 +1,40 @@
+<div class="card p-3 m-5">
+  <form [formGroup]="employeeFrom" (ngSubmit)="onSubmit()">
+  <div class="mb-2">
+    <label for="name">Name: </label>
+    <input type="text" class="form-control" formControlName="name" placeholder="Enter your name">
+    <small *ngIf="f['name'].touched && f['name'].invalid"  class="text-danger">Name is required!</small>
+  </div>
+  <div class="mb-2">
+    <label for="email">Email: </label>
+    <input type="email" formControlName="email" class="form-control" placeholder="Enter your email address">
+    <small *ngIf="f['email'].touched && f['email'].invalid"  class="text-danger">Email is required!</small>
+  </div>
+  <div class="mb-2">
+    <label for="designation">Designation: </label>
+    <input type="text" formControlName="designation" class="form-control" placeholder="Enter your designation">
+    <small *ngIf="f['designation'].touched && f['designation'].invalid"  class="text-danger">Designation is required!</small>
+  </div>
+  <div class="mb-2">
+    <label for="department">Department: </label>
+    <input type="text" formControlName="department" class="form-control" placeholder="Enter your department">
+    <small *ngIf="f['department'].touched && f['department'].invalid"  class="text-danger">Department is required!</small>
+  </div>
+  <div class="mb-2">
+    <label for="phone">Phone: </label>
+    <input type="text" formControlName="phone" class="form-control" placeholder="Enter your phone">
+    <small *ngIf="f['phone'].touched && f['phone'].invalid"  class="text-danger">Phone is required!</small>
+  </div>
+  <div class="mb-2">
+    <label for="address">Address: </label>
+    <input type="text" formControlName="address" class="form-control" placeholder="Enter your address">
+    <small *ngIf="f['address'].touched && f['address'].invalid"  class="text-danger">Address is required!</small>
+  </div>
+
+  <div class="d-inline-block d-flex justify-content-center ">
+    <button type="submit" class="btn btn-success me-3">Submit</button>
+    <button type="reset" class="btn btn-secondary">Reset</button>
+  </div>
+
+</form>
+</div>
